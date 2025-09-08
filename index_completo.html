@@ -1534,23 +1534,81 @@
             if (currentDegree === 1) {
                 exemplosDiv.innerHTML += `
                     <div class="concept-card">
-                        <strong>Exemplo:</strong> 2x + 4 = 10<br>
-                        <span class="highlight">x = 3</span>
+                        <h3>📝 Exemplo 1: Equação Simples</h3>
+                        <div class="equation">2x + 4 = 10</div>
+                        <div class="solution-steps">
+                            <strong>📋 Resolução Passo a Passo:</strong><br><br>
+                            <strong>Passo 1:</strong> Isolar o termo com x<br>
+                            2x = 10 - 4<br><br>
+                            <strong>Passo 2:</strong> Calcular<br>
+                            2x = 6<br><br>
+                            <strong>Passo 3:</strong> Dividir ambos os lados por 2<br>
+                            x = 6 ÷ 2<br><br>
+                            <strong>✅ Resposta:</strong> <span class="highlight">x = 3</span><br><br>
+                            <strong>🔍 Verificação:</strong> 2(3) + 4 = 6 + 4 = 10 ✓
+                        </div>
                     </div>
                     <div class="concept-card">
-                        <strong>Exemplo:</strong> -3x + 9 = 0<br>
-                        <span class="highlight">x = 3</span>
+                        <h3>📝 Exemplo 2: Equação com Negativo</h3>
+                        <div class="equation">-3x + 9 = 0</div>
+                        <div class="solution-steps">
+                            <strong>📋 Resolução Passo a Passo:</strong><br><br>
+                            <strong>Passo 1:</strong> Isolar o termo com x<br>
+                            -3x = 0 - 9<br>
+                            -3x = -9<br><br>
+                            <strong>Passo 2:</strong> Dividir ambos os lados por -3<br>
+                            x = (-9) ÷ (-3)<br><br>
+                            <strong>✅ Resposta:</strong> <span class="highlight">x = 3</span><br><br>
+                            <strong>🔍 Verificação:</strong> -3(3) + 9 = -9 + 9 = 0 ✓
+                        </div>
                     </div>
                 `;
             } else {
                 exemplosDiv.innerHTML += `
                     <div class="concept-card">
-                        <strong>Exemplo:</strong> x² - 5x + 6 = 0<br>
-                        <span class="highlight">x₁ = 2, x₂ = 3</span>
+                        <h3>📝 Exemplo 1: Equação Completa</h3>
+                        <div class="equation">x² - 5x + 6 = 0</div>
+                        <div class="solution-steps">
+                            <strong>📋 Resolução Passo a Passo:</strong><br><br>
+                            <strong>Passo 1:</strong> Identificar os coeficientes<br>
+                            a = 1, b = -5, c = 6<br><br>
+                            <strong>Passo 2:</strong> Calcular o discriminante (Δ)<br>
+                            Δ = b² - 4ac<br>
+                            Δ = (-5)² - 4(1)(6)<br>
+                            Δ = 25 - 24 = 1<br><br>
+                            <strong>Passo 3:</strong> Aplicar Bhaskara<br>
+                            x = (-b ± √Δ) / 2a<br>
+                            x = (5 ± √1) / 2<br>
+                            x = (5 ± 1) / 2<br><br>
+                            <strong>Passo 4:</strong> Calcular as duas soluções<br>
+                            x₁ = (5 + 1) / 2 = 6/2 = 3<br>
+                            x₂ = (5 - 1) / 2 = 4/2 = 2<br><br>
+                            <strong>✅ Resposta:</strong> <span class="highlight">x₁ = 2, x₂ = 3</span><br><br>
+                            <strong>🔍 Verificação:</strong> (2-2)(2-3) = 0×(-1) = 0 ✓<br>
+                            (3-2)(3-3) = 1×0 = 0 ✓
+                        </div>
                     </div>
                     <div class="concept-card">
-                        <strong>Exemplo:</strong> 2x² + 3x - 2 = 0<br>
-                        <span class="highlight">x₁ = 0.5, x₂ = -2</span>
+                        <h3>📝 Exemplo 2: Equação com Frações</h3>
+                        <div class="equation">2x² + 3x - 2 = 0</div>
+                        <div class="solution-steps">
+                            <strong>📋 Resolução Passo a Passo:</strong><br><br>
+                            <strong>Passo 1:</strong> Identificar os coeficientes<br>
+                            a = 2, b = 3, c = -2<br><br>
+                            <strong>Passo 2:</strong> Calcular o discriminante (Δ)<br>
+                            Δ = b² - 4ac<br>
+                            Δ = (3)² - 4(2)(-2)<br>
+                            Δ = 9 + 16 = 25<br><br>
+                            <strong>Passo 3:</strong> Aplicar Bhaskara<br>
+                            x = (-b ± √Δ) / 2a<br>
+                            x = (-3 ± √25) / 4<br>
+                            x = (-3 ± 5) / 4<br><br>
+                            <strong>Passo 4:</strong> Calcular as duas soluções<br>
+                            x₁ = (-3 + 5) / 4 = 2/4 = 0.5<br>
+                            x₂ = (-3 - 5) / 4 = -8/4 = -2<br><br>
+                            <strong>✅ Resposta:</strong> <span class="highlight">x₁ = 0.5, x₂ = -2</span><br><br>
+                            <strong>🔍 Verificação:</strong> Substitua os valores na equação original
+                        </div>
                     </div>
                 `;
             }
@@ -1560,15 +1618,86 @@
             let eq, texto;
             if (currentDegree === 1) {
                 eq = gerarEquacao1Grau();
-                texto = `<div class="concept-card"><strong>Exemplo:</strong> ${formatarEquacao1Grau(eq)}<br><span class="highlight">x = ${respostaCorreta[0].toFixed(2)}</span></div>`;
+                const equacaoFormatada = formatarEquacao1Grau(eq);
+                const solucao = respostaCorreta[0];
+                
+                texto = `
+                    <div class="concept-card">
+                        <h3>🎲 Novo Exemplo: Equação do 1º Grau</h3>
+                        <div class="equation">${equacaoFormatada}</div>
+                        <div class="solution-steps">
+                            <strong>📋 Resolução Passo a Passo:</strong><br><br>
+                            <strong>Passo 1:</strong> Isolar o termo com x<br>
+                            ${eq.a}x = ${eq.c} ${eq.b >= 0 ? `- ${eq.b}` : `+ ${Math.abs(eq.b)}`}<br>
+                            ${eq.a}x = ${eq.c - eq.b}<br><br>
+                            <strong>Passo 2:</strong> Dividir ambos os lados por ${eq.a}<br>
+                            x = ${eq.c - eq.b} ÷ ${eq.a}<br><br>
+                            <strong>✅ Resposta:</strong> <span class="highlight">x = ${solucao.toFixed(2)}</span><br><br>
+                            <strong>🔍 Verificação:</strong> ${eq.a}(${solucao.toFixed(2)}) ${eq.b >= 0 ? `+ ${eq.b}` : `- ${Math.abs(eq.b)}`} = ${(eq.a * solucao + eq.b).toFixed(2)} = ${eq.c} ✓
+                        </div>
+                    </div>
+                `;
             } else {
                 eq = gerarEquacao2Grau();
+                const equacaoFormatada = formatarEquacao2Grau(eq);
+                const delta = eq.b * eq.b - 4 * eq.a * eq.c;
+                
                 if (respostaCorreta.length === 0) {
-                    texto = `<div class="concept-card"><strong>Exemplo:</strong> ${formatarEquacao2Grau(eq)}<br><span class="highlight">Não há soluções reais</span></div>`;
+                    texto = `
+                        <div class="concept-card">
+                            <h3>🎲 Novo Exemplo: Equação do 2º Grau</h3>
+                            <div class="equation">${equacaoFormatada}</div>
+                            <div class="solution-steps">
+                                <strong>📋 Resolução Passo a Passo:</strong><br><br>
+                                <strong>Passo 1:</strong> Identificar os coeficientes<br>
+                                a = ${eq.a}, b = ${eq.b}, c = ${eq.c}<br><br>
+                                <strong>Passo 2:</strong> Calcular o discriminante (Δ)<br>
+                                Δ = ${eq.b}² - 4(${eq.a})(${eq.c})<br>
+                                Δ = ${eq.b * eq.b} - ${4 * eq.a * eq.c} = ${delta}<br><br>
+                                <strong>✅ Conclusão:</strong> <span class="highlight">Como Δ < 0, não há soluções reais</span>
+                            </div>
+                        </div>
+                    `;
                 } else if (respostaCorreta.length === 1) {
-                    texto = `<div class="concept-card"><strong>Exemplo:</strong> ${formatarEquacao2Grau(eq)}<br><span class="highlight">x = ${respostaCorreta[0].toFixed(2)}</span></div>`;
+                    const x = respostaCorreta[0];
+                    texto = `
+                        <div class="concept-card">
+                            <h3>🎲 Novo Exemplo: Equação do 2º Grau</h3>
+                            <div class="equation">${equacaoFormatada}</div>
+                            <div class="solution-steps">
+                                <strong>📋 Resolução Passo a Passo:</strong><br><br>
+                                <strong>Passo 1:</strong> Identificar os coeficientes<br>
+                                a = ${eq.a}, b = ${eq.b}, c = ${eq.c}<br><br>
+                                <strong>Passo 2:</strong> Calcular o discriminante (Δ)<br>
+                                Δ = ${eq.b}² - 4(${eq.a})(${eq.c}) = ${delta}<br><br>
+                                <strong>Passo 3:</strong> Aplicar Bhaskara (Δ = 0, raiz dupla)<br>
+                                x = -b / 2a = -${eq.b} / ${2 * eq.a}<br><br>
+                                <strong>✅ Resposta:</strong> <span class="highlight">x = ${x.toFixed(2)} (raiz dupla)</span>
+                            </div>
+                        </div>
+                    `;
                 } else {
-                    texto = `<div class="concept-card"><strong>Exemplo:</strong> ${formatarEquacao2Grau(eq)}<br><span class="highlight">x₁ = ${respostaCorreta[0].toFixed(2)}, x₂ = ${respostaCorreta[1].toFixed(2)}</span></div>`;
+                    const x1 = respostaCorreta[0];
+                    const x2 = respostaCorreta[1];
+                    texto = `
+                        <div class="concept-card">
+                            <h3>🎲 Novo Exemplo: Equação do 2º Grau</h3>
+                            <div class="equation">${equacaoFormatada}</div>
+                            <div class="solution-steps">
+                                <strong>📋 Resolução Passo a Passo:</strong><br><br>
+                                <strong>Passo 1:</strong> Identificar os coeficientes<br>
+                                a = ${eq.a}, b = ${eq.b}, c = ${eq.c}<br><br>
+                                <strong>Passo 2:</strong> Calcular o discriminante (Δ)<br>
+                                Δ = ${eq.b}² - 4(${eq.a})(${eq.c}) = ${delta}<br><br>
+                                <strong>Passo 3:</strong> Aplicar Bhaskara<br>
+                                x = (-${eq.b} ± √${delta}) / ${2 * eq.a}<br><br>
+                                <strong>Passo 4:</strong> Calcular as duas soluções<br>
+                                x₁ = (-${eq.b} + √${delta}) / ${2 * eq.a} = ${x1.toFixed(2)}<br>
+                                x₂ = (-${eq.b} - √${delta}) / ${2 * eq.a} = ${x2.toFixed(2)}<br><br>
+                                <strong>✅ Resposta:</strong> <span class="highlight">x₁ = ${x1.toFixed(2)}, x₂ = ${x2.toFixed(2)}</span>
+                            </div>
+                        </div>
+                    `;
                 }
             }
             document.getElementById('novoExemplo').innerHTML = texto;
