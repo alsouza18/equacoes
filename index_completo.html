@@ -554,7 +554,6 @@
                 <button class="tab active" onclick="showSection('teoria')">📚 Teoria</button>
                 <button class="tab" onclick="showSection('exemplos')">💡 Exemplos</button>
                 <button class="tab" onclick="showSection('pratica')">🎯 Prática</button>
-                <button class="tab" onclick="showSection('customizar')">✏️ Inserir Equação</button>
             </div>
 
             <!-- Seção Teoria -->
@@ -698,34 +697,6 @@
                 </div>
             </div>
 
-            <!-- Seção Customizar -->
-            <div id="customizar" class="section">
-                <div class="custom-input-area">
-                    <h2>✏️ Inserir Sua Própria Equação</h2>
-                    <p>Digite uma equação personalizada para resolver passo a passo:</p>
-                    
-                    <div class="input-group">
-                        <label for="equacaoCustom">Digite a equação (ex: 2x + 5 = 11 ou x² - 5x + 6 = 0):</label>
-                        <textarea id="equacaoCustom" rows="2" placeholder="Exemplos: 3x + 7 = 16, x² - 4x + 3 = 0, 2x² + x - 3 = 0"></textarea>
-                    </div>
-                    
-                    <button class="btn secondary" onclick="resolverCustom()">🔧 Resolver</button>
-                    <button class="btn warning" onclick="limparCustom()">🗑️ Limpar</button>
-                    
-                    <div id="resultadoCustom"></div>
-                    <div id="solucaoCustom"></div>
-                </div>
-
-                <div class="concept-card" style="margin-top: 20px;">
-                    <h3>💡 Dicas para inserir equações:</h3>
-                    <ul>
-                        <li><strong>1° Grau:</strong> 3x + 5 = 14, 2x - 7 = 9, x + 1 = 10</li>
-                        <li><strong>2° Grau:</strong> x² - 5x + 6 = 0, 2x² + 3x - 2 = 0</li>
-                        <li><strong>Use parênteses:</strong> (x + 2)(x - 3) = 0</li>
-                        <li><strong>Espaços são opcionais:</strong> x²+2x+1=0 ou x² + 2x + 1 = 0</li>
-                    </ul>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -770,6 +741,33 @@
                 <div style="margin-bottom: 20px;">
                     <button class="btn secondary" onclick="exportToExcel()">📊 Exportar para Excel</button>
                     <button class="btn warning" onclick="clearAllData()">🗑️ Limpar Todos os Dados</button>
+                </div>
+                
+                <!-- Seção Inserir Equação para Professor -->
+                <div class="custom-input-area" style="margin-bottom: 20px;">
+                    <h3>✏️ Inserir Equação Personalizada</h3>
+                    <p>Digite uma equação para os alunos resolverem:</p>
+                    
+                    <div class="input-group">
+                        <label for="equacaoCustom">Digite a equação (ex: 2x + 5 = 11 ou x² - 5x + 6 = 0):</label>
+                        <textarea id="equacaoCustom" rows="2" placeholder="Exemplos: 3x + 7 = 16, x² - 4x + 3 = 0, 2x² + x - 3 = 0"></textarea>
+                    </div>
+                    
+                    <button class="btn secondary" onclick="resolverCustom()">🔧 Resolver</button>
+                    <button class="btn warning" onclick="limparCustom()">🗑️ Limpar</button>
+                    
+                    <div id="resultadoCustom"></div>
+                    <div id="solucaoCustom"></div>
+                    
+                    <div class="concept-card" style="margin-top: 15px;">
+                        <h4>💡 Dicas para inserir equações:</h4>
+                        <ul style="font-size: 14px;">
+                            <li><strong>1° Grau:</strong> 3x + 5 = 14, 2x - 7 = 9, x + 1 = 10</li>
+                            <li><strong>2° Grau:</strong> x² - 5x + 6 = 0, 2x² + 3x - 2 = 0</li>
+                            <li><strong>Use parênteses:</strong> (x + 2)(x - 3) = 0</li>
+                            <li><strong>Espaços são opcionais:</strong> x²+2x+1=0 ou x² + 2x + 1 = 0</li>
+                        </ul>
+                    </div>
                 </div>
                 
                 <h3>Lista de Alunos e Desempenho:</h3>
@@ -1102,6 +1100,10 @@
                     <div class="input-group">
                         <label for="resposta">Digite o valor de x:</label>
                         <input type="number" id="resposta" step="0.01" placeholder="Ex: 5 ou 2.5">
+                        <div style="margin-top: 10px;">
+                            <button class="btn" style="padding: 8px 15px; margin: 2px;" onclick="addToInput('resposta', '-')">± Negativo</button>
+                            <button class="btn" style="padding: 8px 15px; margin: 2px;" onclick="clearInput('resposta')">🗑️ Limpar</button>
+                        </div>
                     </div>
                 `;
             } else {
@@ -1110,10 +1112,18 @@
                         <div class="input-group">
                             <label for="resposta1">x₁ (primeira solução):</label>
                             <input type="number" id="resposta1" step="0.01" placeholder="Ex: 2">
+                            <div style="margin-top: 5px;">
+                                <button class="btn" style="padding: 5px 10px; margin: 2px; font-size: 12px;" onclick="addToInput('resposta1', '-')">±</button>
+                                <button class="btn" style="padding: 5px 10px; margin: 2px; font-size: 12px;" onclick="clearInput('resposta1')">🗑️</button>
+                            </div>
                         </div>
                         <div class="input-group">
                             <label for="resposta2">x₂ (segunda solução):</label>
                             <input type="number" id="resposta2" step="0.01" placeholder="Ex: 3">
+                            <div style="margin-top: 5px;">
+                                <button class="btn" style="padding: 5px 10px; margin: 2px; font-size: 12px;" onclick="addToInput('resposta2', '-')">±</button>
+                                <button class="btn" style="padding: 5px 10px; margin: 2px; font-size: 12px;" onclick="clearInput('resposta2')">🗑️</button>
+                            </div>
                         </div>
                     </div>
                     <p style="font-size: 14px; color: #666; margin-top: 5px;">
@@ -1121,6 +1131,28 @@
                     </p>
                 `;
             }
+        }
+
+        // Funções auxiliares para botões mobile
+        function addToInput(inputId, symbol) {
+            const input = document.getElementById(inputId);
+            const currentValue = input.value;
+            
+            if (symbol === '-') {
+                if (currentValue === '' || currentValue === '0') {
+                    input.value = '-';
+                } else if (currentValue.startsWith('-')) {
+                    input.value = currentValue.substring(1);
+                } else {
+                    input.value = '-' + currentValue;
+                }
+            }
+            input.focus();
+        }
+
+        function clearInput(inputId) {
+            document.getElementById(inputId).value = '';
+            document.getElementById(inputId).focus();
         }
 
         function verificarResposta() {
