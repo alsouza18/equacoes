@@ -12,7 +12,7 @@ Um sistema completo para ensino de equações do 1º e 2º grau com gestão de a
 - 📊 Acompanhamento de progresso pessoal
 
 ### 👨‍🏫 **Para Professores:**
-- 🔐 Painel administrativo (senha: `professor123`)
+- 🔐 Painel administrativo (senha: `********`)
 - 📈 Estatísticas completas da turma
 - 👥 Lista detalhada de todos os alunos
 - 📊 Relatórios de desempenho individuais

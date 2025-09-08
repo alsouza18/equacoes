@@ -520,8 +520,15 @@
             </div>
         </div>
         
-        <button class="btn" onclick="login()">🚀 Entrar</button>
-        <button class="btn secondary" onclick="showAdminLogin()">👨‍🏫 Acesso Professor</button>
+        <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+            <button class="btn" onclick="login()">� Fazer Login</button>
+            <button class="btn secondary" onclick="register()">📝 Cadastrar-se</button>
+        </div>
+        
+        <div style="text-align: center;">
+            <button class="btn warning" onclick="showAdminLogin()" style="font-size: 14px; padding: 8px 15px;">👨‍🏫 Acesso Professor</button>
+            <button class="btn" onclick="showTeacherRegister()" style="font-size: 14px; padding: 8px 15px;">👨‍🏫 Cadastro Professor</button>
+        </div>
     </div>
 
     <!-- Tela Principal do Aluno -->
@@ -719,6 +726,37 @@
         </div>
     </div>
 
+    <!-- Modal Cadastro Professor -->
+    <div id="teacherRegisterModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeTeacherRegisterModal()">&times;</span>
+            <h2>👨‍🏫 Cadastro de Professor</h2>
+            <p>Primeira vez? Cadastre-se como professor:</p>
+            
+            <div class="input-group">
+                <label for="teacherName">Nome do Professor:</label>
+                <input type="text" id="teacherName" placeholder="Digite seu nome completo">
+            </div>
+            
+            <div class="input-group">
+                <label for="teacherEmail">Email (opcional):</label>
+                <input type="email" id="teacherEmail" placeholder="seu.email@escola.com">
+            </div>
+            
+            <div class="input-group">
+                <label for="newTeacherPassword">Nova Senha:</label>
+                <input type="password" id="newTeacherPassword" placeholder="Crie uma senha (mínimo 6 caracteres)">
+            </div>
+            
+            <div class="input-group">
+                <label for="confirmTeacherPassword">Confirmar Senha:</label>
+                <input type="password" id="confirmTeacherPassword" placeholder="Digite a senha novamente">
+            </div>
+            
+            <button class="btn" onclick="registerTeacher()">✅ Cadastrar Professor</button>
+        </div>
+    </div>
+
     <!-- Painel Administrativo -->
     <div id="adminScreen" class="container hidden">
         <div class="header">
@@ -901,9 +939,71 @@
                 alert('Por favor, preencha todos os campos!');
                 return;
             }
+
+            if (password.length < 4) {
+                alert('A senha deve ter pelo menos 4 caracteres!');
+                return;
+            }
             
             try {
                 const fullSeries = series + ' - ' + studentClass;
+                const userId = name + '_' + fullSeries;
+                const users = UserManager.getUsers();
+                
+                // Verificar se usuário existe
+                if (!users[userId]) {
+                    alert('❌ Usuário não encontrado! Use "Cadastrar-se" para criar uma conta.');
+                    return;
+                }
+                
+                // Verificar senha
+                if (users[userId].password !== password) {
+                    alert('❌ Senha incorreta!');
+                    return;
+                }
+                
+                currentUser = users[userId];
+                
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('mainScreen').classList.remove('hidden');
+                
+                updateUserInterface();
+                gerarExemplosIniciais();
+                novaEquacao();
+                
+                alert('🚀 Login realizado com sucesso! Bem-vindo(a) de volta, ' + name + '!');
+            } catch (error) {
+                alert('❌ Erro: ' + error.message);
+            }
+        }
+
+        function register() {
+            const name = document.getElementById('studentName').value.trim();
+            const series = document.getElementById('studentSeries').value;
+            const studentClass = document.getElementById('studentClass').value;
+            const password = document.getElementById('studentPassword').value;
+            
+            if (!name || !series || !studentClass || !password) {
+                alert('Por favor, preencha todos os campos!');
+                return;
+            }
+
+            if (password.length < 4) {
+                alert('A senha deve ter pelo menos 4 caracteres!');
+                return;
+            }
+            
+            try {
+                const fullSeries = series + ' - ' + studentClass;
+                const userId = name + '_' + fullSeries;
+                const users = UserManager.getUsers();
+                
+                // Verificar se usuário já existe
+                if (users[userId]) {
+                    alert('❌ Usuário já existe! Use "Fazer Login" para entrar.');
+                    return;
+                }
+                
                 const user = UserManager.saveUser(name, fullSeries, password);
                 currentUser = user;
                 
@@ -914,13 +1014,7 @@
                 gerarExemplosIniciais();
                 novaEquacao();
                 
-                // Sucesso no login
-                const isNewUser = user.attempts.length === 0;
-                if (isNewUser) {
-                    alert('🎉 Conta criada com sucesso! Bem-vindo(a), ' + name + '!');
-                } else {
-                    alert('🚀 Login realizado com sucesso! Bem-vindo(a) de volta, ' + name + '!');
-                }
+                alert('🎉 Conta criada com sucesso! Bem-vindo(a), ' + name + '!');
             } catch (error) {
                 alert('❌ Erro: ' + error.message);
             }
@@ -961,6 +1055,54 @@
         function exitAdmin() {
             document.getElementById('adminScreen').classList.add('hidden');
             document.getElementById('loginScreen').classList.remove('hidden');
+        }
+
+        // Funções para cadastro de professor
+        function showTeacherRegister() {
+            document.getElementById('teacherRegisterModal').style.display = 'block';
+        }
+
+        function closeTeacherRegisterModal() {
+            document.getElementById('teacherRegisterModal').style.display = 'none';
+            document.getElementById('teacherName').value = '';
+            document.getElementById('teacherEmail').value = '';
+            document.getElementById('newTeacherPassword').value = '';
+            document.getElementById('confirmTeacherPassword').value = '';
+        }
+
+        function registerTeacher() {
+            const name = document.getElementById('teacherName').value.trim();
+            const email = document.getElementById('teacherEmail').value.trim();
+            const password = document.getElementById('newTeacherPassword').value;
+            const confirmPassword = document.getElementById('confirmTeacherPassword').value;
+            
+            if (!name || !password || !confirmPassword) {
+                alert('Por favor, preencha todos os campos obrigatórios!');
+                return;
+            }
+            
+            if (password.length < 6) {
+                alert('A senha deve ter pelo menos 6 caracteres!');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                alert('As senhas não coincidem!');
+                return;
+            }
+            
+            // Salvar dados do professor
+            const teacherData = {
+                name: name,
+                email: email,
+                registeredAt: new Date().toISOString()
+            };
+            
+            localStorage.setItem('teacherData', JSON.stringify(teacherData));
+            AdminManager.setAdminPassword(password);
+            
+            closeTeacherRegisterModal();
+            alert('🎉 Professor cadastrado com sucesso! Use sua nova senha para fazer login.');
         }
 
         // Função para alterar senha do admin
