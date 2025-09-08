@@ -486,18 +486,32 @@
             <input type="text" id="studentName" placeholder="Digite seu nome completo">
         </div>
         
-        <div class="input-group">
-            <label for="studentSeries">Série/Ano:</label>
-            <select id="studentSeries">
-                <option value="">Selecione sua série</option>
-                <option value="6º Ano">6º Ano</option>
-                <option value="7º Ano">7º Ano</option>
-                <option value="8º Ano">8º Ano</option>
-                <option value="9º Ano">9º Ano</option>
-                <option value="1º Médio">1º Ano Médio</option>
-                <option value="2º Médio">2º Ano Médio</option>
-                <option value="3º Médio">3º Ano Médio</option>
-            </select>
+        <div class="input-row">
+            <div class="input-group">
+                <label for="studentSeries">Série/Ano:</label>
+                <select id="studentSeries">
+                    <option value="">Selecione sua série</option>
+                    <option value="6º Ano">6º Ano</option>
+                    <option value="7º Ano">7º Ano</option>
+                    <option value="8º Ano">8º Ano</option>
+                    <option value="9º Ano">9º Ano</option>
+                    <option value="1º Médio">1º Ano Médio</option>
+                    <option value="2º Médio">2º Ano Médio</option>
+                    <option value="3º Médio">3º Ano Médio</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="studentClass">Turma:</label>
+                <select id="studentClass">
+                    <option value="">Letra da turma</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                    <option value="E">E</option>
+                    <option value="F">F</option>
+                </select>
+            </div>
         </div>
         
         <button class="btn" onclick="login()">🚀 Entrar</button>
@@ -834,13 +848,15 @@
         function login() {
             const name = document.getElementById('studentName').value.trim();
             const series = document.getElementById('studentSeries').value;
+            const studentClass = document.getElementById('studentClass').value;
             
-            if (!name || !series) {
+            if (!name || !series || !studentClass) {
                 alert('Por favor, preencha todos os campos!');
                 return;
             }
             
-            const user = UserManager.saveUser(name, series);
+            const fullSeries = series + ' - ' + studentClass;
+            const user = UserManager.saveUser(name, fullSeries);
             currentUser = user;
             
             document.getElementById('loginScreen').classList.add('hidden');
@@ -857,6 +873,7 @@
             document.getElementById('loginScreen').classList.remove('hidden');
             document.getElementById('studentName').value = '';
             document.getElementById('studentSeries').value = '';
+            document.getElementById('studentClass').value = '';
         }
 
         function showAdminLogin() {
