@@ -885,8 +885,8 @@
                     <div class="practice-controls">
                         <div class="mode-selector">
                             <label>📝 Modo de Resposta:</label>
-                            <button id="inputModeBtn" class="btn mode-btn active" onclick="toggleAnswerMode('input')">✏️ Digitar</button>
-                            <button id="choiceModeBtn" class="btn mode-btn" onclick="toggleAnswerMode('choice')">🔤 Múltipla Escolha</button>
+                            <button id="inputModeBtn" class="btn mode-btn" onclick="toggleAnswerMode('input')">✏️ Digitar</button>
+                            <button id="choiceModeBtn" class="btn mode-btn active" onclick="toggleAnswerMode('choice')">🔤 Múltipla Escolha</button>
                         </div>
                     </div>
                     
@@ -1054,7 +1054,7 @@
         let currentDegree = 1;
         let equacaoAtual = {};
         let respostaCorreta = [];
-        let multipleChoiceMode = false;
+        let multipleChoiceMode = true; // Temporário: iniciar em modo múltipla escolha
         let currentAlternatives = [];
 
         // Sistema de senha do admin
