@@ -486,6 +486,12 @@
             <input type="text" id="studentName" placeholder="Digite seu nome completo">
         </div>
         
+        <div class="input-group">
+            <label for="studentPassword">Senha do Aluno:</label>
+            <input type="password" id="studentPassword" placeholder="Crie uma senha (mínimo 4 caracteres)">
+            <small style="color: #666; font-size: 12px;">💡 Na primeira vez, você criará sua senha. Depois, use a mesma para entrar.</small>
+        </div>
+        
         <div class="input-row">
             <div class="input-group">
                 <label for="studentSeries">Série/Ano:</label>
@@ -770,6 +776,27 @@
                     </div>
                 </div>
                 
+                <!-- Seção Alterar Senha do Professor -->
+                <div class="custom-input-area" style="margin-bottom: 20px;">
+                    <h3>🔐 Alterar Senha do Professor</h3>
+                    <p>Mude sua senha de acesso ao painel administrativo:</p>
+                    
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label for="currentAdminPassword">Senha Atual:</label>
+                            <input type="password" id="currentAdminPassword" placeholder="Digite a senha atual">
+                        </div>
+                        <div class="input-group">
+                            <label for="newAdminPassword">Nova Senha:</label>
+                            <input type="password" id="newAdminPassword" placeholder="Digite a nova senha">
+                        </div>
+                    </div>
+                    
+                    <button class="btn secondary" onclick="changeAdminPassword()">🔄 Alterar Senha</button>
+                    
+                    <div id="passwordChangeResult"></div>
+                </div>
+                
                 <h3>Lista de Alunos e Desempenho:</h3>
                 <div id="studentsList" class="student-list"></div>
             </div>
@@ -783,23 +810,44 @@
         let currentDegree = 1;
         let equacaoAtual = {};
         let respostaCorreta = [];
-        const ADMIN_PASSWORD = "professor123"; // Senha do admin
+
+        // Sistema de senha do admin
+        class AdminManager {
+            static getAdminPassword() {
+                const stored = localStorage.getItem('adminPassword');
+                return stored || "professor123"; // Senha padrão
+            }
+            
+            static setAdminPassword(newPassword) {
+                localStorage.setItem('adminPassword', newPassword);
+            }
+        }
 
         // Sistema de usuários e dados
         class UserManager {
-            static saveUser(name, series) {
+            static saveUser(name, series, password) {
                 const users = this.getUsers();
                 const userId = name + '_' + series;
                 
                 if (!users[userId]) {
+                    // Novo usuário - criar conta
+                    if (!password || password.length < 4) {
+                        throw new Error('Senha deve ter pelo menos 4 caracteres');
+                    }
                     users[userId] = {
                         name: name,
                         series: series,
+                        password: password, // Em produção, usar hash
                         correct: 0,
                         wrong: 0,
                         attempts: [],
                         createdAt: new Date().toISOString()
                     };
+                } else {
+                    // Usuário existente - verificar senha
+                    if (users[userId].password !== password) {
+                        throw new Error('Senha incorreta');
+                    }
                 }
                 
                 localStorage.setItem('equationsUsers', JSON.stringify(users));
@@ -847,22 +895,35 @@
             const name = document.getElementById('studentName').value.trim();
             const series = document.getElementById('studentSeries').value;
             const studentClass = document.getElementById('studentClass').value;
+            const password = document.getElementById('studentPassword').value;
             
-            if (!name || !series || !studentClass) {
+            if (!name || !series || !studentClass || !password) {
                 alert('Por favor, preencha todos os campos!');
                 return;
             }
             
-            const fullSeries = series + ' - ' + studentClass;
-            const user = UserManager.saveUser(name, fullSeries);
-            currentUser = user;
-            
-            document.getElementById('loginScreen').classList.add('hidden');
-            document.getElementById('mainScreen').classList.remove('hidden');
-            
-            updateUserInterface();
-            gerarExemplosIniciais();
-            novaEquacao();
+            try {
+                const fullSeries = series + ' - ' + studentClass;
+                const user = UserManager.saveUser(name, fullSeries, password);
+                currentUser = user;
+                
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('mainScreen').classList.remove('hidden');
+                
+                updateUserInterface();
+                gerarExemplosIniciais();
+                novaEquacao();
+                
+                // Sucesso no login
+                const isNewUser = user.attempts.length === 0;
+                if (isNewUser) {
+                    alert('🎉 Conta criada com sucesso! Bem-vindo(a), ' + name + '!');
+                } else {
+                    alert('🚀 Login realizado com sucesso! Bem-vindo(a) de volta, ' + name + '!');
+                }
+            } catch (error) {
+                alert('❌ Erro: ' + error.message);
+            }
         }
 
         function logout() {
@@ -872,6 +933,7 @@
             document.getElementById('studentName').value = '';
             document.getElementById('studentSeries').value = '';
             document.getElementById('studentClass').value = '';
+            document.getElementById('studentPassword').value = '';
         }
 
         function showAdminLogin() {
@@ -886,7 +948,7 @@
         function adminLogin() {
             const password = document.getElementById('adminPassword').value;
             
-            if (password === ADMIN_PASSWORD) {
+            if (password === AdminManager.getAdminPassword()) {
                 closeAdminModal();
                 document.getElementById('loginScreen').classList.add('hidden');
                 document.getElementById('adminScreen').classList.remove('hidden');
@@ -899,6 +961,39 @@
         function exitAdmin() {
             document.getElementById('adminScreen').classList.add('hidden');
             document.getElementById('loginScreen').classList.remove('hidden');
+        }
+
+        // Função para alterar senha do admin
+        function changeAdminPassword() {
+            const currentPassword = document.getElementById('currentAdminPassword').value;
+            const newPassword = document.getElementById('newAdminPassword').value;
+            const resultDiv = document.getElementById('passwordChangeResult');
+            
+            if (!currentPassword || !newPassword) {
+                resultDiv.innerHTML = '<div class="result incorrect">⚠️ Preencha todos os campos!</div>';
+                return;
+            }
+            
+            if (currentPassword !== AdminManager.getAdminPassword()) {
+                resultDiv.innerHTML = '<div class="result incorrect">❌ Senha atual incorreta!</div>';
+                return;
+            }
+            
+            if (newPassword.length < 4) {
+                resultDiv.innerHTML = '<div class="result incorrect">⚠️ Nova senha deve ter pelo menos 4 caracteres!</div>';
+                return;
+            }
+            
+            AdminManager.setAdminPassword(newPassword);
+            resultDiv.innerHTML = '<div class="result correct">✅ Senha alterada com sucesso!</div>';
+            
+            // Limpar campos
+            document.getElementById('currentAdminPassword').value = '';
+            document.getElementById('newAdminPassword').value = '';
+            
+            setTimeout(() => {
+                resultDiv.innerHTML = '';
+            }, 3000);
         }
 
         // Funções do painel administrativo
