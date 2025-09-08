@@ -544,6 +544,116 @@
             border-radius: 10px;
             border: 1px solid #dee2e6;
         }
+
+        .login-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 8px 0;
+            border-left: 4px solid #28a745;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .login-info {
+            flex: 1;
+            font-size: 13px;
+        }
+
+        .login-badge {
+            background: #28a745;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        #loginHistoryList {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 10px;
+            background: white;
+        }
+
+        .practice-controls {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .mode-selector {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #dee2e6;
+        }
+
+        .mode-selector label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #495057;
+        }
+
+        .mode-btn {
+            margin: 0 5px;
+            padding: 10px 20px;
+            border: 2px solid #007bff;
+            background: white;
+            color: #007bff;
+            transition: all 0.3s ease;
+        }
+
+        .mode-btn.active {
+            background: #007bff;
+            color: white;
+        }
+
+        .mode-btn:hover {
+            background: #0056b3;
+            color: white;
+            border-color: #0056b3;
+        }
+
+        .alternatives-container {
+            margin: 20px 0;
+        }
+
+        .alternative {
+            display: block;
+            width: 100%;
+            margin: 8px 0;
+            padding: 15px;
+            background: white;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            font-size: 16px;
+        }
+
+        .alternative:hover {
+            border-color: #007bff;
+            background: #f8f9fa;
+        }
+
+        .alternative.selected {
+            border-color: #007bff;
+            background: #e3f2fd;
+        }
+
+        .alternative.correct {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+
+        .alternative.incorrect {
+            border-color: #dc3545;
+            background: #f8d7da;
+        }
     </style>
 </head>
 <body>
@@ -772,6 +882,14 @@
                     
                     <div id="equacaoPratica" class="equation"></div>
                     
+                    <div class="practice-controls">
+                        <div class="mode-selector">
+                            <label>📝 Modo de Resposta:</label>
+                            <button id="inputModeBtn" class="btn mode-btn active" onclick="toggleAnswerMode('input')">✏️ Digitar</button>
+                            <button id="choiceModeBtn" class="btn mode-btn" onclick="toggleAnswerMode('choice')">🔤 Múltipla Escolha</button>
+                        </div>
+                    </div>
+                    
                     <div id="inputsResposta"></div>
                     
                     <button class="btn" onclick="verificarResposta()">✔️ Verificar</button>
@@ -869,6 +987,7 @@
                         <button class="btn secondary" onclick="backupData()">💾 Backup JSON</button>
                         <button class="btn" onclick="showDetailedStats()">📈 Estatísticas</button>
                         <button class="btn secondary" onclick="filterByClass()">🔍 Filtrar Turma</button>
+                        <button class="btn" onclick="showLoginHistory()">🕐 Histórico de Acessos</button>
                     </div>
                     
                     <div id="advancedToolsResult" style="margin-top: 15px;"></div>
@@ -935,6 +1054,8 @@
         let currentDegree = 1;
         let equacaoAtual = {};
         let respostaCorreta = [];
+        let multipleChoiceMode = false;
+        let currentAlternatives = [];
 
         // Sistema de senha do admin
         class AdminManager {
@@ -966,7 +1087,9 @@
                         correct: 0,
                         wrong: 0,
                         attempts: [],
-                        createdAt: new Date().toISOString()
+                        createdAt: new Date().toISOString(),
+                        loginHistory: [], // Histórico de acessos
+                        lastLogin: null
                     };
                 } else {
                     // Usuário existente - verificar senha
@@ -1003,6 +1126,35 @@
                     
                     localStorage.setItem('equationsUsers', JSON.stringify(users));
                     updateUserInterface();
+                }
+            }
+            
+            static recordLogin(userId) {
+                const users = this.getUsers();
+                if (users[userId]) {
+                    const loginTime = new Date().toISOString();
+                    
+                    // Inicializar loginHistory se não existir (usuários antigos)
+                    if (!users[userId].loginHistory) {
+                        users[userId].loginHistory = [];
+                    }
+                    
+                    // Adicionar novo login ao histórico
+                    users[userId].loginHistory.push({
+                        timestamp: loginTime,
+                        ip: 'localhost', // Em produção, capturar IP real
+                        userAgent: navigator.userAgent.substring(0, 50) + '...'
+                    });
+                    
+                    // Atualizar último login
+                    users[userId].lastLogin = loginTime;
+                    
+                    // Manter apenas os últimos 50 logins para não sobrecarregar
+                    if (users[userId].loginHistory.length > 50) {
+                        users[userId].loginHistory = users[userId].loginHistory.slice(-50);
+                    }
+                    
+                    localStorage.setItem('equationsUsers', JSON.stringify(users));
                 }
             }
             
@@ -1049,6 +1201,9 @@
                     return;
                 }
                 
+                // Registrar o login
+                UserManager.recordLogin(userId);
+                
                 currentUser = users[userId];
                 
                 document.getElementById('loginScreen').classList.add('hidden');
@@ -1092,6 +1247,10 @@
                 }
                 
                 const user = UserManager.saveUser(name, fullSeries, password);
+                
+                // Registrar o primeiro login
+                UserManager.recordLogin(name + '_' + fullSeries);
+                
                 currentUser = user;
                 
                 document.getElementById('loginScreen').classList.add('hidden');
@@ -1491,6 +1650,108 @@
             document.getElementById('classDetailsResult').innerHTML = detailsHtml;
         }
 
+        function showLoginHistory() {
+            const users = UserManager.getUsers();
+            const userList = Object.values(users);
+            
+            if (userList.length === 0) {
+                document.getElementById('advancedToolsResult').innerHTML = `
+                    <div class="result info">🕐 Nenhum usuário cadastrado ainda.</div>
+                `;
+                return;
+            }
+            
+            // Coletar todos os logins e ordenar por data
+            let allLogins = [];
+            userList.forEach(user => {
+                if (user.loginHistory && user.loginHistory.length > 0) {
+                    user.loginHistory.forEach(login => {
+                        allLogins.push({
+                            name: user.name,
+                            series: user.series,
+                            timestamp: login.timestamp,
+                            userAgent: login.userAgent || 'N/A'
+                        });
+                    });
+                }
+            });
+            
+            // Ordenar por data (mais recente primeiro)
+            allLogins.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            
+            let historyHtml = `
+                <div class="solution-steps">
+                    <h4>🕐 Histórico de Acessos (${allLogins.length} logins)</h4>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <label for="userFilter">Filtrar por usuário:</label>
+                        <select id="userFilter" onchange="filterLoginHistory()">
+                            <option value="">Todos os usuários</option>
+            `;
+            
+            // Adicionar opções de usuários únicos
+            const uniqueUsers = [...new Set(userList.map(u => u.name + ' - ' + u.series))].sort();
+            uniqueUsers.forEach(userKey => {
+                historyHtml += `<option value="${userKey}">${userKey}</option>`;
+            });
+            
+            historyHtml += `
+                        </select>
+                    </div>
+                    
+                    <div id="loginHistoryList" style="max-height: 400px; overflow-y: auto;">
+            `;
+            
+            // Mostrar apenas os últimos 20 logins inicialmente
+            const recentLogins = allLogins.slice(0, 20);
+            recentLogins.forEach(login => {
+                const loginDate = new Date(login.timestamp);
+                const formattedDate = loginDate.toLocaleDateString('pt-BR');
+                const formattedTime = loginDate.toLocaleTimeString('pt-BR');
+                
+                historyHtml += `
+                    <div class="login-item" data-user="${login.name} - ${login.series}">
+                        <div class="login-info">
+                            <strong>👤 ${login.name}</strong> - ${login.series}<br>
+                            <small>🕐 ${formattedDate} às ${formattedTime}</small><br>
+                            <small>💻 ${login.userAgent}</small>
+                        </div>
+                        <div class="login-badge">
+                            ✅ Login
+                        </div>
+                    </div>
+                `;
+            });
+            
+            if (allLogins.length > 20) {
+                historyHtml += `
+                    <div style="text-align: center; margin-top: 10px;">
+                        <small>Mostrando os 20 acessos mais recentes de ${allLogins.length} total</small>
+                    </div>
+                `;
+            }
+            
+            historyHtml += `
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('advancedToolsResult').innerHTML = historyHtml;
+        }
+
+        function filterLoginHistory() {
+            const selectedUser = document.getElementById('userFilter').value;
+            const loginItems = document.querySelectorAll('.login-item');
+            
+            loginItems.forEach(item => {
+                if (!selectedUser || item.dataset.user === selectedUser) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
         function updateUserInterface() {
             if (currentUser) {
                 const totalAttempts = currentUser.correct + currentUser.wrong;
@@ -1500,6 +1761,111 @@
                 document.getElementById('userCorrect').textContent = currentUser.correct;
                 document.getElementById('userWrong').textContent = currentUser.wrong;
                 document.getElementById('userPercent').textContent = percentage + '%';
+            }
+        }
+
+        // Funções do modo múltipla escolha
+        function toggleAnswerMode(mode) {
+            console.log('toggleAnswerMode chamada com modo:', mode);
+            multipleChoiceMode = (mode === 'choice');
+            console.log('multipleChoiceMode definido como:', multipleChoiceMode);
+            
+            // Atualizar botões visuais
+            document.getElementById('inputModeBtn').classList.toggle('active', !multipleChoiceMode);
+            document.getElementById('choiceModeBtn').classList.toggle('active', multipleChoiceMode);
+            
+            // Recriar os inputs/alternativas
+            createAnswerInputs();
+        }
+
+        function generateAlternatives(correctAnswer) {
+            const alternatives = [];
+            
+            if (currentDegree === 1) {
+                // Para equações de 1º grau
+                const base = correctAnswer[0];
+                alternatives.push(`x = ${base.toFixed(2)}`);
+                
+                while (alternatives.length < 5) {
+                    let wrongAnswer;
+                    const variation = Math.random();
+                    
+                    if (variation < 0.3) {
+                        // Erro de sinal
+                        wrongAnswer = `x = ${(-base).toFixed(2)}`;
+                    } else if (variation < 0.6) {
+                        // Erro de cálculo (+/- 1 a 5)
+                        const error = (Math.random() > 0.5 ? 1 : -1) * (Math.floor(Math.random() * 5) + 1);
+                        wrongAnswer = `x = ${(base + error).toFixed(2)}`;
+                    } else {
+                        // Erro multiplicativo
+                        const multiplier = Math.random() > 0.5 ? 2 : 0.5;
+                        wrongAnswer = `x = ${(base * multiplier).toFixed(2)}`;
+                    }
+                    
+                    if (!alternatives.includes(wrongAnswer)) {
+                        alternatives.push(wrongAnswer);
+                    }
+                }
+            } else {
+                // Para equações de 2º grau
+                if (correctAnswer.length === 0) {
+                    alternatives.push("Não há soluções reais (Δ < 0)");
+                    alternatives.push("x = 0 (raiz dupla)");
+                    alternatives.push("x₁ = 1, x₂ = -1");
+                    alternatives.push("x₁ = 2, x₂ = -2");
+                    alternatives.push("x₁ = 1, x₂ = 2");
+                } else if (correctAnswer.length === 1) {
+                    const root = correctAnswer[0];
+                    alternatives.push(`x = ${root.toFixed(2)} (raiz dupla)`);
+                    alternatives.push(`x₁ = ${root.toFixed(2)}, x₂ = ${(root + 1).toFixed(2)}`);
+                    alternatives.push(`x = ${(-root).toFixed(2)} (raiz dupla)`);
+                    alternatives.push("Não há soluções reais (Δ < 0)");
+                    alternatives.push(`x₁ = ${(root/2).toFixed(2)}, x₂ = ${(root*2).toFixed(2)}`);
+                } else {
+                    const [x1, x2] = correctAnswer.sort((a, b) => a - b);
+                    alternatives.push(`x₁ = ${x1.toFixed(2)}, x₂ = ${x2.toFixed(2)}`);
+                    alternatives.push(`x₁ = ${(-x1).toFixed(2)}, x₂ = ${x2.toFixed(2)}`);
+                    alternatives.push(`x₁ = ${x1.toFixed(2)}, x₂ = ${(-x2).toFixed(2)}`);
+                    alternatives.push(`x = ${x1.toFixed(2)} (raiz dupla)`);
+                    alternatives.push("Não há soluções reais (Δ < 0)");
+                }
+            }
+            
+            // Embaralhar as alternativas
+            for (let i = alternatives.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [alternatives[i], alternatives[j]] = [alternatives[j], alternatives[i]];
+            }
+            
+            return alternatives;
+        }
+
+        function selectAlternative(index) {
+            // Remover seleção anterior
+            document.querySelectorAll('.alternative').forEach(alt => {
+                alt.classList.remove('selected');
+            });
+            
+            // Adicionar seleção atual
+            document.querySelectorAll('.alternative')[index].classList.add('selected');
+            
+            // Salvar seleção
+            window.selectedAlternative = index;
+        }
+
+        function generateCorrectAnswerText(correctAnswer) {
+            if (currentDegree === 1) {
+                return `x = ${correctAnswer[0].toFixed(2)}`;
+            } else {
+                if (correctAnswer.length === 0) {
+                    return "Não há soluções reais (Δ < 0)";
+                } else if (correctAnswer.length === 1) {
+                    return `x = ${correctAnswer[0].toFixed(2)} (raiz dupla)`;
+                } else {
+                    const [x1, x2] = correctAnswer.sort((a, b) => a - b);
+                    return `x₁ = ${x1.toFixed(2)}, x₂ = ${x2.toFixed(2)}`;
+                }
             }
         }
 
@@ -1605,41 +1971,71 @@
 
         function createAnswerInputs() {
             const inputsDiv = document.getElementById('inputsResposta');
-            if (currentDegree === 1) {
-                inputsDiv.innerHTML = `
-                    <div class="input-group">
-                        <label for="resposta">Digite o valor de x:</label>
-                        <input type="number" id="resposta" step="0.01" placeholder="Ex: 5 ou 2.5">
-                        <div style="margin-top: 10px;">
-                            <button class="btn" style="padding: 8px 15px; margin: 2px;" onclick="addToInput('resposta', '-')">± Negativo</button>
-                            <button class="btn" style="padding: 8px 15px; margin: 2px;" onclick="clearInput('resposta')">🗑️ Limpar</button>
-                        </div>
-                    </div>
-                `;
+            
+            console.log('createAnswerInputs chamada:', {
+                multipleChoiceMode: multipleChoiceMode,
+                respostaCorreta: respostaCorreta,
+                currentDegree: currentDegree
+            });
+            
+            if (multipleChoiceMode) {
+                // Modo múltipla escolha
+                currentAlternatives = generateAlternatives(respostaCorreta);
+                let alternativesHtml = '<div class="alternatives-container">';
+                
+                currentAlternatives.forEach((alternative, index) => {
+                    const letter = String.fromCharCode(65 + index); // A, B, C, D, E
+                    alternativesHtml += `
+                        <button class="alternative" onclick="selectAlternative(${index})">
+                            <strong>${letter})</strong> ${alternative}
+                        </button>
+                    `;
+                });
+                
+                alternativesHtml += '</div>';
+                inputsDiv.innerHTML = alternativesHtml;
+                
+                // Resetar seleção
+                window.selectedAlternative = -1;
+                
             } else {
-                inputsDiv.innerHTML = `
-                    <div class="input-row">
+                // Modo de digitação tradicional
+                if (currentDegree === 1) {
+                    inputsDiv.innerHTML = `
                         <div class="input-group">
-                            <label for="resposta1">x₁ (primeira solução):</label>
-                            <input type="number" id="resposta1" step="0.01" placeholder="Ex: 2">
-                            <div style="margin-top: 5px;">
-                                <button class="btn" style="padding: 5px 10px; margin: 2px; font-size: 12px;" onclick="addToInput('resposta1', '-')">±</button>
-                                <button class="btn" style="padding: 5px 10px; margin: 2px; font-size: 12px;" onclick="clearInput('resposta1')">🗑️</button>
+                            <label for="resposta">Digite o valor de x:</label>
+                            <input type="number" id="resposta" step="0.01" placeholder="Ex: 5 ou 2.5">
+                            <div style="margin-top: 10px;">
+                                <button class="btn" style="padding: 8px 15px; margin: 2px;" onclick="addToInput('resposta', '-')">± Negativo</button>
+                                <button class="btn" style="padding: 8px 15px; margin: 2px;" onclick="clearInput('resposta')">🗑️ Limpar</button>
                             </div>
                         </div>
-                        <div class="input-group">
-                            <label for="resposta2">x₂ (segunda solução):</label>
-                            <input type="number" id="resposta2" step="0.01" placeholder="Ex: 3">
-                            <div style="margin-top: 5px;">
-                                <button class="btn" style="padding: 5px 10px; margin: 2px; font-size: 12px;" onclick="addToInput('resposta2', '-')">±</button>
-                                <button class="btn" style="padding: 5px 10px; margin: 2px; font-size: 12px;" onclick="clearInput('resposta2')">🗑️</button>
+                    `;
+                } else {
+                    inputsDiv.innerHTML = `
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label for="resposta1">x₁ (primeira solução):</label>
+                                <input type="number" id="resposta1" step="0.01" placeholder="Ex: 2">
+                                <div style="margin-top: 5px;">
+                                    <button class="btn" style="padding: 5px 10px; margin: 2px; font-size: 12px;" onclick="addToInput('resposta1', '-')">±</button>
+                                    <button class="btn" style="padding: 5px 10px; margin: 2px; font-size: 12px;" onclick="clearInput('resposta1')">🗑️</button>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="resposta2">x₂ (segunda solução):</label>
+                                <input type="number" id="resposta2" step="0.01" placeholder="Ex: 3">
+                                <div style="margin-top: 5px;">
+                                    <button class="btn" style="padding: 5px 10px; margin: 2px; font-size: 12px;" onclick="addToInput('resposta2', '-')">±</button>
+                                    <button class="btn" style="padding: 5px 10px; margin: 2px; font-size: 12px;" onclick="clearInput('resposta2')">🗑️</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <p style="font-size: 14px; color: #666; margin-top: 5px;">
-                        💡 Se houver apenas uma solução, deixe x₂ em branco. Se não houver soluções reais, deixe ambos em branco.
-                    </p>
-                `;
+                        <p style="font-size: 14px; color: #666; margin-top: 5px;">
+                            💡 Se houver apenas uma solução, deixe x₂ em branco. Se não houver soluções reais, deixe ambos em branco.
+                        </p>
+                    `;
+                }
             }
         }
 
@@ -1672,9 +2068,46 @@
             let isCorrect = false;
             let userAnswer = '';
             
-            if (currentDegree === 1) {
-                const resposta = parseFloat(document.getElementById('resposta').value);
-                userAnswer = resposta.toString();
+            if (multipleChoiceMode) {
+                // Modo múltipla escolha
+                if (window.selectedAlternative === undefined || window.selectedAlternative === -1) {
+                    resultado.innerHTML = '<div class="result incorrect">⚠️ Por favor, selecione uma alternativa!</div>';
+                    return;
+                }
+                
+                const selectedText = currentAlternatives[window.selectedAlternative];
+                userAnswer = selectedText;
+                
+                // Verificar se a alternativa selecionada é a correta
+                const correctAnswerText = generateCorrectAnswerText(respostaCorreta);
+                isCorrect = selectedText === correctAnswerText;
+                
+                // Destacar alternativas
+                document.querySelectorAll('.alternative').forEach((alt, index) => {
+                    alt.classList.remove('selected');
+                    if (index === window.selectedAlternative) {
+                        alt.classList.add(isCorrect ? 'correct' : 'incorrect');
+                    }
+                    
+                    // Mostrar a resposta correta
+                    if (alt.textContent.includes(correctAnswerText)) {
+                        alt.classList.add('correct');
+                    }
+                });
+                
+                if (isCorrect) {
+                    resultado.innerHTML = '<div class="result correct">🎉 Parabéns! Alternativa correta!</div>';
+                } else {
+                    const correctLetter = currentAlternatives.findIndex(alt => alt === correctAnswerText);
+                    const letter = String.fromCharCode(65 + correctLetter);
+                    resultado.innerHTML = `<div class="result incorrect">❌ Incorreto. A resposta correta é a alternativa ${letter})</div>`;
+                }
+                
+            } else {
+                // Modo digitação tradicional
+                if (currentDegree === 1) {
+                    const resposta = parseFloat(document.getElementById('resposta').value);
+                    userAnswer = resposta.toString();
                 
                 if (isNaN(resposta)) {
                     resultado.innerHTML = '<div class="result incorrect">⚠️ Por favor, digite um número válido!</div>';
@@ -1723,6 +2156,7 @@
                         resultado.innerHTML = `<div class="result incorrect">❌ Incorreto. As soluções são x₁ = ${respostasCorretas[0].toFixed(2)} e x₂ = ${respostasCorretas[1].toFixed(2)}</div>`;
                     }
                 }
+            }
             }
             
             // Salvar resultado no banco de dados
