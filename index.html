@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprenda Equações do 1° e 2° Grau</title>
+    <style>
+        /* ...existing code... */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        /* ...existing code... */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- ...existing code... -->
+    </div>
+
+    <script>
+        let currentDegree = 1;
+        let equacaoAtual = {};
+        let respostaCorreta = [];
+
+        function selectDegree(degree) {
+            currentDegree = degree;
+            document.querySelectorAll('.degree-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            updateContent();
+        }
+
+        function updateContent() {
+            document.getElementById('teoria1').style.display = currentDegree === 1 ? 'block' : 'none';
+            document.getElementById('teoria2').style.display = currentDegree === 2 ? 'block' : 'none';
+            document.getElementById('exemplos-content').innerHTML = '';
+            document.getElementById('novoExemplo').innerHTML = '';
+            gerarExemplosIniciais();
+            novaEquacao();
+        }
+
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function gerarEquacao1Grau() {
+            const a = Math.floor(Math.random() * 9) + 1;
+            const b = Math.floor(Math.random() * 20) - 10;
+            const c = Math.floor(Math.random() * 20) + 1;
+            equacaoAtual = { degree: 1, a, b, c };
+            respostaCorreta = [(c - b) / a];
+            return equacaoAtual;
+        }
+
+        function gerarEquacao2Grau() {
+            const a = Math.floor(Math.random() * 3) + 1;
+            const b = Math.floor(Math.random() * 10) - 5;
+            const c = Math.floor(Math.random() * 10) - 5;
+            equacaoAtual = { degree: 2, a, b, c };
+            const delta = b * b - 4 * a * c;
+            if (delta >= 0) {
+                const x1 = (-b + Math.sqrt(delta)) / (2 * a);
+                const x2 = (-b - Math.sqrt(delta)) / (2 * a);
+                respostaCorreta = delta === 0 ? [x1] : [x1, x2];
+            } else {
+                respostaCorreta = [];
+            }
+            return equacaoAtual;
+        }
+
+        function formatarEquacao1Grau(eq) {
+            let equacao = `${eq.a}x`;
+            if (eq.b > 0) {
+                equacao += ` + ${eq.b}`;
+            } else if (eq.b < 0) {
+                equacao += ` - ${Math.abs(eq.b)}`;
+            }
+            equacao += ` = ${eq.c}`;
+            return equacao;
+        }
+
+        function formatarEquacao2Grau(eq) {
+            let equacao = '';
+            if (eq.a === 1) {
+                equacao = 'x²';
+            } else if (eq.a === -1) {
+                equacao = '-x²';
+            } else {
+                equacao = `${eq.a}x²`;
+            }
+            if (eq.b > 0) {
+                if (eq.b === 1) {
+                    equacao += ' + x';
+                } else {
+                    equacao += ` + ${eq.b}x`;
+                }
+            } else if (eq.b < 0) {
+                if (eq.b === -1) {
+                    equacao += ' - x';
+                } else {
+                    equacao += ` - ${Math.abs(eq.b)}x`;
+                }
+            }
+            if (eq.c > 0) {
+                equacao += ` + ${eq.c}`;
+            } else if (eq.c < 0) {
+                equacao += ` - ${Math.abs(eq.c)}`;
+            }
+            equacao += ' = 0';
+            return equacao;
+        }
+
+        function novaEquacao() {
+            const eq = currentDegree === 1 ? gerarEquacao1Grau() : gerarEquacao2Grau();
+            const equacaoFormatada = currentDegree === 1 ? formatarEquacao1Grau(eq) : formatarEquacao2Grau(eq);
+            document.getElementById('equacaoPratica').textContent = equacaoFormatada;
+            document.getElementById('resultado').innerHTML = '';
+            document.getElementById('solucaoDetalhada').innerHTML = '';
+            createAnswerInputs();
+        }
+
+        function createAnswerInputs() {
+            const inputsDiv = document.getElementById('inputsResposta');
+            if (currentDegree === 1) {
+                inputsDiv.innerHTML = `
+                    <div class="input-group">
+                        <label for="resposta">Digite o valor de x:</label>
+                        <input type="number" id="resposta" step="0.01" placeholder="Ex: 5 ou 2.5">
+                    </div>
+                `;
+            } else {
+                inputsDiv.innerHTML = `
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label for="resposta1">x₁ (primeira solução):</label>
+                            <input type="number" id="resposta1" step="0.01" placeholder="Ex: 2">
+                        </div>
+                        <div class="input-group">
+                            <label for="resposta2">x₂ (segunda solução):</label>
+                            <input type="number" id="resposta2" step="0.01" placeholder="Ex: 3">
+                        </div>
+                    </div>
+                    <p style="font-size: 14px; color: #666; margin-top: 5px;">
+                        💡 Se houver apenas uma solução, deixe x₂ em branco. Se não houver soluções reais, deixe ambos em branco.
+                    </p>
+                `;
+            }
+        }
+
+        function verificarResposta() {
+            const resultado = document.getElementById('resultado');
+            if (currentDegree === 1) {
+                const resposta = parseFloat(document.getElementById('resposta').value);
+                if (isNaN(resposta)) {
+                    resultado.innerHTML = '<div class="result incorrect">⚠️ Por favor, digite um número válido!</div>';
+                    return;
+                }
+                const diferenca = Math.abs(resposta - respostaCorreta[0]);
+                if (diferenca < 0.01) {
+                    resultado.innerHTML = '<div class="result correct">🎉 Parabéns! Resposta correta!</div>';
+                } else {
+                    resultado.innerHTML = `<div class="result incorrect">❌ Incorreto. A resposta é x = ${respostaCorreta[0].toFixed(2)}</div>`;
+                }
+            } else {
+                const resposta1 = document.getElementById('resposta1').value;
+                const resposta2 = document.getElementById('resposta2').value;
+                const r1 = resposta1 === '' ? null : parseFloat(resposta1);
+                const r2 = resposta2 === '' ? null : parseFloat(resposta2);
+                const respostasUsuario = [r1, r2].filter(r => r !== null).sort((a, b) => a - b);
+                const respostasCorretas = [...respostaCorreta].sort((a, b) => a - b);
+                if (respostaCorreta.length === 0) {
+                    if (respostasUsuario.length === 0) {
+                        resultado.innerHTML = '<div class="result correct">🎉 Correto! Não há soluções reais (Δ < 0)</div>';
+                    } else {
+                        resultado.innerHTML = '<div class="result incorrect">❌ Incorreto. Esta equação não possui soluções reais.</div>';
+                    }
+                } else if (respostaCorreta.length === 1) {
+                    if (respostasUsuario.length === 1 && Math.abs(respostasUsuario[0] - respostasCorretas[0]) < 0.01) {
+                        resultado.innerHTML = '<div class="result correct">🎉 Correto! Há apenas uma solução (raiz dupla)</div>';
+                    } else {
+                        resultado.innerHTML = `<div class="result incorrect">❌ Incorreto. A solução é x = ${respostasCorretas[0].toFixed(2)}</div>`;
+                    }
+                } else {
+                    if (respostasUsuario.length === 2 && 
+                        Math.abs(respostasUsuario[0] - respostasCorretas[0]) < 0.01 &&
+                        Math.abs(respostasUsuario[1] - respostasCorretas[1]) < 0.01) {
+                        resultado.innerHTML = '<div class="result correct">🎉 Parabéns! Ambas as soluções estão corretas!</div>';
+                    } else {
+                        resultado.innerHTML = `<div class="result incorrect">❌ Incorreto. As soluções são x₁ = ${respostasCorretas[0].toFixed(2)} e x₂ = ${respostasCorretas[1].toFixed(2)}</div>`;
+                    }
+                }
+            }
+        }
+
+        function mostrarSolucao() {
+            const eq = equacaoAtual;
+            const solucao = document.getElementById('solucaoDetalhada');
+            if (currentDegree === 1) {
+                mostrarSolucao1Grau(eq, solucao);
+            } else {
+                mostrarSolucao2Grau(eq, solucao);
+            }
+        }
+
+        function mostrarSolucao1Grau(eq, solucaoDiv) {
+            let passos = `
+                <div class="solution-steps">
+                    <strong>Equação:</strong> <span class="highlight">${formatarEquacao1Grau(eq)}</span><br><br>
+                    <strong>Passo 1:</strong> Isolar o termo com x.<br>
+                    ${eq.a}x = ${eq.c} ${eq.b >= 0 ? `- ${eq.b}` : `+ ${Math.abs(eq.b)}`}<br>
+                    <strong>Passo 2:</strong> Calcular o valor de x.<br>
+                    ${eq.a}x = ${eq.c - eq.b}<br>
+                    <strong>Passo 3:</strong> Dividir ambos os lados por ${eq.a}.<br>
+                    x = (${eq.c - eq.b}) / ${eq.a} = <span class="highlight">${((eq.c - eq.b) / eq.a).toFixed(2)}</span>
+                </div>
+            `;
+            solucaoDiv.innerHTML = passos;
+        }
+
+        function mostrarSolucao2Grau(eq, solucaoDiv) {
+            const a = eq.a, b = eq.b, c = eq.c;
+            const delta = b * b - 4 * a * c;
+            let passos = `
+                <div class="solution-steps">
+                    <strong>Equação:</strong> <span class="highlight">${formatarEquacao2Grau(eq)}</span><br><br>
+                    <strong>Passo 1:</strong> Identificar os coeficientes: a = ${a}, b = ${b}, c = ${c}<br>
+                    <strong>Passo 2:</strong> Calcular o discriminante (Δ):<br>
+                    Δ = ${b}² - 4 × ${a} × ${c} = ${delta}<br>
+            `;
+            if (delta < 0) {
+                passos += `<strong>Passo 3:</strong> Como Δ < 0, não há soluções reais.<br>`;
+            } else {
+                passos += `
+                    <strong>Passo 3:</strong> Aplicar a fórmula de Bhaskara:<br>
+                    x = (-${b} ± √${delta}) / (2 × ${a})<br>
+                `;
+                if (delta === 0) {
+                    const x = (-b) / (2 * a);
+                    passos += `Δ = 0, então há uma raiz dupla:<br>
+                        x = ${x.toFixed(2)}
+                    `;
+                } else {
+                    const x1 = ((-b + Math.sqrt(delta)) / (2 * a)).toFixed(2);
+                    const x2 = ((-b - Math.sqrt(delta)) / (2 * a)).toFixed(2);
+                    passos += `
+                        <div class="two-solutions">
+                            <div class="solution-box">x₁ = ${x1}</div>
+                            <div class="solution-box">x₂ = ${x2}</div>
+                        </div>
+                    `;
+                }
+            }
+            passos += `</div>`;
+            solucaoDiv.innerHTML = passos;
+        }
+
+        function gerarExemplosIniciais() {
+            const exemplosDiv = document.getElementById('exemplos-content');
+            exemplosDiv.innerHTML = '';
+            if (currentDegree === 1) {
+                exemplosDiv.innerHTML += `
+                    <div class="concept-card">
+                        <strong>Exemplo:</strong> 2x + 4 = 10<br>
+                        <span class="highlight">x = 3</span>
+                    </div>
+                    <div class="concept-card">
+                        <strong>Exemplo:</strong> -3x + 9 = 0<br>
+                        <span class="highlight">x = 3</span>
+                    </div>
+                `;
+            } else {
+                exemplosDiv.innerHTML += `
+                    <div class="concept-card">
+                        <strong>Exemplo:</strong> x² - 5x + 6 = 0<br>
+                        <span class="highlight">x₁ = 2, x₂ = 3</span>
+                    </div>
+                    <div class="concept-card">
+                        <strong>Exemplo:</strong> 2x² + 3x - 2 = 0<br>
+                        <span class="highlight">x₁ = 0.5, x₂ = -2</span>
+                    </div>
+                `;
+            }
+        }
+
+        function gerarExemplo() {
+            let eq, texto;
+            if (currentDegree === 1) {
+                eq = gerarEquacao1Grau();
+                texto = `<div class="concept-card"><strong>Exemplo:</strong> ${formatarEquacao1Grau(eq)}<br><span class="highlight">x = ${respostaCorreta[0].toFixed(2)}</span></div>`;
+            } else {
+                eq = gerarEquacao2Grau();
+                if (respostaCorreta.length === 0) {
+                    texto = `<div class="concept-card"><strong>Exemplo:</strong> ${formatarEquacao2Grau(eq)}<br><span class="highlight">Não há soluções reais</span></div>`;
+                } else if (respostaCorreta.length === 1) {
+                    texto = `<div class="concept-card"><strong>Exemplo:</strong> ${formatarEquacao2Grau(eq)}<br><span class="highlight">x = ${respostaCorreta[0].toFixed(2)}</span></div>`;
+                } else {
+                    texto = `<div class="concept-card"><strong>Exemplo:</strong> ${formatarEquacao2Grau(eq)}<br><span class="highlight">x₁ = ${respostaCorreta[0].toFixed(2)}, x₂ = ${respostaCorreta[1].toFixed(2)}</span></div>`;
+                }
+            }
+            document.getElementById('novoExemplo').innerHTML = texto;
+        }
+
+        function resolverCustom() {
+            const eqStr = document.getElementById('equacaoCustom').value.trim();
+            const resultadoDiv = document.getElementById('resultadoCustom');
+            const solucaoDiv = document.getElementById('solucaoCustom');
+            if (!eqStr) {
+                resultadoDiv.innerHTML = '<div class="result incorrect">⚠️ Digite uma equação!</div>';
+                solucaoDiv.innerHTML = '';
+                return;
+            }
+            let eq1 = eqStr.match(/^([+-]?\d*)x\s*([+-]\s*\d+)?\s*=\s*([+-]?\d+)$/i);
+            let eq2 = eqStr.match(/^([+-]?\d*)x²\s*([+-]\s*\d*)x\s*([+-]\s*\d+)?\s*=\s*0$/i);
+            if (eq1) {
+                let a = parseInt(eq1[1] || '1');
+                let b = eq1[2] ? parseInt(eq1[2].replace(/\s+/g, '')) : 0;
+                let c = parseInt(eq1[3]);
+                let x = (c - b) / a;
+                resultadoDiv.innerHTML = `<div class="result info">x = ${x.toFixed(2)}</div>`;
+                mostrarSolucao1Grau({a, b, c}, solucaoDiv);
+            } else if (eq2) {
+                let a = parseInt(eq2[1] || '1');
+                let b = eq2[2] ? parseInt(eq2[2].replace(/\s+/g, '')) : 0;
+                let c = eq2[3] ? parseInt(eq2[3].replace(/\s+/g, '')) : 0;
+                let delta = b * b - 4 * a * c;
+                if (delta < 0) {
+                    resultadoDiv.innerHTML = `<div class="result info">Não há soluções reais</div>`;
+                } else if (delta === 0) {
+                    let x = (-b) / (2 * a);
+                    resultadoDiv.innerHTML = `<div class="result info">x = ${x.toFixed(2)}</div>`;
+                } else {
+                    let x1 = ((-b + Math.sqrt(delta)) / (2 * a)).toFixed(2);
+                    let x2 = ((-b - Math.sqrt(delta)) / (2 * a)).toFixed(2);
+                    resultadoDiv.innerHTML = `<div class="result info">x₁ = ${x1}, x₂ = ${x2}</div>`;
+                }
+                mostrarSolucao2Grau({a, b, c}, solucaoDiv);
+            } else {
+                resultadoDiv.innerHTML = `<div class="result incorrect">❌ Equação não reconhecida. Tente os exemplos sugeridos.</div>`;
+                solucaoDiv.innerHTML = '';
+            }
+        }
+
+        function limparCustom() {
+            document.getElementById('equacaoCustom').value = '';
+            document.getElementById('resultadoCustom').innerHTML = '';
+            document.getElementById('solucaoCustom').innerHTML = '';
+        }
+
+        window.onload = () => {
+            gerarExemplosIniciais();
+            novaEquacao();
+        };
+    </script>
+</body>
+</html>
