@@ -471,6 +471,79 @@
         .hidden {
             display: none !important;
         }
+
+        .advanced-tools {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border: 2px solid #dee2e6;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .advanced-tools h4 {
+            color: #495057;
+            margin-bottom: 15px;
+            text-align: center;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .tool-button {
+            background: linear-gradient(45deg, #007bff, #0056b3);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .tool-button:hover {
+            background: linear-gradient(45deg, #0056b3, #004085);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .student-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 5px 0;
+            border-left: 4px solid #007bff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .student-info {
+            flex: 1;
+        }
+
+        .student-stats {
+            text-align: right;
+            font-size: 12px;
+            color: #666;
+        }
+
+        #advancedToolsResult {
+            min-height: 50px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #dee2e6;
+        }
     </style>
 </head>
 <body>
@@ -521,7 +594,7 @@
         </div>
         
         <div style="display: flex; gap: 10px; margin-bottom: 10px;">
-            <button class="btn" onclick="login()">� Fazer Login</button>
+            <button class="btn" onclick="login()">Fazer Login</button>
             <button class="btn secondary" onclick="register()">📝 Cadastrar-se</button>
         </div>
         
@@ -785,6 +858,20 @@
                 <div style="margin-bottom: 20px;">
                     <button class="btn secondary" onclick="exportToExcel()">📊 Exportar para Excel</button>
                     <button class="btn warning" onclick="clearAllData()">🗑️ Limpar Todos os Dados</button>
+                </div>
+                
+                <!-- Ferramentas Avançadas de Gestão -->
+                <div class="admin-panel" style="background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%); margin-bottom: 20px;">
+                    <h3>🔧 Ferramentas Avançadas</h3>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 15px;">
+                        <button class="btn" onclick="showDatabaseInfo()">📋 Info do Banco</button>
+                        <button class="btn secondary" onclick="backupData()">💾 Backup JSON</button>
+                        <button class="btn" onclick="showDetailedStats()">📈 Estatísticas</button>
+                        <button class="btn secondary" onclick="filterByClass()">🔍 Filtrar Turma</button>
+                    </div>
+                    
+                    <div id="advancedToolsResult" style="margin-top: 15px;"></div>
                 </div>
                 
                 <!-- Seção Inserir Equação para Professor -->
@@ -1216,6 +1303,192 @@
 
         function clearAllData() {
             UserManager.clearAllData();
+        }
+
+        // Ferramentas Avançadas de Gestão
+        function showDatabaseInfo() {
+            const users = UserManager.getUsers();
+            const userList = Object.values(users);
+            
+            const totalUsers = userList.length;
+            const totalAttempts = userList.reduce((sum, user) => sum + user.attempts.length, 0);
+            const dataSize = new Blob([JSON.stringify(users)]).size;
+            const oldestUser = userList.reduce((oldest, user) => 
+                !oldest || new Date(user.createdAt) < new Date(oldest.createdAt) ? user : oldest, null);
+            
+            const info = `
+                <div class="solution-steps">
+                    <h4>📊 Informações do Banco de Dados</h4>
+                    <strong>👥 Total de Usuários:</strong> ${totalUsers}<br>
+                    <strong>🎯 Total de Tentativas:</strong> ${totalAttempts}<br>
+                    <strong>💾 Tamanho dos Dados:</strong> ${(dataSize / 1024).toFixed(2)} KB<br>
+                    <strong>📅 Primeiro Usuário:</strong> ${oldestUser ? oldestUser.name + ' (' + new Date(oldestUser.createdAt).toLocaleDateString() + ')' : 'Nenhum'}<br>
+                    <strong>🔧 Tecnologia:</strong> localStorage (Navegador)<br>
+                    <strong>📍 Localização:</strong> Computador Local<br>
+                    <strong>⚠️ Limite Máximo:</strong> ~5-10 MB por domínio
+                </div>
+            `;
+            
+            document.getElementById('advancedToolsResult').innerHTML = info;
+        }
+
+        function backupData() {
+            const users = UserManager.getUsers();
+            const teacherData = JSON.parse(localStorage.getItem('teacherData') || '{}');
+            const adminPassword = localStorage.getItem('adminPassword') || 'professor123';
+            
+            const backup = {
+                users: users,
+                teacherData: teacherData,
+                adminPassword: adminPassword,
+                backupDate: new Date().toISOString(),
+                version: "1.0"
+            };
+            
+            const dataStr = JSON.stringify(backup, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(dataBlob);
+            link.download = `backup_equacoes_${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            
+            document.getElementById('advancedToolsResult').innerHTML = `
+                <div class="result correct">
+                    ✅ Backup criado com sucesso!<br>
+                    📁 Arquivo: backup_equacoes_${new Date().toISOString().split('T')[0]}.json<br>
+                    💡 Guarde este arquivo em local seguro para restaurar dados se necessário.
+                </div>
+            `;
+        }
+
+        function showDetailedStats() {
+            const users = UserManager.getUsers();
+            const userList = Object.values(users);
+            
+            if (userList.length === 0) {
+                document.getElementById('advancedToolsResult').innerHTML = `
+                    <div class="result info">📊 Nenhum usuário cadastrado ainda.</div>
+                `;
+                return;
+            }
+            
+            // Estatísticas por série
+            const seriesStats = {};
+            userList.forEach(user => {
+                const series = user.series.split(' - ')[0]; // Remove a letra da turma
+                if (!seriesStats[series]) {
+                    seriesStats[series] = { users: 0, correct: 0, wrong: 0 };
+                }
+                seriesStats[series].users++;
+                seriesStats[series].correct += user.correct;
+                seriesStats[series].wrong += user.wrong;
+            });
+            
+            // Top 5 alunos
+            const topStudents = userList
+                .filter(user => (user.correct + user.wrong) > 0)
+                .sort((a, b) => {
+                    const percentA = a.correct / (a.correct + a.wrong);
+                    const percentB = b.correct / (b.correct + b.wrong);
+                    return percentB - percentA;
+                })
+                .slice(0, 5);
+            
+            let statsHtml = `
+                <div class="solution-steps">
+                    <h4>📈 Estatísticas Detalhadas</h4>
+                    
+                    <strong>📚 Por Série:</strong><br>
+            `;
+            
+            Object.keys(seriesStats).forEach(series => {
+                const stats = seriesStats[series];
+                const total = stats.correct + stats.wrong;
+                const percent = total > 0 ? Math.round((stats.correct / total) * 100) : 0;
+                statsHtml += `${series}: ${stats.users} alunos, ${percent}% aproveitamento<br>`;
+            });
+            
+            statsHtml += `<br><strong>🏆 Top 5 Alunos:</strong><br>`;
+            
+            topStudents.forEach((user, index) => {
+                const total = user.correct + user.wrong;
+                const percent = Math.round((user.correct / total) * 100);
+                statsHtml += `${index + 1}º ${user.name}: ${percent}% (${user.correct}/${total})<br>`;
+            });
+            
+            statsHtml += `</div>`;
+            
+            document.getElementById('advancedToolsResult').innerHTML = statsHtml;
+        }
+
+        function filterByClass() {
+            const users = UserManager.getUsers();
+            const userList = Object.values(users);
+            
+            // Extrair todas as turmas disponíveis
+            const classes = [...new Set(userList.map(user => user.series))].sort();
+            
+            if (classes.length === 0) {
+                document.getElementById('advancedToolsResult').innerHTML = `
+                    <div class="result info">📊 Nenhuma turma cadastrada ainda.</div>
+                `;
+                return;
+            }
+            
+            let filterHtml = `
+                <div class="solution-steps">
+                    <h4>🔍 Filtrar por Turma</h4>
+                    <div class="input-group">
+                        <label for="classFilter">Selecione a turma:</label>
+                        <select id="classFilter" onchange="showClassDetails()">
+                            <option value="">Escolha uma turma</option>
+            `;
+            
+            classes.forEach(turma => {
+                filterHtml += `<option value="${turma}">${turma}</option>`;
+            });
+            
+            filterHtml += `
+                        </select>
+                    </div>
+                    <div id="classDetailsResult"></div>
+                </div>
+            `;
+            
+            document.getElementById('advancedToolsResult').innerHTML = filterHtml;
+        }
+
+        function showClassDetails() {
+            const selectedClass = document.getElementById('classFilter').value;
+            if (!selectedClass) return;
+            
+            const users = UserManager.getUsers();
+            const classUsers = Object.values(users).filter(user => user.series === selectedClass);
+            
+            let detailsHtml = `<h5>📋 Detalhes da ${selectedClass}:</h5>`;
+            
+            classUsers.forEach(user => {
+                const total = user.correct + user.wrong;
+                const percent = total > 0 ? Math.round((user.correct / total) * 100) : 0;
+                const lastActivity = user.attempts.length > 0 ? 
+                    new Date(user.attempts[user.attempts.length - 1].timestamp).toLocaleDateString() : 'Nunca';
+                
+                detailsHtml += `
+                    <div class="student-item">
+                        <div class="student-info">
+                            <strong>${user.name}</strong><br>
+                            <small>Último acesso: ${lastActivity}</small>
+                        </div>
+                        <div class="student-stats">
+                            ✅ ${user.correct} | ❌ ${user.wrong}<br>
+                            📊 ${percent}% | 🎯 ${total} tentativas
+                        </div>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('classDetailsResult').innerHTML = detailsHtml;
         }
 
         function updateUserInterface() {
