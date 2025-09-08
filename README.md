@@ -53,7 +53,7 @@ Um sistema completo para ensino de equações do 1º e 2º grau com gestão de a
 
 ### **Para Professores:**
 1. Na tela de login, clique "Acesso Professor"
-2. Digite a senha: `professor123`
+2. Digite a senha: `*********`
 3. Visualize estatísticas e relatórios
 4. Exporte dados para Excel quando necessário
 
