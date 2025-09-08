@@ -895,6 +895,7 @@
                     <button class="btn" onclick="verificarResposta()">✔️ Verificar</button>
                     <button class="btn" onclick="novaEquacao()">🔄 Nova Equação</button>
                     <button class="btn" onclick="mostrarSolucao()">💡 Ver Solução</button>
+                    <button class="btn" onclick="testMultipleChoice()" style="background: orange;">🧪 Testar Alternativas</button>
                     
                     <div id="resultado"></div>
                     <div id="solucaoDetalhada"></div>
@@ -2454,6 +2455,36 @@
             document.getElementById('equacaoCustom').value = '';
             document.getElementById('resultadoCustom').innerHTML = '';
             document.getElementById('solucaoCustom').innerHTML = '';
+        }
+
+        function testMultipleChoice() {
+            const inputsDiv = document.getElementById('inputsResposta');
+            
+            // Gerar alternativas simples para teste
+            const alternatives = [
+                'A) x = 2.00',
+                'B) x = -1.50', 
+                'C) x = 3.75',
+                'D) x = -2.25',
+                'E) x = 1.00'
+            ];
+            
+            let html = '<div style="margin: 20px 0;"><h4>🧪 Teste de Alternativas:</h4>';
+            alternatives.forEach((alt, index) => {
+                html += `<button class="alternative" onclick="selectTestAlternative(${index})" style="display: block; width: 100%; margin: 5px 0; padding: 10px; text-align: left; border: 2px solid #ddd; background: white; cursor: pointer;">${alt}</button>`;
+            });
+            html += '</div>';
+            
+            inputsDiv.innerHTML = html;
+        }
+
+        function selectTestAlternative(index) {
+            const buttons = document.querySelectorAll('.alternative');
+            buttons.forEach(btn => btn.style.borderColor = '#ddd');
+            buttons[index].style.borderColor = '#007bff';
+            buttons[index].style.backgroundColor = '#e3f2fd';
+            
+            alert('Alternativa selecionada: ' + buttons[index].textContent);
         }
 
         // Inicialização
