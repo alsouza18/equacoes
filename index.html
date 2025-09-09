@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Equações - Plataforma Educacional Interativa</title>
+    <title>Sistema de Equações - Plataforma Educacional</title>
     <style>
         * {
             margin: 0;
@@ -26,16 +26,6 @@
             opacity: 1 !important;
             position: relative !important;
             z-index: 9999 !important;
-        }
-
-        /* Garantir que mainScreen esteja oculto inicialmente */
-        #mainScreen {
-            display: none !important;
-        }
-
-        /* Todas as páginas de assunto devem estar ocultas inicialmente */
-        .subject-page {
-            display: none !important;
         }
 
         .container {
@@ -101,6 +91,19 @@
             opacity: 1 !important;
             position: relative !important;
             z-index: 1000 !important;
+        }
+
+        /* FORÇA APENAS LOGIN VISÍVEL */
+        #loginScreen {
+            display: block !important;
+        }
+        
+        #mainScreen {
+            display: none !important;
+        }
+        
+        .subject-page {
+            display: none !important;
         }
 
         .login-header {
@@ -1102,7 +1105,7 @@
         </div>
         
         <div class="content">
-            <!-- Menu Principal de Navegação por Assunto -->
+            <!-- Menu Principal de NavegaçAo por Assunto -->
             <div id="mainMenu" class="subject-navigation" style="display: none;">
                 <div class="subject-card" onclick="showSubjectPage('equations')">
                     <div class="subject-icon">ðŸ“</div>
@@ -1164,34 +1167,34 @@
                     <h3>ðŸŽ¯ Nível de Dificuldade</h3>
                     <div class="difficulty-buttons">
                         <button class="difficulty-btn active" onclick="selectDifficulty('facil')">
-                            ðŸ˜Š Fácil
-                            <span class="difficulty-desc">Números simples</span>
+                            ðŸ˜Š FA¡cil
+                            <span class="difficulty-desc">NAºmeros simples</span>
                         </button>
                         <button class="difficulty-btn" onclick="selectDifficulty('medio')">
                             ðŸ¤” Médio
-                            <span class="difficulty-desc">Com fraÃ§Ãµes</span>
+                            <span class="difficulty-desc">Com fraA§Aµes</span>
                         </button>
                         <button class="difficulty-btn" onclick="selectDifficulty('dificil')">
-                            ðŸ”¥ Difícil
-                            <span class="difficulty-desc">Complexo + fraÃ§Ãµes</span>
+                            ðŸ”¥ DifA­cil
+                            <span class="difficulty-desc">Complexo + fraA§Aµes</span>
                         </button>
                     </div>
                 </div>
 
-                <!-- Navegação por Abas -->
+                <!-- NavegaçAo por Abas -->
                 <div class="tabs">
                     <button class="tab active" onclick="showSection('teoria')">ðŸ“š Teoria</button>
                     <button class="tab" onclick="showSection('exemplos')">ðŸ’¡ Exemplos</button>
-                    <button class="tab" onclick="showSection('pratica')">ðŸŽ¯ PrÃ¡tica</button>
+                    <button class="tab" onclick="showSection('pratica')">ðŸŽ¯ PrA¡tica</button>
                 </div>
 
-                <!-- SeÃ§Ã£o Teoria -->
+                <!-- SeA§A£o Teoria -->
                 <div id="teoria" class="section active">
-                    <!-- ConteÃºdo 1º Grau -->
+                    <!-- ConteAºdo 1º Grau -->
                     <div id="teoria1" class="degree-content">
                         <div class="concept-card">
-                            <h2>ðŸ¤” O que Ã© uma EquaÃ§Ã£o do 1º Grau?</h2>
-                            <p>Uma equaÃ§Ã£o do 1º grau Ã© uma igualdade Matemática que possui uma incÃ³gnita (geralmente representada pela letra <strong>x</strong>) elevada Ã  primeira potÃªncia.</p>
+                            <h2>ðŸ¤” O que A© uma EquaA§A£o do 1º Grau?</h2>
+                            <p>Uma equaA§A£o do 1º grau A© uma igualdade Matemática que possui uma incA³gnita (geralmente representada pela letra <strong>x</strong>) elevada A  primeira potAªncia.</p>
                         </div>
 
                         <div class="equation">ax + b = c</div>
@@ -1199,10 +1202,10 @@
                         <div class="concept-card">
                             <h3>ðŸ” Onde:</h3>
                             <ul style="list-style: none; padding-left: 0;">
-                                <li>ðŸ“Œ <strong>a</strong> Ã© o coeficiente de x (a â‰  0)</li>
-                                <li>ðŸ“Œ <strong>b</strong> Ã© o termo independente</li>
-                                <li>ðŸ“Œ <strong>c</strong> Ã© o resultado da equaÃ§Ã£o</li>
-                                <li>ðŸ“Œ <strong>x</strong> Ã© a incÃ³gnita (valor que queremos descobrir)</li>
+                                <li>ðŸ“Œ <strong>a</strong> A© o coeficiente de x (a â‰  0)</li>
+                                <li>ðŸ“Œ <strong>b</strong> A© o termo independente</li>
+                                <li>ðŸ“Œ <strong>c</strong> A© o resultado da equaA§A£o</li>
+                                <li>ðŸ“Œ <strong>x</strong> A© a incA³gnita (valor que queremos descobrir)</li>
                             </ul>
                         </div>
 
@@ -1212,14 +1215,14 @@
                                 <div class="step-number">1</div>
                                 <div>
                                     <strong>Isolar os termos com x</strong><br>
-                                    Mova todos os termos que contÃªm x para um lado da equaÃ§Ã£o
+                                    Mova todos os termos que contAªm x para um lado da equaA§A£o
                                 </div>
                             </div>
                             <div class="step">
                                 <div class="step-number">2</div>
                                 <div>
-                                    <strong>Isolar os Números</strong><br>
-                                    Mova todos os Números sem x para o outro lado da equaÃ§Ã£o
+                                    <strong>Isolar os nAºmeros</strong><br>
+                                    Mova todos os nAºmeros sem x para o outro lado da equaA§A£o
                                 </div>
                             </div>
                             <div class="step">
@@ -1233,17 +1236,17 @@
                                 <div class="step-number">4</div>
                                 <div>
                                     <strong>Verificar a resposta</strong><br>
-                                    Substitua o valor encontrado na equaÃ§Ã£o original
+                                    Substitua o valor encontrado na equaA§A£o original
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- ConteÃºdo 2º Grau -->
+                    <!-- ConteAºdo 2º Grau -->
                     <div id="teoria2" class="degree-content" style="display: none;">
                         <div class="concept-card">
-                            <h2>ðŸš€ O que Ã© uma EquaÃ§Ã£o do 2º Grau?</h2>
-                            <p>Uma equaÃ§Ã£o do 2º grau Ã© uma igualdade Matemática onde a maior potÃªncia da incÃ³gnita x Ã© 2 (xÂ²).</p>
+                            <h2>ðŸš€ O que A© uma EquaA§A£o do 2º Grau?</h2>
+                            <p>Uma equaA§A£o do 2º grau A© uma igualdade Matemática onde a maior potAªncia da incA³gnita x A© 2 (xÂ²).</p>
                         </div>
 
                         <div class="equation">axÂ² + bx + c = 0</div>
@@ -1251,15 +1254,15 @@
                         <div class="concept-card">
                             <h3>ðŸ” Onde:</h3>
                             <ul style="list-style: none; padding-left: 0;">
-                                <li>ðŸ“Œ <strong>a</strong> Ã© o coeficiente de xÂ² (a â‰  0)</li>
-                                <li>ðŸ“Œ <strong>b</strong> Ã© o coeficiente de x</li>
-                                <li>ðŸ“Œ <strong>c</strong> Ã© o termo independente</li>
-                                <li>ðŸ“Œ <strong>x</strong> Ã© a incÃ³gnita (valor que queremos descobrir)</li>
+                                <li>ðŸ“Œ <strong>a</strong> A© o coeficiente de xÂ² (a â‰  0)</li>
+                                <li>ðŸ“Œ <strong>b</strong> A© o coeficiente de x</li>
+                                <li>ðŸ“Œ <strong>c</strong> A© o termo independente</li>
+                                <li>ðŸ“Œ <strong>x</strong> A© a incA³gnita (valor que queremos descobrir)</li>
                             </ul>
                         </div>
 
                         <div class="steps">
-                            <h3>ðŸŽ¯ FÃ³rmula de Bhaskara:</h3>
+                            <h3>ðŸŽ¯ FA³rmula de Bhaskara:</h3>
                             <div class="equation">x = (-b Â± âˆš(bÂ² - 4ac)) / 2a</div>
                             
                             <div class="step">
@@ -1273,15 +1276,15 @@
                                 <div class="step-number">2</div>
                                 <div>
                                     <strong>Verificar o valor de Î”</strong><br>
-                                    Se Î” > 0: duas raÃ­zes reais<br>
+                                    Se Î” > 0: duas raA­zes reais<br>
                                     Se Î” = 0: uma raiz real<br>
-                                    Se Î” < 0: sem raÃ­zes reais
+                                    Se Î” < 0: sem raA­zes reais
                                 </div>
                             </div>
                             <div class="step">
                                 <div class="step-number">3</div>
                                 <div>
-                                    <strong>Aplicar a fÃ³rmula</strong><br>
+                                    <strong>Aplicar a fA³rmula</strong><br>
                                     xâ‚ = (-b + âˆšÎ”) / 2a<br>
                                     xâ‚‚ = (-b - âˆšÎ”) / 2a
                                 </div>
@@ -1290,7 +1293,7 @@
                     </div>
                 </div>
 
-                <!-- SeÃ§Ã£o Exemplos -->
+                <!-- SeA§A£o Exemplos -->
                 <div id="exemplos" class="section">
                     <div id="exemplos1" class="degree-content">
                         <h2>ðŸ’¡ Exemplos Resolvidos - 1º Grau</h2>
@@ -1308,11 +1311,11 @@
                                 </div>
                                 <div class="step">
                                     <strong>Passo 2:</strong> Dividir pelo coeficiente<br>
-                                    x = 8 Ã· 2<br>
+                                    x = 8 A· 2<br>
                                     x = 4
                                 </div>
                                 <div class="step">
-                                    <strong>VerificaÃ§Ã£o:</strong><br>
+                                    <strong>VerificaA§A£o:</strong><br>
                                     2(4) + 5 = 8 + 5 = 13 âœ“
                                 </div>
                             </div>
@@ -1346,10 +1349,10 @@
                     </div>
                 </div>
 
-                <!-- SeÃ§Ã£o PrÃ¡tica -->
+                <!-- SeA§A£o PrA¡tica -->
                 <div id="pratica" class="section">
                     <div class="game-area">
-                        <div class="equation" id="equationDisplay">Clique em "Nova EquaÃ§Ã£o" para comeÃ§ar</div>
+                        <div class="equation" id="equationDisplay">Clique em "Nova EquaA§A£o" para comeA§ar</div>
                         
                         <div class="hint-system">
                             <button class="btn hint-btn" onclick="showHint()" id="hintBtn" style="display: none;">ðŸ’¡ Dica</button>
@@ -1362,28 +1365,28 @@
                                 <button class="answer-type-btn" onclick="selectAnswerType('alternatives')" id="alternativesAnswerBtn">ðŸ”¤ Alternativas</button>
                             </div>
                             
-                            <!-- Entrada de resposta numÃ©rica -->
+                            <!-- Entrada de resposta numA©rica -->
                             <div id="realAnswerSection" class="answer-input-section">
                                 <div class="input-row">
                                     <input type="text" id="answerInput" placeholder="Digite sua resposta (ex: 5 ou 2,3)" />
                                     <button class="mobile-btn" onclick="insertNumber('-')" title="Inserir sinal negativo">Â±</button>
-                                    <button class="mobile-btn" onclick="insertNumber(',')" title="Inserir vÃ­rgula">,</button>
+                                    <button class="mobile-btn" onclick="insertNumber(',')" title="Inserir vA­rgula">,</button>
                                 </div>
                                 <p style="font-size: 14px; color: #666; margin-top: 5px;">
-                                    ðŸ’¡ Para Equações de 2º grau com duas raÃ­zes, digite: x1,x2 (ex: 2,3)
+                                    ðŸ’¡ Para Equações de 2º grau com duas raA­zes, digite: x1,x2 (ex: 2,3)
                                 </p>
                             </div>
                             
-                            <!-- Alternativas mÃºltipla escolha -->
+                            <!-- Alternativas mAºltipla escolha -->
                             <div id="alternativesSection" class="alternatives-section" style="display: none;">
                                 <div class="alternatives-container" id="alternativesContainer"></div>
                             </div>
                         </div>
                         
                         <div class="controls">
-                            <button class="btn" onclick="generateEquation()">ðŸ”„ Nova EquaÃ§Ã£o</button>
+                            <button class="btn" onclick="generateEquation()">ðŸ”„ Nova EquaA§A£o</button>
                             <button class="btn" onclick="checkAnswer()">âœ… Verificar</button>
-                            <button class="btn" onclick="showSolution()">ðŸ’¡ Ver SoluÃ§Ã£o</button>
+                            <button class="btn" onclick="showSolution()">ðŸ’¡ Ver SoluA§A£o</button>
                         </div>
                         
                         <div id="result" class="result"></div>
@@ -1401,29 +1404,29 @@
                     <p>Analise e pratique Funções Matemáticas</p>
                 </div>
 
-                <!-- ConteÃºdo de Funções -->
+                <!-- ConteAºdo de Funções -->
                 <div class="function-container">
-                    <h3>ðŸ” AnÃ¡lise de Funções</h3>
+                    <h3>ðŸ” AnA¡lise de Funções</h3>
                     
                     <div id="functionDisplay" class="equation">f(x) = 2x + 1</div>
                     
                     <div class="function-controls">
-                        <button class="btn" onclick="generateRandomFunction()">ðŸŽ² Gerar FunÃ§Ã£o</button>
+                        <button class="btn" onclick="generateRandomFunction()">ðŸŽ² Gerar FunA§A£o</button>
                         <button class="btn" onclick="analyzeFunction()">ðŸ” Analisar</button>
-                        <button class="btn" onclick="findRoots()">ðŸŽ¯ Encontrar RaÃ­zes</button>
-                        <button class="btn" onclick="plotFunction()">ðŸ“Š Visualizar GrÃ¡fico</button>
+                        <button class="btn" onclick="findRoots()">ðŸŽ¯ Encontrar RaA­zes</button>
+                        <button class="btn" onclick="plotFunction()">ðŸ“Š Visualizar GrA¡fico</button>
                     </div>
 
                     <div id="functionAnalysis" class="function-analysis"></div>
                 </div>
 
-                <!-- SeÃ§Ã£o de PrÃ¡tica com Funções -->
+                <!-- SeA§A£o de PrA¡tica com Funções -->
                 <div class="function-container" style="margin-top: 30px;">
-                    <h3>ðŸŽ¯ PrÃ¡tica com Funções</h3>
+                    <h3>ðŸŽ¯ PrA¡tica com Funções</h3>
                     
                     <div class="practice-mode-selector">
                         <button class="btn mode-btn active" onclick="selectPracticeMode('calcular')" id="calculoModeBtn">🧮 Calcular f(x)</button>
-                        <button class="btn mode-btn" onclick="selectPracticeMode('raizes')" id="raizesModeBtn">ðŸŽ¯ Encontrar RaÃ­zes</button>
+                        <button class="btn mode-btn" onclick="selectPracticeMode('raizes')" id="raizesModeBtn">ðŸŽ¯ Encontrar RaA­zes</button>
                         <button class="btn mode-btn" onclick="selectPracticeMode('propriedades')" id="propModeBtn">ðŸ“Š Propriedades</button>
                     </div>
 
@@ -1434,7 +1437,7 @@
                         <button class="answer-type-btn" onclick="selectFunctionAnswerType('alternatives')" id="functionAlternativesBtn">ðŸ”¤ Alternativas</button>
                     </div>
 
-                    <div id="functionPracticeDisplay" class="equation">Clique em "Nova QuestÃ£o" para comeÃ§ar</div>
+                    <div id="functionPracticeDisplay" class="equation">Clique em "Nova QuestA£o" para comeA§ar</div>
                     
                     <div id="practiceQuestion" class="function-analysis"></div>
                     
@@ -1444,9 +1447,9 @@
                     </div>
                     
                     <div class="practice-controls" style="margin-top: 20px;">
-                        <button class="btn" onclick="generateFunctionPractice()">ðŸ”„ Nova QuestÃ£o</button>
+                        <button class="btn" onclick="generateFunctionPractice()">ðŸ”„ Nova QuestA£o</button>
                         <button class="btn" onclick="checkFunctionAnswer()">âœ”ï¸ Verificar</button>
-                        <button class="btn" onclick="showFunctionSolution()">ðŸ’¡ Ver SoluÃ§Ã£o</button>
+                        <button class="btn" onclick="showFunctionSolution()">ðŸ’¡ Ver SoluA§A£o</button>
                     </div>
 
                     <div id="practiceResult" class="function-analysis"></div>
@@ -1464,38 +1467,38 @@
                 </div>
 
                 <div class="graph-container">
-                    <h3>ðŸ“Š VisualizaÃ§Ã£o de gráficos</h3>
+                    <h3>ðŸ“Š VisualizaA§A£o de gráficos</h3>
                     <canvas id="graphCanvas" width="600" height="400"></canvas>
                     
                     <div class="graph-controls">
-                        <button class="btn" onclick="plotLinearFunction()">ðŸ“ˆ FunÃ§Ã£o Linear</button>
-                        <button class="btn" onclick="plotQuadraticFunction()">ðŸ“Š FunÃ§Ã£o QuadrÃ¡tica</button>
+                        <button class="btn" onclick="plotLinearFunction()">ðŸ“ˆ FunA§A£o Linear</button>
+                        <button class="btn" onclick="plotQuadraticFunction()">ðŸ“Š FunA§A£o QuadrA¡tica</button>
                         <button class="btn" onclick="clearGraph()">ðŸ—‘ï¸ Limpar</button>
                     </div>
 
                     <div id="graphInfo" class="function-analysis">
-                        <h4>â„¹ï¸ InformaÃ§Ãµes do GrÃ¡fico</h4>
-                        <p>Selecione uma funÃ§Ã£o para visualizar suas propriedades.</p>
+                        <h4>â„¹ï¸ InformaA§Aµes do GrA¡fico</h4>
+                        <p>Selecione uma funA§A£o para visualizar suas propriedades.</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-                            <span class="difficulty-desc">Complexo + fraÃ§Ãµes</span>
+                            <span class="difficulty-desc">Complexo + fraA§Aµes</span>
                         </button>
                     </div>
                 </div>
 
-                <!-- EquaÃ§Ã£o PrÃ¡tica -->
+                <!-- EquaA§A£o PrA¡tica -->
                 <div class="equation-section">
-                    <h3>ðŸŽ¯ Resolva a EquaÃ§Ã£o:</h3>
+                    <h3>ðŸŽ¯ Resolva a EquaA§A£o:</h3>
                     <div id="equacaoPratica" class="equation"></div>
                     
                     <div class="practice-controls">
                         <div class="mode-selector">
                             <label>ðŸ“ Modo de Resposta:</label>
                             <button id="inputModeBtn" class="btn mode-btn active" onclick="toggleAnswerMode('input')">âœï¸ Digitar</button>
-                            <button id="choiceModeBtn" class="btn mode-btn" onclick="toggleAnswerMode('choice')">ðŸ”¤ MÃºltipla Escolha</button>
+                            <button id="choiceModeBtn" class="btn mode-btn" onclick="toggleAnswerMode('choice')">ðŸ”¤ MAºltipla Escolha</button>
                             <button class="btn mode-btn" onclick="toggleHints()">ðŸ’¡ Dicas</button>
                         </div>
                     </div>
@@ -1505,7 +1508,7 @@
                         <h4>ðŸ’¡ Dicas Progressivas</h4>
                         <div id="hintsContent"></div>
                         <div style="margin-top: 15px;">
-                            <button class="btn" onclick="showNextHint()">ðŸ” PrÃ³xima Dica</button>
+                            <button class="btn" onclick="showNextHint()">ðŸ” PrA³xima Dica</button>
                             <button class="btn btn-outline" onclick="resetHints()">ðŸ”„ Reiniciar Dicas</button>
                         </div>
                     </div>
@@ -1513,56 +1516,56 @@
                     <div id="inputsResposta"></div>
                     
                     <button class="btn" onclick="verificarResposta()">âœ”ï¸ Verificar</button>
-                    <button class="btn" onclick="novaEquacao()">ðŸ”„ Nova EquaÃ§Ã£o</button>
-                    <button class="btn" onclick="mostrarSolucao()">ðŸ’¡ Ver SoluÃ§Ã£o</button>
+                    <button class="btn" onclick="novaEquacao()">ðŸ”„ Nova EquaA§A£o</button>
+                    <button class="btn" onclick="mostrarSolucao()">ðŸ’¡ Ver SoluA§A£o</button>
                     
                     <div id="resultado"></div>
                     <div id="solucaoDetalhada"></div>
                 </div>
             </div>
 
-            <!-- ABA: FUNÃ‡Ã•ES -->
+            <!-- ABA: FUNA‡A•ES -->
             <div id="tab-funcoes" class="tab-content">
                 <div class="function-container">
-                    <h3>ðŸ“ˆ AnÃ¡lise de Funções</h3>
+                    <h3>ðŸ“ˆ AnA¡lise de Funções</h3>
                     
                     <div class="degree-selector">
-                        <button class="degree-btn active" onclick="selectFunctionDegree(1)">ðŸ“ˆ FunÃ§Ã£o 1º Grau</button>
-                        <button class="degree-btn" onclick="selectFunctionDegree(2)">ðŸ“Š FunÃ§Ã£o 2º Grau</button>
+                        <button class="degree-btn active" onclick="selectFunctionDegree(1)">ðŸ“ˆ FunA§A£o 1º Grau</button>
+                        <button class="degree-btn" onclick="selectFunctionDegree(2)">ðŸ“Š FunA§A£o 2º Grau</button>
                     </div>
 
                     <div id="functionDisplay" class="equation">f(x) = 2x + 1</div>
                     
                     <div class="function-controls">
-                        <button class="btn" onclick="generateRandomFunction()">ðŸŽ² Gerar FunÃ§Ã£o</button>
+                        <button class="btn" onclick="generateRandomFunction()">ðŸŽ² Gerar FunA§A£o</button>
                         <button class="btn" onclick="analyzeFunction()">ðŸ” Analisar</button>
-                        <button class="btn" onclick="findRoots()">ðŸŽ¯ Encontrar RaÃ­zes</button>
-                        <button class="btn" onclick="plotFunction()">ðŸ“Š Visualizar GrÃ¡fico</button>
+                        <button class="btn" onclick="findRoots()">ðŸŽ¯ Encontrar RaA­zes</button>
+                        <button class="btn" onclick="plotFunction()">ðŸ“Š Visualizar GrA¡fico</button>
                     </div>
 
                     <div id="functionAnalysis" class="function-analysis"></div>
                 </div>
 
-                <!-- SeÃ§Ã£o de PrÃ¡tica com Funções -->
+                <!-- SeA§A£o de PrA¡tica com Funções -->
                 <div class="function-container" style="margin-top: 30px;">
-                    <h3>ðŸŽ¯ PrÃ¡tica com Funções</h3>
+                    <h3>ðŸŽ¯ PrA¡tica com Funções</h3>
                     
                     <div class="practice-mode-selector">
                         <button class="btn mode-btn active" onclick="selectPracticeMode('calcular')" id="calculoModeBtn">🧮 Calcular f(x)</button>
-                        <button class="btn mode-btn" onclick="selectPracticeMode('raizes')" id="raizesModeBtn">ðŸŽ¯ Encontrar RaÃ­zes</button>
+                        <button class="btn mode-btn" onclick="selectPracticeMode('raizes')" id="raizesModeBtn">ðŸŽ¯ Encontrar RaA­zes</button>
                         <button class="btn mode-btn" onclick="selectPracticeMode('propriedades')" id="propModeBtn">ðŸ“Š Propriedades</button>
                     </div>
 
-                    <div id="functionPracticeDisplay" class="equation">Clique em "Nova QuestÃ£o" para comeÃ§ar</div>
+                    <div id="functionPracticeDisplay" class="equation">Clique em "Nova QuestA£o" para comeA§ar</div>
                     
                     <div id="practiceQuestion" class="function-analysis"></div>
                     
                     <div id="practiceInputs" class="practice-inputs"></div>
                     
                     <div class="practice-controls" style="margin-top: 20px;">
-                        <button class="btn" onclick="generateFunctionPractice()">ðŸ”„ Nova QuestÃ£o</button>
+                        <button class="btn" onclick="generateFunctionPractice()">ðŸ”„ Nova QuestA£o</button>
                         <button class="btn" onclick="checkFunctionAnswer()">âœ”ï¸ Verificar</button>
-                        <button class="btn" onclick="showFunctionSolution()">ðŸ’¡ Ver SoluÃ§Ã£o</button>
+                        <button class="btn" onclick="showFunctionSolution()">ðŸ’¡ Ver SoluA§A£o</button>
                     </div>
 
                     <div id="practiceResult" class="function-analysis"></div>
@@ -1570,21 +1573,21 @@
                 </div>
             </div>
 
-            <!-- ABA: GRÃFICOS -->
+            <!-- ABA: GRAFICOS -->
             <div id="tab-graficos" class="tab-content">
                 <div class="graph-container">
-                    <h3>ðŸ“Š VisualizaÃ§Ã£o de gráficos</h3>
+                    <h3>ðŸ“Š VisualizaA§A£o de gráficos</h3>
                     <canvas id="graphCanvas" width="600" height="400"></canvas>
                     
                     <div class="graph-controls">
-                        <button class="btn" onclick="plotLinearFunction()">ðŸ“ˆ FunÃ§Ã£o Linear</button>
-                        <button class="btn" onclick="plotQuadraticFunction()">ðŸ“Š FunÃ§Ã£o QuadrÃ¡tica</button>
+                        <button class="btn" onclick="plotLinearFunction()">ðŸ“ˆ FunA§A£o Linear</button>
+                        <button class="btn" onclick="plotQuadraticFunction()">ðŸ“Š FunA§A£o QuadrA¡tica</button>
                         <button class="btn" onclick="clearGraph()">ðŸ—‘ï¸ Limpar</button>
                     </div>
 
                     <div id="graphInfo" class="function-analysis">
-                        <h4>â„¹ï¸ InformaÃ§Ãµes do GrÃ¡fico</h4>
-                        <p>Selecione uma funÃ§Ã£o para visualizar suas propriedades.</p>
+                        <h4>â„¹ï¸ InformaA§Aµes do GrA¡fico</h4>
+                        <p>Selecione uma funA§A£o para visualizar suas propriedades.</p>
                     </div>
                 </div>
             </div>
@@ -1648,7 +1651,7 @@
                         <h2 id="totalStudents">0</h2>
                     </div>
                     <div class="stats-card">
-                        <h3>ðŸ“Š MÃ©dia Geral</h3>
+                        <h3>ðŸ“Š MA©dia Geral</h3>
                         <h2 id="generalAverage">0%</h2>
                     </div>
                     <div class="stats-card">
@@ -1662,28 +1665,28 @@
                     <button class="btn warning" onclick="clearAllData()">ðŸ—‘ï¸ Limpar Todos os Dados</button>
                 </div>
                 
-                <!-- Ferramentas AvanÃ§adas de GestÃ£o -->
+                <!-- Ferramentas AvanA§adas de GestA£o -->
                 <div class="admin-panel" style="background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%); margin-bottom: 20px;">
-                    <h3>ðŸ”§ Ferramentas AvanÃ§adas</h3>
+                    <h3>ðŸ”§ Ferramentas AvanA§adas</h3>
                     
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 15px;">
                         <button class="btn" onclick="showDatabaseInfo()">ðŸ“‹ Info do Banco</button>
                         <button class="btn secondary" onclick="backupData()">ðŸ’¾ Backup JSON</button>
                         <button class="btn" onclick="showDetailedStats()">ðŸ“ˆ Estatísticas</button>
                         <button class="btn secondary" onclick="filterByClass()">ðŸ” Filtrar Turma</button>
-                        <button class="btn" onclick="showLoginHistory()">ðŸ• HistÃ³rico de Acessos</button>
+                        <button class="btn" onclick="showLoginHistory()">ðŸ• HistA³rico de Acessos</button>
                     </div>
                     
                     <div id="advancedToolsResult" style="margin-top: 15px;"></div>
                 </div>
                 
-                <!-- SeÃ§Ã£o Inserir EquaÃ§Ã£o para Professor -->
+                <!-- SeA§A£o Inserir EquaA§A£o para Professor -->
                 <div class="custom-input-area" style="margin-bottom: 20px;">
-                    <h3>âœï¸ Inserir EquaÃ§Ã£o Personalizada</h3>
-                    <p>Digite uma equaÃ§Ã£o para os alunos resolverem:</p>
+                    <h3>âœï¸ Inserir EquaA§A£o Personalizada</h3>
+                    <p>Digite uma equaA§A£o para os alunos resolverem:</p>
                     
                     <div class="input-group">
-                        <label for="equacaoCustom">Digite a equaÃ§Ã£o (ex: 2x + 5 = 11 ou xÂ² - 5x + 6 = 0):</label>
+                        <label for="equacaoCustom">Digite a equaA§A£o (ex: 2x + 5 = 11 ou xÂ² - 5x + 6 = 0):</label>
                         <textarea id="equacaoCustom" rows="2" placeholder="Exemplos: 3x + 7 = 16, xÂ² - 4x + 3 = 0, 2xÂ² + x - 3 = 0"></textarea>
                     </div>
                     
@@ -1698,13 +1701,13 @@
                         <ul style="font-size: 14px;">
                             <li><strong>1º Grau:</strong> 3x + 5 = 14, 2x - 7 = 9, x + 1 = 10</li>
                             <li><strong>2º Grau:</strong> xÂ² - 5x + 6 = 0, 2xÂ² + 3x - 2 = 0</li>
-                            <li><strong>Use parÃªnteses:</strong> (x + 2)(x - 3) = 0</li>
-                            <li><strong>EspaÃ§os sÃ£o opcionais:</strong> xÂ²+2x+1=0 ou xÂ² + 2x + 1 = 0</li>
+                            <li><strong>Use parAªnteses:</strong> (x + 2)(x - 3) = 0</li>
+                            <li><strong>EspaA§os sA£o opcionais:</strong> xÂ²+2x+1=0 ou xÂ² + 2x + 1 = 0</li>
                         </ul>
                     </div>
                 </div>
                 
-                <!-- SeÃ§Ã£o Alterar Senha do Professor -->
+                <!-- SeA§A£o Alterar Senha do Professor -->
                 <div class="custom-input-area" style="margin-bottom: 20px;">
                     <h3>ðŸ” Alterar Senha do Professor</h3>
                     <p>Mude sua senha de acesso ao painel administrativo:</p>
@@ -1733,10 +1736,10 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script>
-        // VariÃ¡veis globais
+        // VariA¡veis globais
         let currentUser = null;
         let currentDegree = 1;
-        let currentDifficulty = 'facil'; // Nova variÃ¡vel para dificuldade
+        let currentDifficulty = 'facil'; // Nova variA¡vel para dificuldade
         let showHints = false; // Sistema de dicas
         let currentHintLevel = 0; // Nível atual das dicas
         let equacaoAtual = {};
@@ -1748,7 +1751,7 @@
         class AdminManager {
             static getAdminPassword() {
                 const stored = localStorage.getItem('adminPassword');
-                return stored || "professor123"; // Senha padrÃ£o
+                return stored || "professor123"; // Senha padrA£o
             }
             
             static setAdminPassword(newPassword) {
@@ -1756,30 +1759,30 @@
             }
         }
 
-        // Sistema de usuÃ¡rios e dados
+        // Sistema de usuA¡rios e dados
         class UserManager {
             static saveUser(name, series, password) {
                 const users = this.getUsers();
                 const userId = name + '_' + series;
                 
                 if (!users[userId]) {
-                    // Novo usuÃ¡rio - criar conta
+                    // Novo usuA¡rio - criar conta
                     if (!password || password.length < 4) {
                         throw new Error('Senha deve ter pelo menos 4 caracteres');
                     }
                     users[userId] = {
                         name: name,
                         series: series,
-                        password: password, // Em produÃ§Ã£o, usar hash
+                        password: password, // Em produA§A£o, usar hash
                         correct: 0,
                         wrong: 0,
                         attempts: [],
                         createdAt: new Date().toISOString(),
-                        loginHistory: [], // HistÃ³rico de acessos
+                        loginHistory: [], // HistA³rico de acessos
                         lastLogin: null
                     };
                 } else {
-                    // UsuÃ¡rio existente - verificar senha
+                    // UsuA¡rio existente - verificar senha
                     if (users[userId].password !== password) {
                         throw new Error('Senha incorreta');
                     }
@@ -1821,22 +1824,22 @@
                 if (users[userId]) {
                     const loginTime = new Date().toISOString();
                     
-                    // Inicializar loginHistory se nÃ£o existir (usuÃ¡rios antigos)
+                    // Inicializar loginHistory se nA£o existir (usuA¡rios antigos)
                     if (!users[userId].loginHistory) {
                         users[userId].loginHistory = [];
                     }
                     
-                    // Adicionar novo login ao histÃ³rico
+                    // Adicionar novo login ao histA³rico
                     users[userId].loginHistory.push({
                         timestamp: loginTime,
-                        ip: 'localhost', // Em produÃ§Ã£o, capturar IP real
+                        ip: 'localhost', // Em produA§A£o, capturar IP real
                         userAgent: navigator.userAgent.substring(0, 50) + '...'
                     });
                     
-                    // Atualizar Ãºltimo login
+                    // Atualizar Aºltimo login
                     users[userId].lastLogin = loginTime;
                     
-                    // Manter apenas os Ãºltimos 50 logins para nÃ£o sobrecarregar
+                    // Manter apenas os Aºltimos 50 logins para nA£o sobrecarregar
                     if (users[userId].loginHistory.length > 50) {
                         users[userId].loginHistory = users[userId].loginHistory.slice(-50);
                     }
@@ -1846,7 +1849,7 @@
             }
             
             static clearAllData() {
-                if (confirm('Tem certeza que deseja apagar TODOS os dados dos alunos? Esta aÃ§Ã£o nÃ£o pode ser desfeita!')) {
+                if (confirm('Tem certeza que deseja apagar TODOS os dados dos alunos? Esta aA§A£o nA£o pode ser desfeita!')) {
                     localStorage.removeItem('equationsUsers');
                     alert('Todos os dados foram apagados com sucesso!');
                     loadAdminPanel();
@@ -1854,7 +1857,7 @@
             }
         }
 
-        // Funções de login e autenticaÃ§Ã£o
+        // Funções de login e autenticaA§A£o
         function login() {
             const name = document.getElementById('studentName').value.trim();
             const series = document.getElementById('studentSeries').value;
@@ -1876,9 +1879,9 @@
                 const userId = name + '_' + fullSeries;
                 const users = UserManager.getUsers();
                 
-                // Verificar se usuÃ¡rio existe
+                // Verificar se usuA¡rio existe
                 if (!users[userId]) {
-                    alert('âŒ UsuÃ¡rio nÃ£o encontrado! Use "Cadastrar-se" para criar uma conta.');
+                    alert('âŒ UsuA¡rio nA£o encontrado! Use "Cadastrar-se" para criar uma conta.');
                     return;
                 }
                 
@@ -1927,9 +1930,9 @@
                 const userId = name + '_' + fullSeries;
                 const users = UserManager.getUsers();
                 
-                // Verificar se usuÃ¡rio jÃ¡ existe
+                // Verificar se usuA¡rio jA¡ existe
                 if (users[userId]) {
-                    alert('âŒ UsuÃ¡rio jÃ¡ existe! Use "Fazer Login" para entrar.');
+                    alert('âŒ UsuA¡rio jA¡ existe! Use "Fazer Login" para entrar.');
                     return;
                 }
                 
@@ -2015,7 +2018,7 @@
             const confirmPassword = document.getElementById('confirmTeacherPassword').value;
             
             if (!name || !password || !confirmPassword) {
-                alert('Por favor, preencha todos os campos obrigatÃ³rios!');
+                alert('Por favor, preencha todos os campos obrigatA³rios!');
                 return;
             }
             
@@ -2025,7 +2028,7 @@
             }
             
             if (password !== confirmPassword) {
-                alert('As senhas nÃ£o coincidem!');
+                alert('As senhas nA£o coincidem!');
                 return;
             }
             
@@ -2043,7 +2046,7 @@
             alert('ðŸŽ‰ Professor cadastrado com sucesso! Use sua nova senha para fazer login.');
         }
 
-        // FunÃ§Ã£o para alterar senha do admin
+        // FunA§A£o para alterar senha do admin
         function changeAdminPassword() {
             const currentPassword = document.getElementById('currentAdminPassword').value;
             const newPassword = document.getElementById('newAdminPassword').value;
@@ -2122,7 +2125,7 @@
             const userList = Object.values(users);
             
             if (userList.length === 0) {
-                alert('NÃ£o hÃ¡ dados para exportar!');
+                alert('NA£o hA¡ dados para exportar!');
                 return;
             }
             
@@ -2145,7 +2148,7 @@
             // Criar planilha
             const worksheet = XLSX.utils.json_to_sheet(excelData);
             const workbook = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(workbook, worksheet, "RelatÃ³rio de Alunos");
+            XLSX.utils.book_append_sheet(workbook, worksheet, "RelatA³rio de Alunos");
             
             // Baixar arquivo
             const fileName = `relatorio_equacoes_${new Date().toISOString().split('T')[0]}.xlsx`;
@@ -2156,7 +2159,7 @@
             UserManager.clearAllData();
         }
 
-        // Ferramentas AvanÃ§adas de GestÃ£o
+        // Ferramentas AvanA§adas de GestA£o
         function showDatabaseInfo() {
             const users = UserManager.getUsers();
             const userList = Object.values(users);
@@ -2169,14 +2172,14 @@
             
             const info = `
                 <div class="solution-steps">
-                    <h4>ðŸ“Š InformaÃ§Ãµes do Banco de Dados</h4>
-                    <strong>ðŸ‘¥ Total de UsuÃ¡rios:</strong> ${totalUsers}<br>
+                    <h4>ðŸ“Š InformaA§Aµes do Banco de Dados</h4>
+                    <strong>ðŸ‘¥ Total de UsuA¡rios:</strong> ${totalUsers}<br>
                     <strong>ðŸŽ¯ Total de Tentativas:</strong> ${totalAttempts}<br>
                     <strong>ðŸ’¾ Tamanho dos Dados:</strong> ${(dataSize / 1024).toFixed(2)} KB<br>
-                    <strong>ðŸ“… Primeiro UsuÃ¡rio:</strong> ${oldestUser ? oldestUser.name + ' (' + new Date(oldestUser.createdAt).toLocaleDateString() + ')' : 'Nenhum'}<br>
+                    <strong>ðŸ“… Primeiro UsuA¡rio:</strong> ${oldestUser ? oldestUser.name + ' (' + new Date(oldestUser.createdAt).toLocaleDateString() + ')' : 'Nenhum'}<br>
                     <strong>ðŸ”§ Tecnologia:</strong> localStorage (Navegador)<br>
-                    <strong>ðŸ“ LocalizaÃ§Ã£o:</strong> Computador Local<br>
-                    <strong>âš ï¸ Limite MÃ¡ximo:</strong> ~5-10 MB por domÃ­nio
+                    <strong>ðŸ“ LocalizaA§A£o:</strong> Computador Local<br>
+                    <strong>âš ï¸ Limite MA¡ximo:</strong> ~5-10 MB por domA­nio
                 </div>
             `;
             
@@ -2208,7 +2211,7 @@
                 <div class="result correct">
                     âœ… Backup criado com sucesso!<br>
                     ðŸ“ Arquivo: backup_equacoes_${new Date().toISOString().split('T')[0]}.json<br>
-                    ðŸ’¡ Guarde este arquivo em local seguro para restaurar dados se necessÃ¡rio.
+                    ðŸ’¡ Guarde este arquivo em local seguro para restaurar dados se necessA¡rio.
                 </div>
             `;
         }
@@ -2219,7 +2222,7 @@
             
             if (userList.length === 0) {
                 document.getElementById('advancedToolsResult').innerHTML = `
-                    <div class="result info">ðŸ“Š Nenhum usuÃ¡rio cadastrado ainda.</div>
+                    <div class="result info">ðŸ“Š Nenhum usuA¡rio cadastrado ainda.</div>
                 `;
                 return;
             }
@@ -2277,7 +2280,7 @@
             const users = UserManager.getUsers();
             const userList = Object.values(users);
             
-            // Extrair todas as turmas disponÃ­veis
+            // Extrair todas as turmas disponA­veis
             const classes = [...new Set(userList.map(user => user.series))].sort();
             
             if (classes.length === 0) {
@@ -2329,7 +2332,7 @@
                     <div class="student-item">
                         <div class="student-info">
                             <strong>${user.name}</strong><br>
-                            <small>Ãšltimo acesso: ${lastActivity}</small>
+                            <small>Ašltimo acesso: ${lastActivity}</small>
                         </div>
                         <div class="student-stats">
                             âœ… ${user.correct} | âŒ ${user.wrong}<br>
@@ -2348,7 +2351,7 @@
             
             if (userList.length === 0) {
                 document.getElementById('advancedToolsResult').innerHTML = `
-                    <div class="result info">ðŸ• Nenhum usuÃ¡rio cadastrado ainda.</div>
+                    <div class="result info">ðŸ• Nenhum usuA¡rio cadastrado ainda.</div>
                 `;
                 return;
             }
@@ -2373,15 +2376,15 @@
             
             let historyHtml = `
                 <div class="solution-steps">
-                    <h4>ðŸ• HistÃ³rico de Acessos (${allLogins.length} logins)</h4>
+                    <h4>ðŸ• HistA³rico de Acessos (${allLogins.length} logins)</h4>
                     
                     <div style="margin-bottom: 15px;">
-                        <label for="userFilter">Filtrar por usuÃ¡rio:</label>
+                        <label for="userFilter">Filtrar por usuA¡rio:</label>
                         <select id="userFilter" onchange="filterLoginHistory()">
-                            <option value="">Todos os usuÃ¡rios</option>
+                            <option value="">Todos os usuA¡rios</option>
             `;
             
-            // Adicionar opÃ§Ãµes de usuÃ¡rios Ãºnicos
+            // Adicionar opA§Aµes de usuA¡rios Aºnicos
             const uniqueUsers = [...new Set(userList.map(u => u.name + ' - ' + u.series))].sort();
             uniqueUsers.forEach(userKey => {
                 historyHtml += `<option value="${userKey}">${userKey}</option>`;
@@ -2394,7 +2397,7 @@
                     <div id="loginHistoryList" style="max-height: 400px; overflow-y: auto;">
             `;
             
-            // Mostrar apenas os Ãºltimos 20 logins inicialmente
+            // Mostrar apenas os Aºltimos 20 logins inicialmente
             const recentLogins = allLogins.slice(0, 20);
             recentLogins.forEach(login => {
                 const loginDate = new Date(login.timestamp);
@@ -2405,7 +2408,7 @@
                     <div class="login-item" data-user="${login.name} - ${login.series}">
                         <div class="login-info">
                             <strong>ðŸ‘¤ ${login.name}</strong> - ${login.series}<br>
-                            <small>ðŸ• ${formattedDate} Ã s ${formattedTime}</small><br>
+                            <small>ðŸ• ${formattedDate} A s ${formattedTime}</small><br>
                             <small>ðŸ’» ${login.userAgent}</small>
                         </div>
                         <div class="login-badge">
@@ -2456,13 +2459,13 @@
             }
         }
 
-        // Funções do modo mÃºltipla escolha
+        // Funções do modo mAºltipla escolha
         function toggleAnswerMode(mode) {
             console.log('toggleAnswerMode chamada com modo:', mode);
             multipleChoiceMode = (mode === 'choice');
             console.log('multipleChoiceMode definido como:', multipleChoiceMode);
             
-            // Atualizar botÃµes visuais
+            // Atualizar botAµes visuais
             document.getElementById('inputModeBtn').classList.toggle('active', !multipleChoiceMode);
             document.getElementById('choiceModeBtn').classList.toggle('active', multipleChoiceMode);
             
@@ -2486,7 +2489,7 @@
                         // Erro de sinal
                         wrongAnswer = `x = ${(-base).toFixed(2)}`;
                     } else if (variation < 0.6) {
-                        // Erro de cÃ¡lculo (+/- 1 a 5)
+                        // Erro de cA¡lculo (+/- 1 a 5)
                         const error = (Math.random() > 0.5 ? 1 : -1) * (Math.floor(Math.random() * 5) + 1);
                         wrongAnswer = `x = ${(base + error).toFixed(2)}`;
                     } else {
@@ -2502,7 +2505,7 @@
             } else {
                 // Para Equações de 2º grau
                 if (correctAnswer.length === 0) {
-                    alternatives.push("NÃ£o hÃ¡ soluÃ§Ãµes reais (Î” < 0)");
+                    alternatives.push("NA£o hA¡ soluA§Aµes reais (Î” < 0)");
                     alternatives.push("x = 0 (raiz dupla)");
                     alternatives.push("xâ‚ = 1, xâ‚‚ = -1");
                     alternatives.push("xâ‚ = 2, xâ‚‚ = -2");
@@ -2512,7 +2515,7 @@
                     alternatives.push(`x = ${root.toFixed(2)} (raiz dupla)`);
                     alternatives.push(`xâ‚ = ${root.toFixed(2)}, xâ‚‚ = ${(root + 1).toFixed(2)}`);
                     alternatives.push(`x = ${(-root).toFixed(2)} (raiz dupla)`);
-                    alternatives.push("NÃ£o hÃ¡ soluÃ§Ãµes reais (Î” < 0)");
+                    alternatives.push("NA£o hA¡ soluA§Aµes reais (Î” < 0)");
                     alternatives.push(`xâ‚ = ${(root/2).toFixed(2)}, xâ‚‚ = ${(root*2).toFixed(2)}`);
                 } else {
                     const [x1, x2] = correctAnswer.sort((a, b) => a - b);
@@ -2520,7 +2523,7 @@
                     alternatives.push(`xâ‚ = ${(-x1).toFixed(2)}, xâ‚‚ = ${x2.toFixed(2)}`);
                     alternatives.push(`xâ‚ = ${x1.toFixed(2)}, xâ‚‚ = ${(-x2).toFixed(2)}`);
                     alternatives.push(`x = ${x1.toFixed(2)} (raiz dupla)`);
-                    alternatives.push("NÃ£o hÃ¡ soluÃ§Ãµes reais (Î” < 0)");
+                    alternatives.push("NA£o hA¡ soluA§Aµes reais (Î” < 0)");
                 }
             }
             
@@ -2534,19 +2537,19 @@
         }
 
         function selectAlternative(index) {
-            // Remover seleÃ§Ã£o anterior
+            // Remover seleA§A£o anterior
             document.querySelectorAll('.alternative').forEach(alt => {
                 alt.classList.remove('selected');
             });
             
-            // Adicionar seleÃ§Ã£o atual
+            // Adicionar seleA§A£o atual
             document.querySelectorAll('.alternative')[index].classList.add('selected');
             
-            // Salvar seleÃ§Ã£o
+            // Salvar seleA§A£o
             window.selectedAlternative = index;
         }
 
-        // FunÃ§Ã£o para atualizar Estatísticas em tempo real
+        // FunA§A£o para atualizar Estatísticas em tempo real
         function atualizarEstatisticasUsuario() {
             if (!currentUser) return;
             
@@ -2560,7 +2563,7 @@
             document.getElementById('userWrong').textContent = erros;
             document.getElementById('userPercent').textContent = aproveitamento + '%';
             
-            // Adicionar animaÃ§Ã£o visual
+            // Adicionar animaA§A£o visual
             const elementos = ['userCorrect', 'userWrong', 'userPercent'];
             elementos.forEach(id => {
                 const elemento = document.getElementById(id);
@@ -2574,13 +2577,13 @@
                 }
             });
             
-            // Mostrar notificaÃ§Ã£o visual
+            // Mostrar notificaA§A£o visual
             mostrarNotificacaoEstatisticas(acertos, erros, aproveitamento);
             
             console.log('Estatísticas atualizadas:', { acertos, erros, aproveitamento: aproveitamento + '%' });
         }
 
-        // FunÃ§Ã£o para mostrar notificaÃ§Ã£o das Estatísticas
+        // FunA§A£o para mostrar notificaA§A£o das Estatísticas
         function mostrarNotificacaoEstatisticas(acertos, erros, aproveitamento) {
             const notificacao = document.createElement('div');
             notificacao.style.cssText = `
@@ -2621,7 +2624,7 @@
                 notificacao.style.transform = 'translateX(0)';
             }, 100);
             
-            // Remover apÃ³s 3 segundos
+            // Remover apA³s 3 segundos
             setTimeout(() => {
                 notificacao.style.transform = 'translateX(100%)';
                 setTimeout(() => {
@@ -2632,11 +2635,11 @@
             }, 3000);
         }
 
-        // FunÃ§Ã£o para salvar e atualizar dados do usuÃ¡rio
+        // FunA§A£o para salvar e atualizar dados do usuA¡rio
         function salvarProgressoUsuario(acertou) {
             if (!currentUser) return;
             
-            // Atualizar dados do usuÃ¡rio
+            // Atualizar dados do usuA¡rio
             if (acertou) {
                 currentUser.correct = (currentUser.correct || 0) + 1;
             } else {
@@ -2656,28 +2659,28 @@
         function selectDifficulty(level) {
             currentDifficulty = level;
             
-            // Atualizar botÃµes visuais
+            // Atualizar botAµes visuais
             document.querySelectorAll('.difficulty-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
             event.target.classList.add('active');
             
-            // Gerar nova equaÃ§Ã£o com a dificuldade selecionada
+            // Gerar nova equaA§A£o com a dificuldade selecionada
             novaEquacao();
             resetHints();
         }
 
-        // Sistema de FraÃ§Ãµes
+        // Sistema de FraA§Aµes
         class Fraction {
             constructor(numerator, denominator = 1) {
-                if (denominator === 0) throw new Error("Denominador nÃ£o pode ser zero");
+                if (denominator === 0) throw new Error("Denominador nA£o pode ser zero");
                 
                 this.numerator = numerator;
                 this.denominator = denominator;
                 this.simplify();
             }
             
-            // Simplificar fraÃ§Ã£o
+            // Simplificar fraA§A£o
             simplify() {
                 const gcd = this.gcd(Math.abs(this.numerator), Math.abs(this.denominator));
                 this.numerator /= gcd;
@@ -2695,7 +2698,7 @@
                 return b === 0 ? a : this.gcd(b, a % b);
             }
             
-            // Somar fraÃ§Ãµes
+            // Somar fraA§Aµes
             add(other) {
                 if (typeof other === 'number') other = new Fraction(other);
                 const num = this.numerator * other.denominator + other.numerator * this.denominator;
@@ -2703,7 +2706,7 @@
                 return new Fraction(num, den);
             }
             
-            // Subtrair fraÃ§Ãµes
+            // Subtrair fraA§Aµes
             subtract(other) {
                 if (typeof other === 'number') other = new Fraction(other);
                 const num = this.numerator * other.denominator - other.numerator * this.denominator;
@@ -2711,13 +2714,13 @@
                 return new Fraction(num, den);
             }
             
-            // Multiplicar fraÃ§Ãµes
+            // Multiplicar fraA§Aµes
             multiply(other) {
                 if (typeof other === 'number') other = new Fraction(other);
                 return new Fraction(this.numerator * other.numerator, this.denominator * other.denominator);
             }
             
-            // Dividir fraÃ§Ãµes
+            // Dividir fraA§Aµes
             divide(other) {
                 if (typeof other === 'number') other = new Fraction(other);
                 return new Fraction(this.numerator * other.denominator, this.denominator * other.numerator);
@@ -2734,7 +2737,7 @@
                 return `${this.numerator}/${this.denominator}`;
             }
             
-            // Converter para HTML com formataÃ§Ã£o visual
+            // Converter para HTML com formataA§A£o visual
             toHTML() {
                 if (this.denominator === 1) return this.numerator.toString();
                 return `<span class="fraction"><span class="numerator">${this.numerator}</span><span class="denominator">${this.denominator}</span></span>`;
@@ -2777,21 +2780,21 @@
             const hints = [];
             
             if (currentDifficulty === 'facil') {
-                hints.push("Identifique os termos: aqueles com 'x' e os Números sozinhos");
-                hints.push("Mova todos os termos com 'x' para um lado da equaÃ§Ã£o");
-                hints.push("Mova todos os Números para o outro lado");
-                hints.push(`você terÃ¡ algo como: ${eq.a}x = ${eq.c - eq.b}`);
+                hints.push("Identifique os termos: aqueles com 'x' e os nAºmeros sozinhos");
+                hints.push("Mova todos os termos com 'x' para um lado da equaA§A£o");
+                hints.push("Mova todos os nAºmeros para o outro lado");
+                hints.push(`você terA¡ algo como: ${eq.a}x = ${eq.c - eq.b}`);
                 hints.push(`Divida ambos os lados por ${eq.a} para encontrar x`);
             } else if (currentDifficulty === 'medio') {
-                hints.push("Esta equaÃ§Ã£o tem fraÃ§Ãµes. Encontre o MMC dos denominadores");
-                hints.push("Multiplique toda a equaÃ§Ã£o pelo MMC para eliminar as fraÃ§Ãµes");
-                hints.push("Agora resolva como uma equaÃ§Ã£o normal");
-                hints.push("Simplifique a resposta se necessÃ¡rio");
+                hints.push("Esta equaA§A£o tem fraA§Aµes. Encontre o MMC dos denominadores");
+                hints.push("Multiplique toda a equaA§A£o pelo MMC para eliminar as fraA§Aµes");
+                hints.push("Agora resolva como uma equaA§A£o normal");
+                hints.push("Simplifique a resposta se necessA¡rio");
             } else {
-                hints.push("EquaÃ§Ã£o complexa com fraÃ§Ãµes. Analise cada termo cuidadosamente");
+                hints.push("EquaA§A£o complexa com fraA§Aµes. Analise cada termo cuidadosamente");
                 hints.push("Encontre o MMC de todos os denominadores");
                 hints.push("Multiplique termo por termo pelo MMC");
-                hints.push("Resolva a equaÃ§Ã£o resultante passo a passo");
+                hints.push("Resolva a equaA§A£o resultante passo a passo");
                 hints.push("Verifique se a resposta pode ser simplificada");
             }
             
@@ -2804,20 +2807,20 @@
             const hints = [];
             
             hints.push("Identifique os coeficientes: a, b e c na forma axÂ² + bx + c = 0");
-            hints.push(`Nesta equaÃ§Ã£o: a = ${eq.a}, b = ${eq.b}, c = ${eq.c}`);
+            hints.push(`Nesta equaA§A£o: a = ${eq.a}, b = ${eq.b}, c = ${eq.c}`);
             hints.push("Calcule o discriminante: Î” = bÂ² - 4ac");
             hints.push(`Î” = ${eq.b}Â² - 4(${eq.a})(${eq.c}) = ${delta}`);
             
             if (delta < 0) {
-                hints.push("Como Î” < 0, a equaÃ§Ã£o nÃ£o possui soluÃ§Ãµes reais");
+                hints.push("Como Î” < 0, a equaA§A£o nA£o possui soluA§Aµes reais");
             } else if (delta === 0) {
-                hints.push("Como Î” = 0, hÃ¡ apenas uma soluÃ§Ã£o (raiz dupla)");
-                hints.push("Use a fÃ³rmula: x = -b/(2a)");
+                hints.push("Como Î” = 0, hA¡ apenas uma soluA§A£o (raiz dupla)");
+                hints.push("Use a fA³rmula: x = -b/(2a)");
             } else {
-                hints.push("Como Î” > 0, hÃ¡ duas soluÃ§Ãµes reais diferentes");
-                hints.push("Use a fÃ³rmula de Bhaskara: x = (-b Â± âˆšÎ”)/(2a)");
-                hints.push(`xâ‚ = (${-eq.b} + âˆš${delta})/(2Ã—${eq.a})`);
-                hints.push(`xâ‚‚ = (${-eq.b} - âˆš${delta})/(2Ã—${eq.a})`);
+                hints.push("Como Î” > 0, hA¡ duas soluA§Aµes reais diferentes");
+                hints.push("Use a fA³rmula de Bhaskara: x = (-b Â± âˆšÎ”)/(2a)");
+                hints.push(`xâ‚ = (${-eq.b} + âˆš${delta})/(2A—${eq.a})`);
+                hints.push(`xâ‚‚ = (${-eq.b} - âˆš${delta})/(2A—${eq.a})`);
             }
             
             return hints;
@@ -2867,7 +2870,7 @@
         function selectFunctionDegree(degree) {
             currentFunctionDegree = degree;
             
-            // Atualizar botÃµes
+            // Atualizar botAµes
             document.querySelectorAll('#tab-funcoes .degree-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
@@ -2924,15 +2927,15 @@
                 generateRandomFunction();
             }
             
-            let analysis = '<h4>ðŸ” AnÃ¡lise da FunÃ§Ã£o</h4>';
+            let analysis = '<h4>ðŸ” AnA¡lise da FunA§A£o</h4>';
             
             if (currentFunction.degree === 1) {
                 analysis += `
-                    <p><strong>Tipo:</strong> FunÃ§Ã£o Linear (1º grau)</p>
+                    <p><strong>Tipo:</strong> FunA§A£o Linear (1º grau)</p>
                     <p><strong>Coeficiente angular (a):</strong> ${currentFunction.a}</p>
                     <p><strong>Coeficiente linear (b):</strong> ${currentFunction.b}</p>
                     <p><strong>Crescimento:</strong> ${currentFunction.a > 0 ? 'Crescente' : 'Decrescente'}</p>
-                    <p><strong>Zero da funÃ§Ã£o:</strong> x = ${(-currentFunction.b / currentFunction.a).toFixed(2)}</p>
+                    <p><strong>Zero da funA§A£o:</strong> x = ${(-currentFunction.b / currentFunction.a).toFixed(2)}</p>
                     <p><strong>Ponto onde cruza o eixo y:</strong> (0, ${currentFunction.b})</p>
                 `;
             } else {
@@ -2941,22 +2944,22 @@
                 const vertex_y = currentFunction.a * vertex_x * vertex_x + currentFunction.b * vertex_x + currentFunction.c;
                 
                 analysis += `
-                    <p><strong>Tipo:</strong> FunÃ§Ã£o QuadrÃ¡tica (2º grau)</p>
+                    <p><strong>Tipo:</strong> FunA§A£o QuadrA¡tica (2º grau)</p>
                     <p><strong>Coeficientes:</strong> a = ${currentFunction.a}, b = ${currentFunction.b}, c = ${currentFunction.c}</p>
                     <p><strong>Concavidade:</strong> ${currentFunction.a > 0 ? 'Para cima' : 'Para baixo'}</p>
                     <p><strong>Discriminante (Î”):</strong> ${delta}</p>
-                    <p><strong>VÃ©rtice:</strong> (${vertex_x.toFixed(2)}, ${vertex_y.toFixed(2)})</p>
+                    <p><strong>VA©rtice:</strong> (${vertex_x.toFixed(2)}, ${vertex_y.toFixed(2)})</p>
                     <p><strong>Eixo de simetria:</strong> x = ${vertex_x.toFixed(2)}</p>
                 `;
                 
                 if (delta > 0) {
                     const x1 = (-currentFunction.b + Math.sqrt(delta)) / (2 * currentFunction.a);
                     const x2 = (-currentFunction.b - Math.sqrt(delta)) / (2 * currentFunction.a);
-                    analysis += `<p><strong>RaÃ­zes:</strong> xâ‚ = ${x1.toFixed(2)}, xâ‚‚ = ${x2.toFixed(2)}</p>`;
+                    analysis += `<p><strong>RaA­zes:</strong> xâ‚ = ${x1.toFixed(2)}, xâ‚‚ = ${x2.toFixed(2)}</p>`;
                 } else if (delta === 0) {
                     analysis += `<p><strong>Raiz:</strong> x = ${vertex_x.toFixed(2)} (raiz dupla)</p>`;
                 } else {
-                    analysis += `<p><strong>RaÃ­zes:</strong> NÃ£o possui raÃ­zes reais</p>`;
+                    analysis += `<p><strong>RaA­zes:</strong> NA£o possui raA­zes reais</p>`;
                 }
             }
             
@@ -2968,22 +2971,22 @@
                 generateRandomFunction();
             }
             
-            let result = '<h4>ðŸŽ¯ RaÃ­zes/Zeros da FunÃ§Ã£o</h4>';
+            let result = '<h4>ðŸŽ¯ RaA­zes/Zeros da FunA§A£o</h4>';
             
             if (currentFunction.degree === 1) {
                 const root = -currentFunction.b / currentFunction.a;
                 result += `
-                    <p><strong>MÃ©todo:</strong> Igualar f(x) = 0</p>
-                    <p><strong>CÃ¡lculo:</strong> ${currentFunction.a}x + ${currentFunction.b} = 0</p>
-                    <p><strong>SoluÃ§Ã£o:</strong> x = ${root.toFixed(2)}</p>
+                    <p><strong>MA©todo:</strong> Igualar f(x) = 0</p>
+                    <p><strong>CA¡lculo:</strong> ${currentFunction.a}x + ${currentFunction.b} = 0</p>
+                    <p><strong>SoluA§A£o:</strong> x = ${root.toFixed(2)}</p>
                     <div style="background: #d4edda; padding: 10px; border-radius: 5px; margin: 10px 0;">
-                        <strong>âœ… Raiz da funÃ§Ã£o:</strong> x = ${root.toFixed(2)}
+                        <strong>âœ… Raiz da funA§A£o:</strong> x = ${root.toFixed(2)}
                     </div>
                 `;
             } else {
                 const delta = currentFunction.b * currentFunction.b - 4 * currentFunction.a * currentFunction.c;
                 result += `
-                    <p><strong>MÃ©todo:</strong> FÃ³rmula de Bhaskara</p>
+                    <p><strong>MA©todo:</strong> FA³rmula de Bhaskara</p>
                     <p><strong>Discriminante:</strong> Î” = ${currentFunction.b}Â² - 4(${currentFunction.a})(${currentFunction.c}) = ${delta}</p>
                 `;
                 
@@ -2992,7 +2995,7 @@
                     const x2 = (-currentFunction.b - Math.sqrt(delta)) / (2 * currentFunction.a);
                     result += `
                         <div style="background: #d4edda; padding: 10px; border-radius: 5px; margin: 10px 0;">
-                            <strong>âœ… Duas raÃ­zes reais:</strong><br>
+                            <strong>âœ… Duas raA­zes reais:</strong><br>
                             xâ‚ = ${x1.toFixed(2)}<br>
                             xâ‚‚ = ${x2.toFixed(2)}
                         </div>
@@ -3008,8 +3011,8 @@
                 } else {
                     result += `
                         <div style="background: #f8d7da; padding: 10px; border-radius: 5px; margin: 10px 0;">
-                            <strong>âŒ NÃ£o possui raÃ­zes reais</strong><br>
-                            (O grÃ¡fico nÃ£o toca o eixo x)
+                            <strong>âŒ NA£o possui raA­zes reais</strong><br>
+                            (O grA¡fico nA£o toca o eixo x)
                         </div>
                     `;
                 }
@@ -3027,14 +3030,14 @@
             // Mudar para aba de gráficos
             switchTabProgrammatically('graficos');
             
-            // Plotar funÃ§Ã£o
+            // Plotar funA§A£o
             const canvas = document.getElementById('graphCanvas');
             const ctx = canvas.getContext('2d');
             
             // Limpar canvas
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
-            // ConfiguraÃ§Ãµes do grÃ¡fico
+            // ConfiguraA§Aµes do grA¡fico
             const centerX = canvas.width / 2;
             const centerY = canvas.height / 2;
             const scale = 20; // pixels por unidade
@@ -3042,14 +3045,14 @@
             // Desenhar eixos
             drawAxes(ctx, centerX, centerY, canvas.width, canvas.height);
             
-            // Desenhar funÃ§Ã£o
+            // Desenhar funA§A£o
             if (currentFunction.degree === 1) {
                 drawLinearFunction(ctx, currentFunction, centerX, centerY, scale, canvas.width);
             } else {
                 drawQuadraticFunction(ctx, currentFunction, centerX, centerY, scale, canvas.width);
             }
             
-            // Atualizar informaÃ§Ãµes
+            // Atualizar informaA§Aµes
             updateGraphInfo();
         }
 
@@ -3062,7 +3065,7 @@
                 content.classList.remove('active');
             });
             
-            // Encontrar e ativar o botÃ£o correto
+            // Encontrar e ativar o botA£o correto
             const buttons = document.querySelectorAll('.tab-btn');
             buttons.forEach(btn => {
                 if (btn.textContent.includes('gráficos')) {
@@ -3089,7 +3092,7 @@
             ctx.lineTo(centerX, height);
             ctx.stroke();
             
-            // MarcaÃ§Ãµes nos eixos
+            // MarcaA§Aµes nos eixos
             ctx.strokeStyle = '#666';
             ctx.lineWidth = 1;
             ctx.font = '12px Arial';
@@ -3097,7 +3100,7 @@
             
             const scale = 20;
             
-            // MarcaÃ§Ãµes no eixo X
+            // MarcaA§Aµes no eixo X
             for (let i = -10; i <= 10; i++) {
                 if (i !== 0) {
                     const x = centerX + i * scale;
@@ -3109,7 +3112,7 @@
                 }
             }
             
-            // MarcaÃ§Ãµes no eixo Y
+            // MarcaA§Aµes no eixo Y
             for (let i = -8; i <= 8; i++) {
                 if (i !== 0) {
                     const y = centerY - i * scale;
@@ -3183,7 +3186,7 @@
                 const canvasX = centerX + x * scale;
                 const canvasY = centerY - y * scale;
                 
-                if (canvasY >= 0 && canvasY <= 400) { // SÃ³ desenhar dentro do canvas
+                if (canvasY >= 0 && canvasY <= 400) { // SA³ desenhar dentro do canvas
                     if (firstPoint) {
                         ctx.moveTo(canvasX, canvasY);
                         firstPoint = false;
@@ -3195,7 +3198,7 @@
             
             ctx.stroke();
             
-            // Marcar vÃ©rtice
+            // Marcar vA©rtice
             const vertexX = -func.b / (2 * func.a);
             const vertexY = func.a * vertexX * vertexX + func.b * vertexX + func.c;
             const canvasVertexX = centerX + vertexX * scale;
@@ -3208,16 +3211,16 @@
             
             ctx.fillStyle = '#ffc107';
             ctx.font = '12px Arial';
-            ctx.fillText(`VÃ©rtice: (${vertexX.toFixed(1)}, ${vertexY.toFixed(1)})`, canvasVertexX + 10, canvasVertexY - 10);
+            ctx.fillText(`VA©rtice: (${vertexX.toFixed(1)}, ${vertexY.toFixed(1)})`, canvasVertexX + 10, canvasVertexY - 10);
             
-            // Marcar raÃ­zes se existirem
+            // Marcar raA­zes se existirem
             const delta = func.b * func.b - 4 * func.a * func.c;
             if (delta >= 0) {
                 const x1 = (-func.b + Math.sqrt(delta)) / (2 * func.a);
                 const x2 = (-func.b - Math.sqrt(delta)) / (2 * func.a);
                 
                 [x1, x2].forEach((root, index) => {
-                    if (delta === 0 && index === 1) return; // NÃ£o repetir raiz dupla
+                    if (delta === 0 && index === 1) return; // NA£o repetir raiz dupla
                     
                     const rootCanvasX = centerX + root * scale;
                     const rootCanvasY = centerY;
@@ -3252,21 +3255,21 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
             document.getElementById('graphInfo').innerHTML = `
-                <h4>â„¹ï¸ InformaÃ§Ãµes do GrÃ¡fico</h4>
-                <p>Selecione uma funÃ§Ã£o para visualizar suas propriedades.</p>
+                <h4>â„¹ï¸ InformaA§Aµes do GrA¡fico</h4>
+                <p>Selecione uma funA§A£o para visualizar suas propriedades.</p>
             `;
         }
 
         function updateGraphInfo() {
             if (!currentFunction) return;
             
-            let info = '<h4>ðŸ“Š InformaÃ§Ãµes do GrÃ¡fico Atual</h4>';
+            let info = '<h4>ðŸ“Š InformaA§Aµes do GrA¡fico Atual</h4>';
             
             if (currentFunction.degree === 1) {
                 info += `
-                    <p><strong>FunÃ§Ã£o:</strong> Linear (1º grau)</p>
+                    <p><strong>FunA§A£o:</strong> Linear (1º grau)</p>
                     <p><strong>Formato:</strong> f(x) = ${currentFunction.a}x + ${currentFunction.b}</p>
-                    <p><strong>InclinaÃ§Ã£o:</strong> ${currentFunction.a > 0 ? 'Positiva (crescente)' : 'Negativa (decrescente)'}</p>
+                    <p><strong>InclinaA§A£o:</strong> ${currentFunction.a > 0 ? 'Positiva (crescente)' : 'Negativa (decrescente)'}</p>
                     <p><strong>Raiz:</strong> x = ${(-currentFunction.b / currentFunction.a).toFixed(2)}</p>
                 `;
             } else {
@@ -3275,10 +3278,10 @@
                 const vertexY = currentFunction.a * vertexX * vertexX + currentFunction.b * vertexX + currentFunction.c;
                 
                 info += `
-                    <p><strong>FunÃ§Ã£o:</strong> QuadrÃ¡tica (2º grau)</p>
+                    <p><strong>FunA§A£o:</strong> QuadrA¡tica (2º grau)</p>
                     <p><strong>Formato:</strong> f(x) = ${currentFunction.a}xÂ² + ${currentFunction.b}x + ${currentFunction.c}</p>
                     <p><strong>Concavidade:</strong> ${currentFunction.a > 0 ? 'Para cima (U)' : 'Para baixo (âˆ©)'}</p>
-                    <p><strong>VÃ©rtice:</strong> (${vertexX.toFixed(2)}, ${vertexY.toFixed(2)})</p>
+                    <p><strong>VA©rtice:</strong> (${vertexX.toFixed(2)}, ${vertexY.toFixed(2)})</p>
                     <p><strong>Discriminante:</strong> Î” = ${delta}</p>
                 `;
             }
@@ -3286,7 +3289,7 @@
             document.getElementById('graphInfo').innerHTML = info;
         }
 
-        // Sistema de PrÃ¡tica com Funções
+        // Sistema de PrA¡tica com Funções
         let practiceMode = 'calcular';
         let practiceFunction = null;
         let practiceQuestion = null;
@@ -3295,7 +3298,7 @@
         function selectPracticeMode(mode) {
             practiceMode = mode;
             
-            // Atualizar botÃµes
+            // Atualizar botAµes
             document.querySelectorAll('.practice-mode-selector .mode-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
@@ -3308,13 +3311,13 @@
             document.getElementById('practiceInputs').innerHTML = '';
         }
 
-        // VariÃ¡vel para controlar o tipo de resposta nas Funções
+        // VariA¡vel para controlar o tipo de resposta nas Funções
         let functionAnswerType = 'input';
 
         function selectFunctionAnswerType(type) {
             functionAnswerType = type;
             
-            // Atualizar botÃµes
+            // Atualizar botAµes
             document.querySelectorAll('.answer-type-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
@@ -3335,7 +3338,7 @@
         }
 
         function generateFunctionPractice() {
-            // Gerar funÃ§Ã£o aleatÃ³ria
+            // Gerar funA§A£o aleatA³ria
             if (currentFunctionDegree === 1) {
                 const a = Math.floor(Math.random() * 10) - 5;
                 const b = Math.floor(Math.random() * 20) - 10;
@@ -3347,7 +3350,7 @@
                 practiceFunction = { degree: 2, a, b, c };
             }
             
-            // Exibir funÃ§Ã£o
+            // Exibir funA§A£o
             let funcStr = '';
             if (practiceFunction.degree === 1) {
                 funcStr = `f(x) = `;
@@ -3377,7 +3380,7 @@
             
             document.getElementById('functionPracticeDisplay').textContent = funcStr;
             
-            // Gerar questÃ£o baseada no modo
+            // Gerar questA£o baseada no modo
             generateQuestionByMode();
             
             // Limpar resultados anteriores
@@ -3403,7 +3406,7 @@
                     questionHTML = `
                         <div class="question-highlight">
                             <h4>🧮 Calcule f(${xValue})</h4>
-                            <p>Substitua x por ${xValue} na funÃ§Ã£o e calcule o resultado.</p>
+                            <p>Substitua x por ${xValue} na funA§A£o e calcule o resultado.</p>
                         </div>
                     `;
                     
@@ -3427,7 +3430,7 @@
                         
                         questionHTML = `
                             <div class="question-highlight">
-                                <h4>ðŸŽ¯ Encontre a raiz da funÃ§Ã£o</h4>
+                                <h4>ðŸŽ¯ Encontre a raiz da funA§A£o</h4>
                                 <p>Determine o valor de x para o qual f(x) = 0.</p>
                             </div>
                         `;
@@ -3457,7 +3460,7 @@
                         
                         questionHTML = `
                             <div class="question-highlight">
-                                <h4>ðŸŽ¯ Encontre as raÃ­zes da funÃ§Ã£o</h4>
+                                <h4>ðŸŽ¯ Encontre as raA­zes da funA§A£o</h4>
                                 <p>Determine os valores de x para os quais f(x) = 0.</p>
                             </div>
                         `;
@@ -3466,7 +3469,7 @@
                             inputsHTML = `
                                 <div class="input-group">
                                     <label>
-                                        <input type="checkbox" id="noRootsCheck"> NÃ£o possui raÃ­zes reais
+                                        <input type="checkbox" id="noRootsCheck"> NA£o possui raA­zes reais
                                     </label>
                                 </div>
                             `;
@@ -3510,8 +3513,8 @@
                     if (practiceFunction.degree === 1) {
                         questionHTML = `
                             <div class="question-highlight">
-                                <h4>ðŸ“Š Determine as propriedades da funÃ§Ã£o</h4>
-                                <p>Analise a funÃ§Ã£o linear e responda:</p>
+                                <h4>ðŸ“Š Determine as propriedades da funA§A£o</h4>
+                                <p>Analise a funA§A£o linear e responda:</p>
                             </div>
                         `;
                         
@@ -3533,7 +3536,7 @@
                                 </div>
                             </div>
                             <div class="input-group">
-                                <label>A funÃ§Ã£o Ã©: </label>
+                                <label>A funA§A£o A©: </label>
                                 <select id="funcType">
                                     <option value="">Selecione</option>
                                     <option value="crescente">Crescente</option>
@@ -3553,8 +3556,8 @@
                         
                         questionHTML = `
                             <div class="question-highlight">
-                                <h4>ðŸ“Š Determine as propriedades da funÃ§Ã£o</h4>
-                                <p>Analise a funÃ§Ã£o quadrÃ¡tica e responda:</p>
+                                <h4>ðŸ“Š Determine as propriedades da funA§A£o</h4>
+                                <p>Analise a funA§A£o quadrA¡tica e responda:</p>
                             </div>
                         `;
                         
@@ -3568,7 +3571,7 @@
                                 </select>
                             </div>
                             <div class="input-group">
-                                <label>Coordenada x do vÃ©rtice: </label>
+                                <label>Coordenada x do vA©rtice: </label>
                                 <div class="input-row">
                                     <input type="number" id="verticeX" step="0.01">
                                     <button class="mobile-btn" onclick="insertFunctionNumber('verticeX', '-')" title="Inserir sinal negativo">Â±</button>
@@ -3576,7 +3579,7 @@
                                 </div>
                             </div>
                             <div class="input-group">
-                                <label>Coordenada y do vÃ©rtice: </label>
+                                <label>Coordenada y do vA©rtice: </label>
                                 <div class="input-row">
                                     <input type="number" id="verticeY" step="0.01">
                                     <button class="mobile-btn" onclick="insertFunctionNumber('verticeY', '-')" title="Inserir sinal negativo">Â±</button>
@@ -3626,7 +3629,7 @@
                     
                 case 'raizes':
                     if (practiceAnswer.length === 0) {
-                        correctAnswer = 'NÃ£o possui raÃ­zes reais';
+                        correctAnswer = 'NA£o possui raA­zes reais';
                         alternatives = [
                             correctAnswer,
                             'x = 0',
@@ -3642,7 +3645,7 @@
                             `x = ${(root + 1).toFixed(2)}`,
                             `x = ${(root - 1).toFixed(2)}`,
                             `x = ${(-root).toFixed(2)}`,
-                            'NÃ£o possui raÃ­zes reais'
+                            'NA£o possui raA­zes reais'
                         ];
                     } else {
                         const [x1, x2] = practiceAnswer.sort((a, b) => a - b);
@@ -3652,7 +3655,7 @@
                             `xâ‚ = ${(-x1).toFixed(2)}, xâ‚‚ = ${x2.toFixed(2)}`,
                             `xâ‚ = ${x1.toFixed(2)}, xâ‚‚ = ${(-x2).toFixed(2)}`,
                             `x = ${((x1 + x2) / 2).toFixed(2)} (raiz dupla)`,
-                            'NÃ£o possui raÃ­zes reais'
+                            'NA£o possui raA­zes reais'
                         ];
                     }
                     break;
@@ -3668,7 +3671,7 @@
                 [alternatives[i], alternatives[j]] = [alternatives[j], alternatives[i]];
             }
             
-            // Encontrar posiÃ§Ã£o da resposta correta
+            // Encontrar posiA§A£o da resposta correta
             window.functionCorrectIndex = alternatives.indexOf(correctAnswer);
             window.functionSelectedAlternative = null;
             
@@ -3687,24 +3690,24 @@
         }
 
         function selectFunctionAlternative(index) {
-            // Remover seleÃ§Ã£o anterior
+            // Remover seleA§A£o anterior
             document.querySelectorAll('#functionAlternativesContainer .alternative').forEach(alt => {
                 alt.style.borderColor = '#dee2e6';
                 alt.style.backgroundColor = 'white';
             });
             
-            // Adicionar seleÃ§Ã£o atual
+            // Adicionar seleA§A£o atual
             const buttons = document.querySelectorAll('#functionAlternativesContainer .alternative');
             buttons[index].style.borderColor = '#007bff';
             buttons[index].style.backgroundColor = '#e3f2fd';
             
-            // Salvar seleÃ§Ã£o
+            // Salvar seleA§A£o
             window.functionSelectedAlternative = index;
         }
 
         function checkFunctionAnswer() {
             if (!practiceFunction || !practiceQuestion) {
-                alert('âš ï¸ Gere uma questÃ£o primeiro!');
+                alert('âš ï¸ Gere uma questA£o primeiro!');
                 return;
             }
             
@@ -3712,7 +3715,7 @@
             let userAnswer = '';
             let resultHTML = '';
             
-            // Verificar se estÃ¡ no modo alternativas
+            // Verificar se estA¡ no modo alternativas
             if (functionAnswerType === 'alternatives') {
                 if (window.functionSelectedAlternative === null) {
                     alert('âš ï¸ Por favor, selecione uma alternativa!');
@@ -3752,14 +3755,14 @@
                 return;
             }
             
-            // Modo input (cÃ³digo original)
+            // Modo input (cA³digo original)
             switch (practiceMode) {
                 case 'calcular':
                     const result = parseFloat(document.getElementById('resultInput').value);
                     userAnswer = result;
                     
                     if (isNaN(result)) {
-                        resultHTML = '<div style="color: #dc3545;">âš ï¸ Por favor, digite um nÃºmero vÃ¡lido!</div>';
+                        resultHTML = '<div style="color: #dc3545;">âš ï¸ Por favor, digite um nAºmero vA¡lido!</div>';
                     } else {
                         isCorrect = Math.abs(result - practiceAnswer) < 0.01;
                         
@@ -3788,7 +3791,7 @@
                         userAnswer = root;
                         
                         if (isNaN(root)) {
-                            resultHTML = '<div style="color: #dc3545;">âš ï¸ Por favor, digite um nÃºmero vÃ¡lido!</div>';
+                            resultHTML = '<div style="color: #dc3545;">âš ï¸ Por favor, digite um nAºmero vA¡lido!</div>';
                         } else {
                             isCorrect = Math.abs(root - practiceAnswer[0]) < 0.01;
                             
@@ -3796,7 +3799,7 @@
                                 resultHTML = `
                                     <div style="background: #d4edda; padding: 15px; border-radius: 8px; color: #155724;">
                                         <h4>ðŸŽ‰ Correto!</h4>
-                                        <p>A raiz Ã© x = ${practiceAnswer[0].toFixed(2)}</p>
+                                        <p>A raiz A© x = ${practiceAnswer[0].toFixed(2)}</p>
                                     </div>
                                 `;
                             } else {
@@ -3810,14 +3813,14 @@
                             }
                         }
                     } else {
-                        // VerificaÃ§Ã£o para funÃ§Ã£o quadrÃ¡tica
+                        // VerificaA§A£o para funA§A£o quadrA¡tica
                         if (practiceAnswer.length === 0) {
                             const noRoots = document.getElementById('noRootsCheck').checked;
                             isCorrect = noRoots;
                             
                             resultHTML = isCorrect ? 
-                                '<div style="background: #d4edda; padding: 15px; border-radius: 8px; color: #155724;"><h4>ðŸŽ‰ Correto!</h4><p>A funÃ§Ã£o nÃ£o possui raÃ­zes reais.</p></div>' :
-                                '<div style="background: #f8d7da; padding: 15px; border-radius: 8px; color: #721c24;"><h4>âŒ Incorreto</h4><p>A funÃ§Ã£o nÃ£o possui raÃ­zes reais.</p></div>';
+                                '<div style="background: #d4edda; padding: 15px; border-radius: 8px; color: #155724;"><h4>ðŸŽ‰ Correto!</h4><p>A funA§A£o nA£o possui raA­zes reais.</p></div>' :
+                                '<div style="background: #f8d7da; padding: 15px; border-radius: 8px; color: #721c24;"><h4>âŒ Incorreto</h4><p>A funA§A£o nA£o possui raA­zes reais.</p></div>';
                         } else if (practiceAnswer.length === 1) {
                             const root = parseFloat(document.getElementById('rootInput').value);
                             isCorrect = !isNaN(root) && Math.abs(root - practiceAnswer[0]) < 0.01;
@@ -3870,7 +3873,7 @@
                         resultHTML = isCorrect ? 
                             '<div style="background: #d4edda; padding: 15px; border-radius: 8px; color: #155724;"><h4>ðŸŽ‰ Todas as propriedades corretas!</h4></div>' :
                             `<div style="background: #f8d7da; padding: 15px; border-radius: 8px; color: #721c24;"><h4>âŒ Algumas propriedades incorretas</h4>
-                             <p>Corretas: concavidade ${practiceAnswer.concavidade}, vÃ©rtice (${practiceAnswer.verticeX.toFixed(2)}, ${practiceAnswer.verticeY.toFixed(2)})</p></div>`;
+                             <p>Corretas: concavidade ${practiceAnswer.concavidade}, vA©rtice (${practiceAnswer.verticeX.toFixed(2)}, ${practiceAnswer.verticeY.toFixed(2)})</p></div>`;
                     }
                     break;
             }
@@ -3887,11 +3890,11 @@
 
         function showFunctionSolution() {
             if (!practiceFunction || !practiceQuestion) {
-                alert('âš ï¸ Gere uma questÃ£o primeiro!');
+                alert('âš ï¸ Gere uma questA£o primeiro!');
                 return;
             }
             
-            let solutionHTML = '<h4>ðŸ’¡ SoluÃ§Ã£o Passo a Passo</h4>';
+            let solutionHTML = '<h4>ðŸ’¡ SoluA§A£o Passo a Passo</h4>';
             
             switch (practiceMode) {
                 case 'calcular':
@@ -3899,7 +3902,7 @@
                         solutionHTML += `
                             <div style="background: #e3f2fd; padding: 15px; border-radius: 8px;">
                                 <p><strong>Passo 1:</strong> Substituir x por ${practiceQuestion.x}</p>
-                                <p>f(${practiceQuestion.x}) = ${practiceFunction.a} Ã— ${practiceQuestion.x} + ${practiceFunction.b}</p>
+                                <p>f(${practiceQuestion.x}) = ${practiceFunction.a} A— ${practiceQuestion.x} + ${practiceFunction.b}</p>
                                 <p><strong>Passo 2:</strong> Calcular</p>
                                 <p>f(${practiceQuestion.x}) = ${practiceFunction.a * practiceQuestion.x} + ${practiceFunction.b} = ${practiceAnswer}</p>
                             </div>
@@ -3911,10 +3914,10 @@
                         solutionHTML += `
                             <div style="background: #e3f2fd; padding: 15px; border-radius: 8px;">
                                 <p><strong>Passo 1:</strong> Substituir x por ${practiceQuestion.x}</p>
-                                <p>f(${practiceQuestion.x}) = ${practiceFunction.a} Ã— ${practiceQuestion.x}Â² + ${practiceFunction.b} Ã— ${practiceQuestion.x} + ${practiceFunction.c}</p>
+                                <p>f(${practiceQuestion.x}) = ${practiceFunction.a} A— ${practiceQuestion.x}Â² + ${practiceFunction.b} A— ${practiceQuestion.x} + ${practiceFunction.c}</p>
                                 <p><strong>Passo 2:</strong> Calcular cada termo</p>
-                                <p>${practiceFunction.a} Ã— ${practiceQuestion.x}Â² = ${ax2}</p>
-                                <p>${practiceFunction.b} Ã— ${practiceQuestion.x} = ${bx}</p>
+                                <p>${practiceFunction.a} A— ${practiceQuestion.x}Â² = ${ax2}</p>
+                                <p>${practiceFunction.b} A— ${practiceQuestion.x} = ${bx}</p>
                                 <p><strong>Passo 3:</strong> Somar tudo</p>
                                 <p>f(${practiceQuestion.x}) = ${ax2} + ${bx} + ${practiceFunction.c} = ${practiceAnswer}</p>
                             </div>
@@ -3931,7 +3934,7 @@
                                 <p><strong>Passo 2:</strong> Isolar x</p>
                                 <p>${practiceFunction.a}x = ${-practiceFunction.b}</p>
                                 <p><strong>Passo 3:</strong> Dividir por ${practiceFunction.a}</p>
-                                <p>x = ${-practiceFunction.b} Ã· ${practiceFunction.a} = ${practiceAnswer[0].toFixed(2)}</p>
+                                <p>x = ${-practiceFunction.b} A· ${practiceFunction.a} = ${practiceAnswer[0].toFixed(2)}</p>
                             </div>
                         `;
                     } else {
@@ -3940,21 +3943,21 @@
                         solutionHTML += `
                             <div style="background: #e3f2fd; padding: 15px; border-radius: 8px;">
                                 <p><strong>Passo 1:</strong> Calcular o discriminante</p>
-                                <p>Î” = bÂ² - 4ac = ${practiceFunction.b}Â² - 4Ã—${practiceFunction.a}Ã—${practiceFunction.c} = ${delta}</p>
+                                <p>Î” = bÂ² - 4ac = ${practiceFunction.b}Â² - 4A—${practiceFunction.a}A—${practiceFunction.c} = ${delta}</p>
                         `;
                         
                         if (delta < 0) {
-                            solutionHTML += '<p><strong>Como Î” < 0:</strong> NÃ£o hÃ¡ raÃ­zes reais</p>';
+                            solutionHTML += '<p><strong>Como Î” < 0:</strong> NA£o hA¡ raA­zes reais</p>';
                         } else if (delta === 0) {
                             solutionHTML += `
                                 <p><strong>Como Î” = 0:</strong> Uma raiz real</p>
-                                <p>x = -b/(2a) = ${-practiceFunction.b}/(2Ã—${practiceFunction.a}) = ${practiceAnswer[0].toFixed(2)}</p>
+                                <p>x = -b/(2a) = ${-practiceFunction.b}/(2A—${practiceFunction.a}) = ${practiceAnswer[0].toFixed(2)}</p>
                             `;
                         } else {
                             solutionHTML += `
-                                <p><strong>Como Î” > 0:</strong> Duas raÃ­zes reais</p>
-                                <p>xâ‚ = (-b + âˆšÎ”)/(2a) = (${-practiceFunction.b} + âˆš${delta})/(2Ã—${practiceFunction.a}) = ${practiceAnswer[1].toFixed(2)}</p>
-                                <p>xâ‚‚ = (-b - âˆšÎ”)/(2a) = (${-practiceFunction.b} - âˆš${delta})/(2Ã—${practiceFunction.a}) = ${practiceAnswer[0].toFixed(2)}</p>
+                                <p><strong>Como Î” > 0:</strong> Duas raA­zes reais</p>
+                                <p>xâ‚ = (-b + âˆšÎ”)/(2a) = (${-practiceFunction.b} + âˆš${delta})/(2A—${practiceFunction.a}) = ${practiceAnswer[1].toFixed(2)}</p>
+                                <p>xâ‚‚ = (-b - âˆšÎ”)/(2a) = (${-practiceFunction.b} - âˆš${delta})/(2A—${practiceFunction.a}) = ${practiceAnswer[0].toFixed(2)}</p>
                             `;
                         }
                         
@@ -3975,8 +3978,8 @@
                         solutionHTML += `
                             <div style="background: #e3f2fd; padding: 15px; border-radius: 8px;">
                                 <p><strong>Concavidade:</strong> Para ${practiceAnswer.concavidade} (pois a = ${practiceFunction.a} ${practiceFunction.a > 0 ? '> 0' : '< 0'})</p>
-                                <p><strong>VÃ©rtice x:</strong> x = -b/(2a) = ${-practiceFunction.b}/(2Ã—${practiceFunction.a}) = ${practiceAnswer.verticeX.toFixed(2)}</p>
-                                <p><strong>VÃ©rtice y:</strong> Substituindo x na funÃ§Ã£o = ${practiceAnswer.verticeY.toFixed(2)}</p>
+                                <p><strong>VA©rtice x:</strong> x = -b/(2a) = ${-practiceFunction.b}/(2A—${practiceFunction.a}) = ${practiceAnswer.verticeX.toFixed(2)}</p>
+                                <p><strong>VA©rtice y:</strong> Substituindo x na funA§A£o = ${practiceAnswer.verticeY.toFixed(2)}</p>
                             </div>
                         `;
                     }
@@ -3991,7 +3994,7 @@
                 return `x = ${correctAnswer[0].toFixed(2)}`;
             } else {
                 if (correctAnswer.length === 0) {
-                    return "NÃ£o hÃ¡ soluÃ§Ãµes reais (Î” < 0)";
+                    return "NA£o hA¡ soluA§Aµes reais (Î” < 0)";
                 } else if (correctAnswer.length === 1) {
                     return `x = ${correctAnswer[0].toFixed(2)} (raiz dupla)`;
                 } else {
@@ -4001,7 +4004,7 @@
             }
         }
 
-        // Funções das Equações (mantidas do cÃ³digo original)
+        // Funções das Equações (mantidas do cA³digo original)
         function selectDegree(degree) {
             currentDegree = degree;
             document.querySelectorAll('.degree-btn').forEach(btn => btn.classList.remove('active'));
@@ -4055,7 +4058,7 @@
         }
 
         function gerarEquacao1GrauMedio() {
-            // Gerar equaÃ§Ã£o com fraÃ§Ãµes simples
+            // Gerar equaA§A£o com fraA§Aµes simples
             const denominadores = [2, 3, 4, 5, 6];
             const den1 = denominadores[Math.floor(Math.random() * denominadores.length)];
             const den2 = denominadores[Math.floor(Math.random() * denominadores.length)];
@@ -4068,7 +4071,7 @@
         }
 
         function gerarEquacao1GrauDificil() {
-            // Gerar equaÃ§Ã£o com fraÃ§Ãµes complexas
+            // Gerar equaA§A£o com fraA§Aµes complexas
             const denominadores = [2, 3, 4, 5, 6, 7, 8, 9];
             const den1 = denominadores[Math.floor(Math.random() * denominadores.length)];
             const den2 = denominadores[Math.floor(Math.random() * denominadores.length)];
@@ -4111,12 +4114,12 @@
         }
 
         function gerarEquacao2GrauMedio() {
-            // Coeficientes maiores, Ã s vezes com fraÃ§Ãµes simples
+            // Coeficientes maiores, A s vezes com fraA§Aµes simples
             const a = Math.floor(Math.random() * 4) + 1;
             const b = Math.floor(Math.random() * 16) - 8;
             const c = Math.floor(Math.random() * 16) - 8;
             
-            // Ã€s vezes usar fraÃ§Ãµes nos coeficientes
+            // A€s vezes usar fraA§Aµes nos coeficientes
             if (Math.random() < 0.3) {
                 return {
                     degree: 2,
@@ -4132,7 +4135,7 @@
         }
 
         function gerarEquacao2GrauDificil() {
-            // Coeficientes com fraÃ§Ãµes mais complexas
+            // Coeficientes com fraA§Aµes mais complexas
             const denominadores = [2, 3, 4, 5];
             const den1 = denominadores[Math.floor(Math.random() * denominadores.length)];
             const den2 = denominadores[Math.floor(Math.random() * denominadores.length)];
@@ -4145,7 +4148,7 @@
         }
 
         function resolverEquacao2Grau(eq) {
-            // Converter fraÃ§Ãµes para decimais se necessÃ¡rio
+            // Converter fraA§Aµes para decimais se necessA¡rio
             const a = eq.a instanceof Fraction ? eq.a.toDecimal() : eq.a;
             const b = eq.b instanceof Fraction ? eq.b.toDecimal() : eq.b;
             const c = eq.c instanceof Fraction ? eq.c.toDecimal() : eq.c;
@@ -4164,7 +4167,7 @@
         }
 
         function resolverEquacao1Grau(eq) {
-            // Converter fraÃ§Ãµes para decimais se necessÃ¡rio
+            // Converter fraA§Aµes para decimais se necessA¡rio
             const a = eq.a instanceof Fraction ? eq.a.toDecimal() : eq.a;
             const b = eq.b instanceof Fraction ? eq.b.toDecimal() : eq.b;
             const c = eq.c instanceof Fraction ? eq.c.toDecimal() : eq.c;
@@ -4173,7 +4176,7 @@
         }
 
         function formatarEquacao1Grau(eq) {
-            // FunÃ§Ã£o para formatar coeficiente
+            // FunA§A£o para formatar coeficiente
             const formatCoeff = (coeff) => {
                 if (coeff instanceof Fraction) {
                     return coeff.toHTML();
@@ -4202,13 +4205,13 @@
                 equacao += ` - ${formatCoeff(bAbs)}`;
             }
             
-            // Lado direito da equaÃ§Ã£o
+            // Lado direito da equaA§A£o
             equacao += ` = ${formatCoeff(eq.c)}`;
             return equacao;
         }
 
         function formatarEquacao2Grau(eq) {
-            // FunÃ§Ã£o para formatar coeficiente
+            // FunA§A£o para formatar coeficiente
             const formatCoeff = (coeff) => {
                 if (coeff instanceof Fraction) {
                     return coeff.toHTML();
@@ -4269,7 +4272,7 @@
             document.getElementById('solucaoDetalhada').innerHTML = '';
             createAnswerInputsReal();
             
-            // Atualizar Estatísticas ao gerar nova equaÃ§Ã£o
+            // Atualizar Estatísticas ao gerar nova equaA§A£o
             atualizarEstatisticasUsuario();
         }
 
@@ -4283,7 +4286,7 @@
             });
             
             if (multipleChoiceMode) {
-                // Modo mÃºltipla escolha
+                // Modo mAºltipla escolha
                 currentAlternatives = generateAlternatives(respostaCorreta);
                 let alternativesHtml = '<div class="alternatives-container">';
                 
@@ -4299,11 +4302,11 @@
                 alternativesHtml += '</div>';
                 inputsDiv.innerHTML = alternativesHtml;
                 
-                // Resetar seleÃ§Ã£o
+                // Resetar seleA§A£o
                 window.selectedAlternative = -1;
                 
             } else {
-                // Modo de digitaÃ§Ã£o tradicional
+                // Modo de digitaA§A£o tradicional
                 if (currentDegree === 1) {
                     inputsDiv.innerHTML = `
                         <div class="input-group">
@@ -4319,7 +4322,7 @@
                     inputsDiv.innerHTML = `
                         <div class="input-row">
                             <div class="input-group">
-                                <label for="resposta1">xâ‚ (primeira soluÃ§Ã£o):</label>
+                                <label for="resposta1">xâ‚ (primeira soluA§A£o):</label>
                                 <input type="number" id="resposta1" step="0.01" placeholder="Ex: 2">
                                 <div style="margin-top: 5px;">
                                     <button class="btn" style="padding: 5px 10px; margin: 2px; font-size: 12px;" onclick="addToInput('resposta1', '-')">Â±</button>
@@ -4327,7 +4330,7 @@
                                 </div>
                             </div>
                             <div class="input-group">
-                                <label for="resposta2">xâ‚‚ (segunda soluÃ§Ã£o):</label>
+                                <label for="resposta2">xâ‚‚ (segunda soluA§A£o):</label>
                                 <input type="number" id="resposta2" step="0.01" placeholder="Ex: 3">
                                 <div style="margin-top: 5px;">
                                     <button class="btn" style="padding: 5px 10px; margin: 2px; font-size: 12px;" onclick="addToInput('resposta2', '-')">Â±</button>
@@ -4336,14 +4339,14 @@
                             </div>
                         </div>
                         <p style="font-size: 14px; color: #666; margin-top: 5px;">
-                            ðŸ’¡ Se houver apenas uma soluÃ§Ã£o, deixe xâ‚‚ em branco. Se nÃ£o houver soluÃ§Ãµes reais, deixe ambos em branco.
+                            ðŸ’¡ Se houver apenas uma soluA§A£o, deixe xâ‚‚ em branco. Se nA£o houver soluA§Aµes reais, deixe ambos em branco.
                         </p>
                     `;
                 }
             }
         }
 
-        // Funções auxiliares para botÃµes mobile
+        // Funções auxiliares para botAµes mobile
         function addToInput(inputId, symbol) {
             const input = document.getElementById(inputId);
             const currentValue = input.value;
@@ -4373,7 +4376,7 @@
             let userAnswer = '';
             
             if (multipleChoiceMode) {
-                // Modo mÃºltipla escolha
+                // Modo mAºltipla escolha
                 if (window.selectedAlternative === undefined || window.selectedAlternative === -1) {
                     resultado.innerHTML = '<div class="result incorrect">âš ï¸ Por favor, selecione uma alternativa!</div>';
                     return;
@@ -4382,7 +4385,7 @@
                 const selectedText = currentAlternatives[window.selectedAlternative];
                 userAnswer = selectedText;
                 
-                // Verificar se a alternativa selecionada Ã© a correta
+                // Verificar se a alternativa selecionada A© a correta
                 const correctAnswerText = generateCorrectAnswerText(respostaCorreta);
                 isCorrect = selectedText === correctAnswerText;
                 
@@ -4400,21 +4403,21 @@
                 });
                 
                 if (isCorrect) {
-                    resultado.innerHTML = '<div class="result correct">ðŸŽ‰ ParabÃ©ns! Alternativa correta!</div>';
+                    resultado.innerHTML = '<div class="result correct">ðŸŽ‰ ParabA©ns! Alternativa correta!</div>';
                 } else {
                     const correctLetter = currentAlternatives.findIndex(alt => alt === correctAnswerText);
                     const letter = String.fromCharCode(65 + correctLetter);
-                    resultado.innerHTML = `<div class="result incorrect">âŒ Incorreto. A resposta correta Ã© a alternativa ${letter})</div>`;
+                    resultado.innerHTML = `<div class="result incorrect">âŒ Incorreto. A resposta correta A© a alternativa ${letter})</div>`;
                 }
                 
             } else {
-                // Modo digitaÃ§Ã£o tradicional
+                // Modo digitaA§A£o tradicional
                 if (currentDegree === 1) {
                     const resposta = parseFloat(document.getElementById('resposta').value);
                     userAnswer = resposta.toString();
                 
                 if (isNaN(resposta)) {
-                    resultado.innerHTML = '<div class="result incorrect">âš ï¸ Por favor, digite um nÃºmero vÃ¡lido!</div>';
+                    resultado.innerHTML = '<div class="result incorrect">âš ï¸ Por favor, digite um nAºmero vA¡lido!</div>';
                     return;
                 }
                 
@@ -4422,9 +4425,9 @@
                 isCorrect = diferenca < 0.01;
                 
                 if (isCorrect) {
-                    resultado.innerHTML = '<div class="result correct">ðŸŽ‰ ParabÃ©ns! Resposta correta!</div>';
+                    resultado.innerHTML = '<div class="result correct">ðŸŽ‰ ParabA©ns! Resposta correta!</div>';
                 } else {
-                    resultado.innerHTML = `<div class="result incorrect">âŒ Incorreto. A resposta Ã© x = ${respostaCorreta[0].toFixed(2)}</div>`;
+                    resultado.innerHTML = `<div class="result incorrect">âŒ Incorreto. A resposta A© x = ${respostaCorreta[0].toFixed(2)}</div>`;
                 }
             } else {
                 const resposta1 = document.getElementById('resposta1').value;
@@ -4439,25 +4442,25 @@
                 if (respostaCorreta.length === 0) {
                     isCorrect = respostasUsuario.length === 0;
                     if (isCorrect) {
-                        resultado.innerHTML = '<div class="result correct">ðŸŽ‰ Correto! NÃ£o hÃ¡ soluÃ§Ãµes reais (Î” < 0)</div>';
+                        resultado.innerHTML = '<div class="result correct">ðŸŽ‰ Correto! NA£o hA¡ soluA§Aµes reais (Î” < 0)</div>';
                     } else {
-                        resultado.innerHTML = '<div class="result incorrect">âŒ Incorreto. Esta equaÃ§Ã£o nÃ£o possui soluÃ§Ãµes reais.</div>';
+                        resultado.innerHTML = '<div class="result incorrect">âŒ Incorreto. Esta equaA§A£o nA£o possui soluA§Aµes reais.</div>';
                     }
                 } else if (respostaCorreta.length === 1) {
                     isCorrect = respostasUsuario.length === 1 && Math.abs(respostasUsuario[0] - respostasCorretas[0]) < 0.01;
                     if (isCorrect) {
-                        resultado.innerHTML = '<div class="result correct">ðŸŽ‰ Correto! HÃ¡ apenas uma soluÃ§Ã£o (raiz dupla)</div>';
+                        resultado.innerHTML = '<div class="result correct">ðŸŽ‰ Correto! HA¡ apenas uma soluA§A£o (raiz dupla)</div>';
                     } else {
-                        resultado.innerHTML = `<div class="result incorrect">âŒ Incorreto. A soluÃ§Ã£o Ã© x = ${respostasCorretas[0].toFixed(2)}</div>`;
+                        resultado.innerHTML = `<div class="result incorrect">âŒ Incorreto. A soluA§A£o A© x = ${respostasCorretas[0].toFixed(2)}</div>`;
                     }
                 } else {
                     isCorrect = respostasUsuario.length === 2 && 
                         Math.abs(respostasUsuario[0] - respostasCorretas[0]) < 0.01 &&
                         Math.abs(respostasUsuario[1] - respostasCorretas[1]) < 0.01;
                     if (isCorrect) {
-                        resultado.innerHTML = '<div class="result correct">ðŸŽ‰ ParabÃ©ns! Ambas as soluÃ§Ãµes estÃ£o corretas!</div>';
+                        resultado.innerHTML = '<div class="result correct">ðŸŽ‰ ParabA©ns! Ambas as soluA§Aµes estA£o corretas!</div>';
                     } else {
-                        resultado.innerHTML = `<div class="result incorrect">âŒ Incorreto. As soluÃ§Ãµes sÃ£o xâ‚ = ${respostasCorretas[0].toFixed(2)} e xâ‚‚ = ${respostasCorretas[1].toFixed(2)}</div>`;
+                        resultado.innerHTML = `<div class="result incorrect">âŒ Incorreto. As soluA§Aµes sA£o xâ‚ = ${respostasCorretas[0].toFixed(2)} e xâ‚‚ = ${respostasCorretas[1].toFixed(2)}</div>`;
                     }
                 }
             }
@@ -4469,7 +4472,7 @@
             
             UserManager.updateUserStats(userId, isCorrect, equationString, userAnswer);
             
-            // Usar a nova funÃ§Ã£o para salvar e atualizar automaticamente
+            // Usar a nova funA§A£o para salvar e atualizar automaticamente
             salvarProgressoUsuario(isCorrect);
         }
 
@@ -4486,7 +4489,7 @@
         function mostrarSolucao1Grau(eq, solucaoDiv) {
             let passos = `
                 <div class="solution-steps">
-                    <strong>EquaÃ§Ã£o:</strong> <span class="highlight">${formatarEquacao1Grau(eq)}</span><br><br>
+                    <strong>EquaA§A£o:</strong> <span class="highlight">${formatarEquacao1Grau(eq)}</span><br><br>
                     <strong>Passo 1:</strong> Isolar o termo com x.<br>
                     ${eq.a}x = ${eq.c} ${eq.b >= 0 ? `- ${eq.b}` : `+ ${Math.abs(eq.b)}`}<br>
                     <strong>Passo 2:</strong> Calcular o valor de x.<br>
@@ -4503,21 +4506,21 @@
             const delta = b * b - 4 * a * c;
             let passos = `
                 <div class="solution-steps">
-                    <strong>EquaÃ§Ã£o:</strong> <span class="highlight">${formatarEquacao2Grau(eq)}</span><br><br>
+                    <strong>EquaA§A£o:</strong> <span class="highlight">${formatarEquacao2Grau(eq)}</span><br><br>
                     <strong>Passo 1:</strong> Identificar os coeficientes: a = ${a}, b = ${b}, c = ${c}<br>
                     <strong>Passo 2:</strong> Calcular o discriminante (Î”):<br>
-                    Î” = ${b}Â² - 4 Ã— ${a} Ã— ${c} = ${delta}<br>
+                    Î” = ${b}Â² - 4 A— ${a} A— ${c} = ${delta}<br>
             `;
             if (delta < 0) {
-                passos += `<strong>Passo 3:</strong> Como Î” < 0, nÃ£o hÃ¡ soluÃ§Ãµes reais.<br>`;
+                passos += `<strong>Passo 3:</strong> Como Î” < 0, nA£o hA¡ soluA§Aµes reais.<br>`;
             } else {
                 passos += `
-                    <strong>Passo 3:</strong> Aplicar a fÃ³rmula de Bhaskara:<br>
-                    x = (-${b} Â± âˆš${delta}) / (2 Ã— ${a})<br>
+                    <strong>Passo 3:</strong> Aplicar a fA³rmula de Bhaskara:<br>
+                    x = (-${b} Â± âˆš${delta}) / (2 A— ${a})<br>
                 `;
                 if (delta === 0) {
                     const x = (-b) / (2 * a);
-                    passos += `Î” = 0, entÃ£o hÃ¡ uma raiz dupla:<br>
+                    passos += `Î” = 0, entA£o hA¡ uma raiz dupla:<br>
                         x = ${x.toFixed(2)}
                     `;
                 } else {
@@ -4541,42 +4544,42 @@
             if (currentDegree === 1) {
                 exemplosDiv.innerHTML += `
                     <div class="concept-card">
-                        <h3>ðŸ“ Exemplo 1: EquaÃ§Ã£o Simples</h3>
+                        <h3>ðŸ“ Exemplo 1: EquaA§A£o Simples</h3>
                         <div class="equation">2x + 4 = 10</div>
                         <div class="solution-steps">
-                            <strong>ðŸ“‹ ResoluÃ§Ã£o Passo a Passo:</strong><br><br>
+                            <strong>ðŸ“‹ ResoluA§A£o Passo a Passo:</strong><br><br>
                             <strong>Passo 1:</strong> Isolar o termo com x<br>
                             2x = 10 - 4<br><br>
                             <strong>Passo 2:</strong> Calcular<br>
                             2x = 6<br><br>
                             <strong>Passo 3:</strong> Dividir ambos os lados por 2<br>
-                            x = 6 Ã· 2<br><br>
+                            x = 6 A· 2<br><br>
                             <strong>âœ… Resposta:</strong> <span class="highlight">x = 3</span><br><br>
-                            <strong>ðŸ” VerificaÃ§Ã£o:</strong> 2(3) + 4 = 6 + 4 = 10 âœ“
+                            <strong>ðŸ” VerificaA§A£o:</strong> 2(3) + 4 = 6 + 4 = 10 âœ“
                         </div>
                     </div>
                     <div class="concept-card">
-                        <h3>ðŸ“ Exemplo 2: EquaÃ§Ã£o com Negativo</h3>
+                        <h3>ðŸ“ Exemplo 2: EquaA§A£o com Negativo</h3>
                         <div class="equation">-3x + 9 = 0</div>
                         <div class="solution-steps">
-                            <strong>ðŸ“‹ ResoluÃ§Ã£o Passo a Passo:</strong><br><br>
+                            <strong>ðŸ“‹ ResoluA§A£o Passo a Passo:</strong><br><br>
                             <strong>Passo 1:</strong> Isolar o termo com x<br>
                             -3x = 0 - 9<br>
                             -3x = -9<br><br>
                             <strong>Passo 2:</strong> Dividir ambos os lados por -3<br>
-                            x = (-9) Ã· (-3)<br><br>
+                            x = (-9) A· (-3)<br><br>
                             <strong>âœ… Resposta:</strong> <span class="highlight">x = 3</span><br><br>
-                            <strong>ðŸ” VerificaÃ§Ã£o:</strong> -3(3) + 9 = -9 + 9 = 0 âœ“
+                            <strong>ðŸ” VerificaA§A£o:</strong> -3(3) + 9 = -9 + 9 = 0 âœ“
                         </div>
                     </div>
                 `;
             } else {
                 exemplosDiv.innerHTML += `
                     <div class="concept-card">
-                        <h3>ðŸ“ Exemplo 1: EquaÃ§Ã£o Completa</h3>
+                        <h3>ðŸ“ Exemplo 1: EquaA§A£o Completa</h3>
                         <div class="equation">xÂ² - 5x + 6 = 0</div>
                         <div class="solution-steps">
-                            <strong>ðŸ“‹ ResoluÃ§Ã£o Passo a Passo:</strong><br><br>
+                            <strong>ðŸ“‹ ResoluA§A£o Passo a Passo:</strong><br><br>
                             <strong>Passo 1:</strong> Identificar os coeficientes<br>
                             a = 1, b = -5, c = 6<br><br>
                             <strong>Passo 2:</strong> Calcular o discriminante (Î”)<br>
@@ -4587,19 +4590,19 @@
                             x = (-b Â± âˆšÎ”) / 2a<br>
                             x = (5 Â± âˆš1) / 2<br>
                             x = (5 Â± 1) / 2<br><br>
-                            <strong>Passo 4:</strong> Calcular as duas soluÃ§Ãµes<br>
+                            <strong>Passo 4:</strong> Calcular as duas soluA§Aµes<br>
                             xâ‚ = (5 + 1) / 2 = 6/2 = 3<br>
                             xâ‚‚ = (5 - 1) / 2 = 4/2 = 2<br><br>
                             <strong>âœ… Resposta:</strong> <span class="highlight">xâ‚ = 2, xâ‚‚ = 3</span><br><br>
-                            <strong>ðŸ” VerificaÃ§Ã£o:</strong> (2-2)(2-3) = 0Ã—(-1) = 0 âœ“<br>
-                            (3-2)(3-3) = 1Ã—0 = 0 âœ“
+                            <strong>ðŸ” VerificaA§A£o:</strong> (2-2)(2-3) = 0A—(-1) = 0 âœ“<br>
+                            (3-2)(3-3) = 1A—0 = 0 âœ“
                         </div>
                     </div>
                     <div class="concept-card">
-                        <h3>ðŸ“ Exemplo 2: EquaÃ§Ã£o com FraÃ§Ãµes</h3>
+                        <h3>ðŸ“ Exemplo 2: EquaA§A£o com FraA§Aµes</h3>
                         <div class="equation">2xÂ² + 3x - 2 = 0</div>
                         <div class="solution-steps">
-                            <strong>ðŸ“‹ ResoluÃ§Ã£o Passo a Passo:</strong><br><br>
+                            <strong>ðŸ“‹ ResoluA§A£o Passo a Passo:</strong><br><br>
                             <strong>Passo 1:</strong> Identificar os coeficientes<br>
                             a = 2, b = 3, c = -2<br><br>
                             <strong>Passo 2:</strong> Calcular o discriminante (Î”)<br>
@@ -4610,11 +4613,11 @@
                             x = (-b Â± âˆšÎ”) / 2a<br>
                             x = (-3 Â± âˆš25) / 4<br>
                             x = (-3 Â± 5) / 4<br><br>
-                            <strong>Passo 4:</strong> Calcular as duas soluÃ§Ãµes<br>
+                            <strong>Passo 4:</strong> Calcular as duas soluA§Aµes<br>
                             xâ‚ = (-3 + 5) / 4 = 2/4 = 0.5<br>
                             xâ‚‚ = (-3 - 5) / 4 = -8/4 = -2<br><br>
                             <strong>âœ… Resposta:</strong> <span class="highlight">xâ‚ = 0.5, xâ‚‚ = -2</span><br><br>
-                            <strong>ðŸ” VerificaÃ§Ã£o:</strong> Substitua os valores na equaÃ§Ã£o original
+                            <strong>ðŸ” VerificaA§A£o:</strong> Substitua os valores na equaA§A£o original
                         </div>
                     </div>
                 `;
@@ -4630,17 +4633,17 @@
                 
                 texto = `
                     <div class="concept-card">
-                        <h3>ðŸŽ² Novo Exemplo: EquaÃ§Ã£o do 1º Grau</h3>
+                        <h3>ðŸŽ² Novo Exemplo: EquaA§A£o do 1º Grau</h3>
                         <div class="equation">${equacaoFormatada}</div>
                         <div class="solution-steps">
-                            <strong>ðŸ“‹ ResoluÃ§Ã£o Passo a Passo:</strong><br><br>
+                            <strong>ðŸ“‹ ResoluA§A£o Passo a Passo:</strong><br><br>
                             <strong>Passo 1:</strong> Isolar o termo com x<br>
                             ${eq.a}x = ${eq.c} ${eq.b >= 0 ? `- ${eq.b}` : `+ ${Math.abs(eq.b)}`}<br>
                             ${eq.a}x = ${eq.c - eq.b}<br><br>
                             <strong>Passo 2:</strong> Dividir ambos os lados por ${eq.a}<br>
-                            x = ${eq.c - eq.b} Ã· ${eq.a}<br><br>
+                            x = ${eq.c - eq.b} A· ${eq.a}<br><br>
                             <strong>âœ… Resposta:</strong> <span class="highlight">x = ${solucao.toFixed(2)}</span><br><br>
-                            <strong>ðŸ” VerificaÃ§Ã£o:</strong> ${eq.a}(${solucao.toFixed(2)}) ${eq.b >= 0 ? `+ ${eq.b}` : `- ${Math.abs(eq.b)}`} = ${(eq.a * solucao + eq.b).toFixed(2)} = ${eq.c} âœ“
+                            <strong>ðŸ” VerificaA§A£o:</strong> ${eq.a}(${solucao.toFixed(2)}) ${eq.b >= 0 ? `+ ${eq.b}` : `- ${Math.abs(eq.b)}`} = ${(eq.a * solucao + eq.b).toFixed(2)} = ${eq.c} âœ“
                         </div>
                     </div>
                 `;
@@ -4652,16 +4655,16 @@
                 if (respostaCorreta.length === 0) {
                     texto = `
                         <div class="concept-card">
-                            <h3>ðŸŽ² Novo Exemplo: EquaÃ§Ã£o do 2º Grau</h3>
+                            <h3>ðŸŽ² Novo Exemplo: EquaA§A£o do 2º Grau</h3>
                             <div class="equation">${equacaoFormatada}</div>
                             <div class="solution-steps">
-                                <strong>ðŸ“‹ ResoluÃ§Ã£o Passo a Passo:</strong><br><br>
+                                <strong>ðŸ“‹ ResoluA§A£o Passo a Passo:</strong><br><br>
                                 <strong>Passo 1:</strong> Identificar os coeficientes<br>
                                 a = ${eq.a}, b = ${eq.b}, c = ${eq.c}<br><br>
                                 <strong>Passo 2:</strong> Calcular o discriminante (Î”)<br>
                                 Î” = ${eq.b}Â² - 4(${eq.a})(${eq.c})<br>
                                 Î” = ${eq.b * eq.b} - ${4 * eq.a * eq.c} = ${delta}<br><br>
-                                <strong>âœ… ConclusÃ£o:</strong> <span class="highlight">Como Î” < 0, nÃ£o hÃ¡ soluÃ§Ãµes reais</span>
+                                <strong>âœ… ConclusA£o:</strong> <span class="highlight">Como Î” < 0, nA£o hA¡ soluA§Aµes reais</span>
                             </div>
                         </div>
                     `;
@@ -4669,10 +4672,10 @@
                     const x = respostaCorreta[0];
                     texto = `
                         <div class="concept-card">
-                            <h3>ðŸŽ² Novo Exemplo: EquaÃ§Ã£o do 2º Grau</h3>
+                            <h3>ðŸŽ² Novo Exemplo: EquaA§A£o do 2º Grau</h3>
                             <div class="equation">${equacaoFormatada}</div>
                             <div class="solution-steps">
-                                <strong>ðŸ“‹ ResoluÃ§Ã£o Passo a Passo:</strong><br><br>
+                                <strong>ðŸ“‹ ResoluA§A£o Passo a Passo:</strong><br><br>
                                 <strong>Passo 1:</strong> Identificar os coeficientes<br>
                                 a = ${eq.a}, b = ${eq.b}, c = ${eq.c}<br><br>
                                 <strong>Passo 2:</strong> Calcular o discriminante (Î”)<br>
@@ -4688,17 +4691,17 @@
                     const x2 = respostaCorreta[1];
                     texto = `
                         <div class="concept-card">
-                            <h3>ðŸŽ² Novo Exemplo: EquaÃ§Ã£o do 2º Grau</h3>
+                            <h3>ðŸŽ² Novo Exemplo: EquaA§A£o do 2º Grau</h3>
                             <div class="equation">${equacaoFormatada}</div>
                             <div class="solution-steps">
-                                <strong>ðŸ“‹ ResoluÃ§Ã£o Passo a Passo:</strong><br><br>
+                                <strong>ðŸ“‹ ResoluA§A£o Passo a Passo:</strong><br><br>
                                 <strong>Passo 1:</strong> Identificar os coeficientes<br>
                                 a = ${eq.a}, b = ${eq.b}, c = ${eq.c}<br><br>
                                 <strong>Passo 2:</strong> Calcular o discriminante (Î”)<br>
                                 Î” = ${eq.b}Â² - 4(${eq.a})(${eq.c}) = ${delta}<br><br>
                                 <strong>Passo 3:</strong> Aplicar Bhaskara<br>
                                 x = (-${eq.b} Â± âˆš${delta}) / ${2 * eq.a}<br><br>
-                                <strong>Passo 4:</strong> Calcular as duas soluÃ§Ãµes<br>
+                                <strong>Passo 4:</strong> Calcular as duas soluA§Aµes<br>
                                 xâ‚ = (-${eq.b} + âˆš${delta}) / ${2 * eq.a} = ${x1.toFixed(2)}<br>
                                 xâ‚‚ = (-${eq.b} - âˆš${delta}) / ${2 * eq.a} = ${x2.toFixed(2)}<br><br>
                                 <strong>âœ… Resposta:</strong> <span class="highlight">xâ‚ = ${x1.toFixed(2)}, xâ‚‚ = ${x2.toFixed(2)}</span>
@@ -4715,7 +4718,7 @@
             const resultadoDiv = document.getElementById('resultadoCustom');
             const solucaoDiv = document.getElementById('solucaoCustom');
             if (!eqStr) {
-                resultadoDiv.innerHTML = '<div class="result incorrect">âš ï¸ Digite uma equaÃ§Ã£o!</div>';
+                resultadoDiv.innerHTML = '<div class="result incorrect">âš ï¸ Digite uma equaA§A£o!</div>';
                 solucaoDiv.innerHTML = '';
                 return;
             }
@@ -4734,7 +4737,7 @@
                 let c = eq2[3] ? parseInt(eq2[3].replace(/\s+/g, '')) : 0;
                 let delta = b * b - 4 * a * c;
                 if (delta < 0) {
-                    resultadoDiv.innerHTML = `<div class="result info">NÃ£o hÃ¡ soluÃ§Ãµes reais</div>`;
+                    resultadoDiv.innerHTML = `<div class="result info">NA£o hA¡ soluA§Aµes reais</div>`;
                 } else if (delta === 0) {
                     let x = (-b) / (2 * a);
                     resultadoDiv.innerHTML = `<div class="result info">x = ${x.toFixed(2)}</div>`;
@@ -4745,7 +4748,7 @@
                 }
                 mostrarSolucao2Grau({a, b, c}, solucaoDiv);
             } else {
-                resultadoDiv.innerHTML = `<div class="result incorrect">âŒ EquaÃ§Ã£o nÃ£o reconhecida. Tente os exemplos sugeridos.</div>`;
+                resultadoDiv.innerHTML = `<div class="result incorrect">âŒ EquaA§A£o nA£o reconhecida. Tente os exemplos sugeridos.</div>`;
                 solucaoDiv.innerHTML = '';
             }
         }
@@ -4786,11 +4789,11 @@
             alert('Alternativa selecionada: ' + buttons[index].textContent);
         }
 
-        // FunÃ§Ã£o real para alternar modo de resposta
+        // FunA§A£o real para alternar modo de resposta
         function toggleAnswerMode(mode) {
             multipleChoiceMode = (mode === 'choice');
             
-            // Atualizar botÃµes visuais
+            // Atualizar botAµes visuais
             document.getElementById('inputModeBtn').classList.toggle('active', !multipleChoiceMode);
             document.getElementById('choiceModeBtn').classList.toggle('active', multipleChoiceMode);
             
@@ -4802,7 +4805,7 @@
             const inputsDiv = document.getElementById('inputsResposta');
             
             if (multipleChoiceMode) {
-                // Modo mÃºltipla escolha
+                // Modo mAºltipla escolha
                 const alternatives = generateRealAlternatives(respostaCorreta);
                 let html = '<div class="alternatives-container">';
                 
@@ -4818,11 +4821,11 @@
                 html += '</div>';
                 inputsDiv.innerHTML = html;
                 
-                // Resetar seleÃ§Ã£o
+                // Resetar seleA§A£o
                 window.selectedAlternative = -1;
                 
             } else {
-                // Modo de digitaÃ§Ã£o tradicional
+                // Modo de digitaA§A£o tradicional
                 if (currentDegree === 1) {
                     inputsDiv.innerHTML = `
                         <div class="input-group">
@@ -4838,7 +4841,7 @@
                     inputsDiv.innerHTML = `
                         <div class="input-row">
                             <div class="input-group">
-                                <label for="resposta1">xâ‚ (primeira soluÃ§Ã£o):</label>
+                                <label for="resposta1">xâ‚ (primeira soluA§A£o):</label>
                                 <input type="number" id="resposta1" step="0.01" placeholder="Ex: 2">
                                 <div style="margin-top: 5px;">
                                     <button class="btn" style="padding: 5px 10px; margin: 2px; font-size: 12px;" onclick="addToInput('resposta1', '-')">Â±</button>
@@ -4846,7 +4849,7 @@
                                 </div>
                             </div>
                             <div class="input-group">
-                                <label for="resposta2">xâ‚‚ (segunda soluÃ§Ã£o):</label>
+                                <label for="resposta2">xâ‚‚ (segunda soluA§A£o):</label>
                                 <input type="number" id="resposta2" step="0.01" placeholder="Ex: 3">
                                 <div style="margin-top: 5px;">
                                     <button class="btn" style="padding: 5px 10px; margin: 2px; font-size: 12px;" onclick="addToInput('resposta2', '-')">Â±</button>
@@ -4855,7 +4858,7 @@
                             </div>
                         </div>
                         <p style="font-size: 14px; color: #666; margin-top: 5px;">
-                            ðŸ’¡ Se houver apenas uma soluÃ§Ã£o, deixe xâ‚‚ em branco. Se nÃ£o houver soluÃ§Ãµes reais, deixe ambos em branco.
+                            ðŸ’¡ Se houver apenas uma soluA§A£o, deixe xâ‚‚ em branco. Se nA£o houver soluA§Aµes reais, deixe ambos em branco.
                         </p>
                     `;
                 }
@@ -4878,7 +4881,7 @@
                         // Erro de sinal
                         wrongAnswer = `x = ${(-base).toFixed(2)}`;
                     } else if (variation < 0.6) {
-                        // Erro de cÃ¡lculo (+/- 1 a 5)
+                        // Erro de cA¡lculo (+/- 1 a 5)
                         const error = (Math.random() > 0.5 ? 1 : -1) * (Math.floor(Math.random() * 5) + 1);
                         wrongAnswer = `x = ${(base + error).toFixed(2)}`;
                     } else {
@@ -4894,7 +4897,7 @@
             } else {
                 // Para Equações de 2º grau
                 if (correctAnswer.length === 0) {
-                    alternatives.push("NÃ£o hÃ¡ soluÃ§Ãµes reais (Î” < 0)");
+                    alternatives.push("NA£o hA¡ soluA§Aµes reais (Î” < 0)");
                     alternatives.push("x = 0 (raiz dupla)");
                     alternatives.push("xâ‚ = 1.00, xâ‚‚ = -1.00");
                     alternatives.push("xâ‚ = 2.00, xâ‚‚ = -2.00");
@@ -4904,7 +4907,7 @@
                     alternatives.push(`x = ${root.toFixed(2)} (raiz dupla)`);
                     alternatives.push(`xâ‚ = ${root.toFixed(2)}, xâ‚‚ = ${(root + 1).toFixed(2)}`);
                     alternatives.push(`x = ${(-root).toFixed(2)} (raiz dupla)`);
-                    alternatives.push("NÃ£o hÃ¡ soluÃ§Ãµes reais (Î” < 0)");
+                    alternatives.push("NA£o hA¡ soluA§Aµes reais (Î” < 0)");
                     alternatives.push(`xâ‚ = ${(root/2).toFixed(2)}, xâ‚‚ = ${(root*2).toFixed(2)}`);
                 } else {
                     const [x1, x2] = correctAnswer.sort((a, b) => a - b);
@@ -4912,7 +4915,7 @@
                     alternatives.push(`xâ‚ = ${(-x1).toFixed(2)}, xâ‚‚ = ${x2.toFixed(2)}`);
                     alternatives.push(`xâ‚ = ${x1.toFixed(2)}, xâ‚‚ = ${(-x2).toFixed(2)}`);
                     alternatives.push(`x = ${x1.toFixed(2)} (raiz dupla)`);
-                    alternatives.push("NÃ£o hÃ¡ soluÃ§Ãµes reais (Î” < 0)");
+                    alternatives.push("NA£o hA¡ soluA§Aµes reais (Î” < 0)");
                 }
             }
             
@@ -4930,7 +4933,7 @@
                 return `x = ${correctAnswer[0].toFixed(2)}`;
             } else {
                 if (correctAnswer.length === 0) {
-                    return "NÃ£o hÃ¡ soluÃ§Ãµes reais (Î” < 0)";
+                    return "NA£o hA¡ soluA§Aµes reais (Î” < 0)";
                 } else if (correctAnswer.length === 1) {
                     return `x = ${correctAnswer[0].toFixed(2)} (raiz dupla)`;
                 } else {
@@ -4941,23 +4944,23 @@
         }
 
         function selectRealAlternative(index) {
-            // Remover seleÃ§Ã£o anterior
+            // Remover seleA§A£o anterior
             document.querySelectorAll('.alternative').forEach(alt => {
                 alt.style.borderColor = '#dee2e6';
                 alt.style.backgroundColor = 'white';
             });
             
-            // Adicionar seleÃ§Ã£o atual
+            // Adicionar seleA§A£o atual
             const buttons = document.querySelectorAll('.alternative');
             buttons[index].style.borderColor = '#007bff';
             buttons[index].style.backgroundColor = '#e3f2fd';
             
-            // Salvar seleÃ§Ã£o
+            // Salvar seleA§A£o
             window.selectedAlternative = index;
             window.currentAlternatives = Array.from(buttons).map(btn => btn.textContent.substring(3)); // Remove "A) ", "B) ", etc.
         }
 
-        // Funções de Navegação por assunto
+        // Funções de NavegaçAo por assunto
         function showSubjectPage(subject) {
             // Esconder menu principal
             document.getElementById('mainMenu').style.display = 'none';
@@ -4988,19 +4991,19 @@
             });
         }
 
-        // FunÃ§Ã£o para inserir Números/sÃ­mbolos nos inputs das Funções (mobile-friendly)
+        // FunA§A£o para inserir nAºmeros/sA­mbolos nos inputs das Funções (mobile-friendly)
         function insertFunctionNumber(inputId, value) {
             const input = document.getElementById(inputId);
             if (input) {
                 if (value === '-') {
-                    // Se jÃ¡ tem sinal negativo, remove; se nÃ£o tem, adiciona no inÃ­cio
+                    // Se jA¡ tem sinal negativo, remove; se nA£o tem, adiciona no inA­cio
                     if (input.value.startsWith('-')) {
                         input.value = input.value.substring(1);
                     } else {
                         input.value = '-' + input.value;
                     }
                 } else {
-                    // Para outros valores (como ponto decimal), adiciona na posiÃ§Ã£o do cursor
+                    // Para outros valores (como ponto decimal), adiciona na posiA§A£o do cursor
                     const currentValue = input.value;
                     const cursorPos = input.selectionStart;
                     input.value = currentValue.slice(0, cursorPos) + value + currentValue.slice(cursorPos);
@@ -5010,38 +5013,10 @@
             }
         }
 
-        // Inicialização
+        // InicializaçAo
         window.onload = function() {
-            // Forçar sempre mostrar apenas o login ao carregar
-            const loginScreen = document.getElementById('loginScreen');
-            const mainScreen = document.getElementById('mainScreen');
-            const mainMenu = document.getElementById('mainMenu');
-            
-            if (loginScreen) {
-                loginScreen.style.display = 'block';
-                loginScreen.style.visibility = 'visible';
-                loginScreen.style.opacity = '1';
-            }
-            
-            if (mainScreen) {
-                mainScreen.style.display = 'none';
-                mainScreen.classList.add('hidden');
-            }
-            
-            if (mainMenu) {
-                mainMenu.style.display = 'none';
-            }
-            
-            // Esconder todas as páginas de assunto
-            document.querySelectorAll('.subject-page').forEach(page => {
-                page.style.display = 'none';
-                page.classList.remove('active');
-            });
-            
-            // Resetar usuário atual
-            currentUser = null;
-            
-            console.log('Sistema carregado - Apenas login visível');
+            // Login screen já aparece por padrAo
+            console.log('Sistema carregado - Tela de login ativa');
         };
     </script>
 </body>
