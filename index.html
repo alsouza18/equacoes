@@ -5002,8 +5002,21 @@
 
         // Inicialização
         window.onload = function() {
-            // Login screen já aparece por padrão
-            console.log('Sistema carregado - Tela de login ativa');
+            // Forçar sempre mostrar apenas o login ao carregar
+            document.getElementById('loginScreen').style.display = 'block';
+            document.getElementById('mainScreen').classList.add('hidden');
+            document.getElementById('mainMenu').style.display = 'none';
+            
+            // Esconder todas as páginas de assunto
+            document.querySelectorAll('.subject-page').forEach(page => {
+                page.style.display = 'none';
+                page.classList.remove('active');
+            });
+            
+            // Resetar usuário atual
+            currentUser = null;
+            
+            console.log('Sistema carregado - Tela de login forçada');
         };
     </script>
 </body>
