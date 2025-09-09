@@ -455,9 +455,412 @@
         .hidden {
             display: none !important;
         }
+
+        /* Sistema de Login */
+        .login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .login-header {
+            margin-bottom: 30px;
+        }
+
+        .login-header h2 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+        }
+
+        .login-header p {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+        }
+
+        .grade-year-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .login-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary-login {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-success-login {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-warning-login {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .btn-secondary-login {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .login-links {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .login-link {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .login-link:hover {
+            text-decoration: underline;
+        }
+
+        .user-info-bar {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .user-details {
+            font-size: 0.9rem;
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .registration-form {
+            display: none;
+        }
+
+        .professor-login-form {
+            display: none;
+        }
+
+        .admin-panel {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            color: white;
+        }
+
+        .admin-panel h3 {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
     </style>
 </head>
 <body>
+    <!-- Sistema de Login -->
+    <div id="login-overlay" class="login-overlay">
+        <div class="login-container">
+            <!-- Login de Aluno -->
+            <div id="student-login" class="student-login-form">
+                <div class="login-header">
+                    <h2>🎓 Login do Aluno</h2>
+                    <p>Acesse sua conta para estudar matemática</p>
+                </div>
+                
+                <form onsubmit="return studentLogin(event)">
+                    <div class="form-group">
+                        <label for="student-name">Nome do Aluno:</label>
+                        <input type="text" id="student-name" placeholder="Digite seu nome completo" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="student-password">Senha:</label>
+                        <input type="password" id="student-password" placeholder="Digite sua senha" required>
+                    </div>
+                    
+                    <div class="grade-year-row">
+                        <div class="form-group">
+                            <label for="student-grade">Série/Ano:</label>
+                            <select id="student-grade" required>
+                                <option value="">Selecione</option>
+                                <option value="6ano">6º Ano</option>
+                                <option value="7ano">7º Ano</option>
+                                <option value="8ano">8º Ano</option>
+                                <option value="9ano">9º Ano</option>
+                                <option value="1medio">1º Médio</option>
+                                <option value="2medio">2º Médio</option>
+                                <option value="3medio">3º Médio</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="student-class">Turma:</label>
+                            <select id="student-class" required>
+                                <option value="">Selecione</option>
+                                <option value="A">Turma A</option>
+                                <option value="B">Turma B</option>
+                                <option value="C">Turma C</option>
+                                <option value="D">Turma D</option>
+                                <option value="E">Turma E</option>
+                                <option value="F">Turma F</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="login-buttons">
+                        <button type="submit" class="btn-login btn-primary-login">🚀 Entrar</button>
+                    </div>
+                </form>
+                
+                <div class="login-links">
+                    <a class="login-link" onclick="showRegistration()">📝 Cadastrar-se</a>
+                    <a class="login-link" onclick="showProfessorLogin()">👨‍🏫 Área do Professor</a>
+                </div>
+            </div>
+            
+            <!-- Cadastro de Novo Aluno -->
+            <div id="registration-form" class="registration-form">
+                <div class="login-header">
+                    <h2>📝 Cadastro de Aluno</h2>
+                    <p>Crie sua conta para começar a estudar</p>
+                </div>
+                
+                <form onsubmit="return registerStudent(event)">
+                    <div class="form-group">
+                        <label for="reg-name">Nome Completo:</label>
+                        <input type="text" id="reg-name" placeholder="Digite seu nome completo" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reg-email">Email (opcional):</label>
+                        <input type="email" id="reg-email" placeholder="seu@email.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reg-password">Criar Senha:</label>
+                        <input type="password" id="reg-password" placeholder="Mínimo 4 caracteres" required minlength="4">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reg-confirm-password">Confirmar Senha:</label>
+                        <input type="password" id="reg-confirm-password" placeholder="Digite a senha novamente" required>
+                    </div>
+                    
+                    <div class="grade-year-row">
+                        <div class="form-group">
+                            <label for="reg-grade">Série/Ano:</label>
+                            <select id="reg-grade" required>
+                                <option value="">Selecione</option>
+                                <option value="6ano">6º Ano</option>
+                                <option value="7ano">7º Ano</option>
+                                <option value="8ano">8º Ano</option>
+                                <option value="9ano">9º Ano</option>
+                                <option value="1medio">1º Médio</option>
+                                <option value="2medio">2º Médio</option>
+                                <option value="3medio">3º Médio</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="reg-class">Turma:</label>
+                            <select id="reg-class" required>
+                                <option value="">Selecione</option>
+                                <option value="A">Turma A</option>
+                                <option value="B">Turma B</option>
+                                <option value="C">Turma C</option>
+                                <option value="D">Turma D</option>
+                                <option value="E">Turma E</option>
+                                <option value="F">Turma F</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="login-buttons">
+                        <button type="submit" class="btn-login btn-success-login">✅ Criar Conta</button>
+                        <button type="button" class="btn-login btn-secondary-login" onclick="showStudentLogin()">⬅️ Voltar ao Login</button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Login do Professor -->
+            <div id="professor-login" class="professor-login-form">
+                <div class="login-header">
+                    <h2>👨‍🏫 Login do Professor</h2>
+                    <p>Acesso administrativo ao sistema</p>
+                </div>
+                
+                <form onsubmit="return professorLogin(event)">
+                    <div class="form-group">
+                        <label for="prof-name">Nome do Professor:</label>
+                        <input type="text" id="prof-name" placeholder="Digite seu nome" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="prof-password">Senha:</label>
+                        <input type="password" id="prof-password" placeholder="Digite sua senha" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="prof-code">Código de Acesso:</label>
+                        <input type="text" id="prof-code" placeholder="Código administrativo" required>
+                    </div>
+                    
+                    <div class="login-buttons">
+                        <button type="submit" class="btn-login btn-warning-login">🔑 Entrar como Professor</button>
+                        <button type="button" class="btn-login btn-secondary-login" onclick="showStudentLogin()">⬅️ Voltar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Barra de Usuário Logado -->
+        <div id="user-info-bar" class="user-info-bar hidden">
+            <div class="user-details">
+                <span id="user-welcome">Bem-vindo(a)!</span>
+            </div>
+            <button class="logout-btn" onclick="logout()">🚪 Sair</button>
+        </div>
+
+        <!-- Painel Administrativo (apenas para professores) -->
+        <div id="admin-panel" class="admin-panel hidden">
+            <h3>📊 Painel Administrativo</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number" id="total-students">0</span>
+                    <span class="stat-label">Alunos Cadastrados</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="active-sessions">0</span>
+                    <span class="stat-label">Sessões Ativas</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="exercises-solved">0</span>
+                    <span class="stat-label">Exercícios Resolvidos</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="success-rate">0%</span>
+                    <span class="stat-label">Taxa de Acerto</span>
+                </div>
+            </div>
+        </div>
     <div class="container">
         <!-- Cabeçalho Principal -->
         <header class="header">
@@ -680,6 +1083,297 @@
         let answerMode = 'alternatives'; // 'alternatives' ou 'open'
         let selectedAlternative = -1;
         let correctAlternative = -1;
+
+        // Sistema de Usuários
+        let currentUser = null;
+        let isLoggedIn = false;
+        let userType = 'student'; // 'student' ou 'professor'
+        let sessionStats = {
+            exercisesSolved: 0,
+            correctAnswers: 0,
+            startTime: null
+        };
+
+        // Banco de Dados Local (localStorage)
+        const DB = {
+            students: 'math_students_db',
+            professors: 'math_professors_db',
+            sessions: 'math_sessions_db',
+            stats: 'math_stats_db'
+        };
+
+        // Inicializar banco de dados
+        function initDatabase() {
+            // Criar professores padrão se não existirem
+            if (!localStorage.getItem(DB.professors)) {
+                const defaultProfessors = [
+                    {
+                        id: 1,
+                        name: 'Professor Demo',
+                        password: 'prof123',
+                        code: 'ADMIN2024',
+                        email: 'professor@escola.com',
+                        createdAt: new Date().toISOString()
+                    }
+                ];
+                localStorage.setItem(DB.professors, JSON.stringify(defaultProfessors));
+            }
+
+            // Inicializar outras coleções se não existirem
+            if (!localStorage.getItem(DB.students)) {
+                localStorage.setItem(DB.students, JSON.stringify([]));
+            }
+            if (!localStorage.getItem(DB.sessions)) {
+                localStorage.setItem(DB.sessions, JSON.stringify([]));
+            }
+            if (!localStorage.getItem(DB.stats)) {
+                localStorage.setItem(DB.stats, JSON.stringify({
+                    totalExercises: 0,
+                    totalCorrect: 0,
+                    totalStudents: 0,
+                    activeSessions: 0
+                }));
+            }
+        }
+
+        // Funções de manipulação do banco
+        function getStudents() {
+            return JSON.parse(localStorage.getItem(DB.students) || '[]');
+        }
+
+        function saveStudent(student) {
+            const students = getStudents();
+            student.id = Date.now();
+            student.createdAt = new Date().toISOString();
+            students.push(student);
+            localStorage.setItem(DB.students, JSON.stringify(students));
+            return student;
+        }
+
+        function findStudent(name, password) {
+            const students = getStudents();
+            return students.find(s => s.name.toLowerCase() === name.toLowerCase() && s.password === password);
+        }
+
+        function getProfessors() {
+            return JSON.parse(localStorage.getItem(DB.professors) || '[]');
+        }
+
+        function findProfessor(name, password, code) {
+            const professors = getProfessors();
+            return professors.find(p => 
+                p.name.toLowerCase() === name.toLowerCase() && 
+                p.password === password && 
+                p.code === code
+            );
+        }
+
+        function updateStats() {
+            const stats = JSON.parse(localStorage.getItem(DB.stats) || '{}');
+            stats.totalStudents = getStudents().length;
+            stats.totalExercises = sessionStats.exercisesSolved || 0;
+            stats.totalCorrect = sessionStats.correctAnswers || 0;
+            stats.activeSessions = 1; // Simplificado para demo
+            localStorage.setItem(DB.stats, JSON.stringify(stats));
+            
+            // Atualizar painel administrativo
+            if (userType === 'professor') {
+                updateAdminPanel();
+            }
+        }
+
+        // Funções de Login
+        function studentLogin(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('student-name').value.trim();
+            const password = document.getElementById('student-password').value;
+            const grade = document.getElementById('student-grade').value;
+            const classRoom = document.getElementById('student-class').value;
+            
+            if (!name || !password || !grade || !classRoom) {
+                alert('Por favor, preencha todos os campos!');
+                return false;
+            }
+            
+            const student = findStudent(name, password);
+            
+            if (student) {
+                // Login bem-sucedido
+                currentUser = student;
+                isLoggedIn = true;
+                userType = 'student';
+                sessionStats.startTime = new Date();
+                
+                showMainSystem();
+                updateUserInfo();
+                updateStats();
+            } else {
+                alert('Nome ou senha incorretos!\\nSe é seu primeiro acesso, clique em "Cadastrar-se".');
+            }
+            
+            return false;
+        }
+
+        function registerStudent(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('reg-name').value.trim();
+            const email = document.getElementById('reg-email').value.trim();
+            const password = document.getElementById('reg-password').value;
+            const confirmPassword = document.getElementById('reg-confirm-password').value;
+            const grade = document.getElementById('reg-grade').value;
+            const classRoom = document.getElementById('reg-class').value;
+            
+            if (!name || !password || !grade || !classRoom) {
+                alert('Por favor, preencha todos os campos obrigatórios!');
+                return false;
+            }
+            
+            if (password !== confirmPassword) {
+                alert('As senhas não coincidem!');
+                return false;
+            }
+            
+            if (password.length < 4) {
+                alert('A senha deve ter pelo menos 4 caracteres!');
+                return false;
+            }
+            
+            // Verificar se já existe um aluno com esse nome
+            const existingStudent = getStudents().find(s => s.name.toLowerCase() === name.toLowerCase());
+            if (existingStudent) {
+                alert('Já existe um aluno cadastrado com este nome!');
+                return false;
+            }
+            
+            // Criar novo aluno
+            const newStudent = {
+                name: name,
+                email: email,
+                password: password,
+                grade: grade,
+                class: classRoom
+            };
+            
+            saveStudent(newStudent);
+            alert('Cadastro realizado com sucesso!\\nAgora você pode fazer login.');
+            showStudentLogin();
+            
+            return false;
+        }
+
+        function professorLogin(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('prof-name').value.trim();
+            const password = document.getElementById('prof-password').value;
+            const code = document.getElementById('prof-code').value;
+            
+            if (!name || !password || !code) {
+                alert('Por favor, preencha todos os campos!');
+                return false;
+            }
+            
+            const professor = findProfessor(name, password, code);
+            
+            if (professor) {
+                // Login bem-sucedido
+                currentUser = professor;
+                isLoggedIn = true;
+                userType = 'professor';
+                sessionStats.startTime = new Date();
+                
+                showMainSystem();
+                updateUserInfo();
+                updateStats();
+                document.getElementById('admin-panel').classList.remove('hidden');
+            } else {
+                alert('Credenciais de professor incorretas!\\n\\nPara demonstração, use:\\nNome: Professor Demo\\nSenha: prof123\\nCódigo: ADMIN2024');
+            }
+            
+            return false;
+        }
+
+        // Funções de interface
+        function showStudentLogin() {
+            document.getElementById('student-login').style.display = 'block';
+            document.getElementById('registration-form').style.display = 'none';
+            document.getElementById('professor-login').style.display = 'none';
+        }
+
+        function showRegistration() {
+            document.getElementById('student-login').style.display = 'none';
+            document.getElementById('registration-form').style.display = 'block';
+            document.getElementById('professor-login').style.display = 'none';
+        }
+
+        function showProfessorLogin() {
+            document.getElementById('student-login').style.display = 'none';
+            document.getElementById('registration-form').style.display = 'none';
+            document.getElementById('professor-login').style.display = 'block';
+        }
+
+        function showMainSystem() {
+            document.getElementById('login-overlay').classList.add('hidden');
+            document.getElementById('user-info-bar').classList.remove('hidden');
+        }
+
+        function updateUserInfo() {
+            const gradeNames = {
+                '6ano': '6º Ano',
+                '7ano': '7º Ano', 
+                '8ano': '8º Ano',
+                '9ano': '9º Ano',
+                '1medio': '1º Médio',
+                '2medio': '2º Médio',
+                '3medio': '3º Médio'
+            };
+            
+            let welcomeText = '';
+            if (userType === 'student') {
+                const grade = gradeNames[currentUser.grade] || currentUser.grade;
+                welcomeText = `Olá, ${currentUser.name}! | ${grade} - Turma ${currentUser.class}`;
+            } else {
+                welcomeText = `Professor ${currentUser.name} | Painel Administrativo`;
+            }
+            
+            document.getElementById('user-welcome').textContent = welcomeText;
+        }
+
+        function updateAdminPanel() {
+            const stats = JSON.parse(localStorage.getItem(DB.stats) || '{}');
+            const students = getStudents();
+            
+            document.getElementById('total-students').textContent = students.length;
+            document.getElementById('active-sessions').textContent = '1';
+            document.getElementById('exercises-solved').textContent = sessionStats.exercisesSolved;
+            
+            const successRate = sessionStats.exercisesSolved > 0 ? 
+                Math.round((sessionStats.correctAnswers / sessionStats.exercisesSolved) * 100) : 0;
+            document.getElementById('success-rate').textContent = successRate + '%';
+        }
+
+        function logout() {
+            if (confirm('Tem certeza que deseja sair?')) {
+                currentUser = null;
+                isLoggedIn = false;
+                userType = 'student';
+                sessionStats = {
+                    exercisesSolved: 0,
+                    correctAnswers: 0,
+                    startTime: null
+                };
+                
+                document.getElementById('login-overlay').classList.remove('hidden');
+                document.getElementById('user-info-bar').classList.add('hidden');
+                document.getElementById('admin-panel').classList.add('hidden');
+                showStudentLogin();
+                
+                // Limpar formulários
+                document.querySelectorAll('form').forEach(form => form.reset());
+            }
+        }
 
         // Navegação entre módulos
         function showModule(module) {
@@ -1339,11 +2033,20 @@
                 }
             }
             
+            // Atualizar estatísticas
+            sessionStats.exercisesSolved++;
             if (correct) {
+                sessionStats.correctAnswers++;
                 showFeedback('🎉 Parabéns! Resposta correta!', 'success');
             } else {
                 showFeedback('❌ Resposta incorreta. Tente novamente ou use uma dica.', 'error');
             }
+            
+            // Atualizar painel administrativo se for professor
+            if (userType === 'professor') {
+                updateAdminPanel();
+            }
+            updateStats();
         }
 
         // Mostrar dica
@@ -1450,7 +2153,12 @@
 
         // Inicialização
         document.addEventListener('DOMContentLoaded', function() {
+            initDatabase();
             updateContent();
+            
+            // Verificar se há sessão ativa (opcional, para futuras implementações)
+            // Por enquanto, sempre mostrar login
+            showStudentLogin();
         });
     </script>
 </body>
