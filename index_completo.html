@@ -1039,22 +1039,22 @@
         
         <div class="input-group">
             <label for="studentPassword">Senha do Aluno:</label>
-            <input type="password" id="studentPassword" placeholder="Crie uma senha (mÃ­nimo 4 caracteres)">
-            <small style="color: #666; font-size: 12px;">ðŸ’¡ Na primeira vez, vocÃª criarÃ¡ sua senha. Depois, use a mesma para entrar.</small>
+            <input type="password" id="studentPassword" placeholder="Crie uma senha (mínimo 4 caracteres)">
+            <small style="color: #666; font-size: 12px;">ðŸ’¡ Na primeira vez, você criará sua senha. Depois, use a mesma para entrar.</small>
         </div>
         
         <div class="input-row">
             <div class="input-group">
-                <label for="studentSeries">SÃ©rie/Ano:</label>
+                <label for="studentSeries">Série/Ano:</label>
                 <select id="studentSeries">
-                    <option value="">Selecione sua sÃ©rie</option>
-                    <option value="6Âº Ano">6Âº Ano</option>
-                    <option value="7Âº Ano">7Âº Ano</option>
-                    <option value="8Âº Ano">8Âº Ano</option>
-                    <option value="9Âº Ano">9Âº Ano</option>
-                    <option value="1Âº MÃ©dio">1Âº Ano MÃ©dio</option>
-                    <option value="2Âº MÃ©dio">2Âº Ano MÃ©dio</option>
-                    <option value="3Âº MÃ©dio">3Âº Ano MÃ©dio</option>
+                    <option value="">Selecione sua Série</option>
+                    <option value="6º Ano">6º Ano</option>
+                    <option value="7º Ano">7º Ano</option>
+                    <option value="8º Ano">8º Ano</option>
+                    <option value="9º Ano">9º Ano</option>
+                    <option value="1º Médio">1º Ano Médio</option>
+                    <option value="2º Médio">2º Ano Médio</option>
+                    <option value="3º Médio">3º Ano Médio</option>
                 </select>
             </div>
             <div class="input-group">
@@ -1122,7 +1122,7 @@
                     <p>Resolva Equações lineares e quadráticas com suporte educacional</p>
                 </div>
 
-                <!-- EstatÃ­sticas do Aluno -->
+                <!-- Estatísticas do Aluno -->
                 <div class="stats-row">
                     <div class="stats-card">
                         <h3>âœ… Acertos</h3>
@@ -1137,7 +1137,7 @@
                         <h2 id="userPercent">0%</h2>
                     </div>
                     <div class="stats-card">
-                        <button class="btn btn-outline" onclick="atualizarEstatisticasUsuario()" title="Atualizar estatÃ­sticas">
+                        <button class="btn btn-outline" onclick="atualizarEstatisticasUsuario()" title="Atualizar Estatísticas">
                             ðŸ”„ Atualizar
                         </button>
                     </div>
@@ -1145,20 +1145,20 @@
 
                 <!-- Seletor de Grau -->
                 <div class="degree-selector">
-                    <button class="degree-btn active" onclick="selectDegree(1)">ðŸ“ 1Â° Grau</button>
-                    <button class="degree-btn" onclick="selectDegree(2)">ðŸ“ˆ 2Â° Grau</button>
+                    <button class="degree-btn active" onclick="selectDegree(1)">ðŸ“ 1º Grau</button>
+                    <button class="degree-btn" onclick="selectDegree(2)">ðŸ“ˆ 2º Grau</button>
                 </div>
 
                 <!-- Seletor de Dificuldade -->
                 <div class="difficulty-selector">
-                    <h3>ðŸŽ¯ NÃ­vel de Dificuldade</h3>
+                    <h3>ðŸŽ¯ Nível de Dificuldade</h3>
                     <div class="difficulty-buttons">
                         <button class="difficulty-btn active" onclick="selectDifficulty('facil')">
                             ðŸ˜Š FÃ¡cil
                             <span class="difficulty-desc">NÃºmeros simples</span>
                         </button>
                         <button class="difficulty-btn" onclick="selectDifficulty('medio')">
-                            ðŸ¤” MÃ©dio
+                            ðŸ¤” Médio
                             <span class="difficulty-desc">Com fraÃ§Ãµes</span>
                         </button>
                         <button class="difficulty-btn" onclick="selectDifficulty('dificil')">
@@ -1177,11 +1177,11 @@
 
                 <!-- SeÃ§Ã£o Teoria -->
                 <div id="teoria" class="section active">
-                    <!-- ConteÃºdo 1Â° Grau -->
+                    <!-- ConteÃºdo 1º Grau -->
                     <div id="teoria1" class="degree-content">
                         <div class="concept-card">
-                            <h2>ðŸ¤” O que Ã© uma EquaÃ§Ã£o do 1Â° Grau?</h2>
-                            <p>Uma equaÃ§Ã£o do 1Â° grau Ã© uma igualdade Matemática que possui uma incÃ³gnita (geralmente representada pela letra <strong>x</strong>) elevada Ã  primeira potÃªncia.</p>
+                            <h2>ðŸ¤” O que Ã© uma EquaÃ§Ã£o do 1º Grau?</h2>
+                            <p>Uma equaÃ§Ã£o do 1º grau Ã© uma igualdade Matemática que possui uma incÃ³gnita (geralmente representada pela letra <strong>x</strong>) elevada Ã  primeira potÃªncia.</p>
                         </div>
 
                         <div class="equation">ax + b = c</div>
@@ -1229,11 +1229,11 @@
                         </div>
                     </div>
 
-                    <!-- ConteÃºdo 2Â° Grau -->
+                    <!-- ConteÃºdo 2º Grau -->
                     <div id="teoria2" class="degree-content" style="display: none;">
                         <div class="concept-card">
-                            <h2>ðŸš€ O que Ã© uma EquaÃ§Ã£o do 2Â° Grau?</h2>
-                            <p>Uma equaÃ§Ã£o do 2Â° grau Ã© uma igualdade Matemática onde a maior potÃªncia da incÃ³gnita x Ã© 2 (xÂ²).</p>
+                            <h2>ðŸš€ O que Ã© uma EquaÃ§Ã£o do 2º Grau?</h2>
+                            <p>Uma equaÃ§Ã£o do 2º grau Ã© uma igualdade Matemática onde a maior potÃªncia da incÃ³gnita x Ã© 2 (xÂ²).</p>
                         </div>
 
                         <div class="equation">axÂ² + bx + c = 0</div>
@@ -1283,7 +1283,7 @@
                 <!-- SeÃ§Ã£o Exemplos -->
                 <div id="exemplos" class="section">
                     <div id="exemplos1" class="degree-content">
-                        <h2>ðŸ’¡ Exemplos Resolvidos - 1Â° Grau</h2>
+                        <h2>ðŸ’¡ Exemplos Resolvidos - 1º Grau</h2>
                         
                         <div class="example">
                             <div class="example-header">
@@ -1310,7 +1310,7 @@
                     </div>
 
                     <div id="exemplos2" class="degree-content" style="display: none;">
-                        <h2>ðŸ’¡ Exemplos Resolvidos - 2Â° Grau</h2>
+                        <h2>ðŸ’¡ Exemplos Resolvidos - 2º Grau</h2>
                         
                         <div class="example">
                             <div class="example-header">
@@ -1360,7 +1360,7 @@
                                     <button class="mobile-btn" onclick="insertNumber(',')" title="Inserir vÃ­rgula">,</button>
                                 </div>
                                 <p style="font-size: 14px; color: #666; margin-top: 5px;">
-                                    ðŸ’¡ Para Equações de 2Â° grau com duas raÃ­zes, digite: x1,x2 (ex: 2,3)
+                                    ðŸ’¡ Para Equações de 2º grau com duas raÃ­zes, digite: x1,x2 (ex: 2,3)
                                 </p>
                             </div>
                             
@@ -1517,8 +1517,8 @@
                     <h3>ðŸ“ˆ AnÃ¡lise de Funções</h3>
                     
                     <div class="degree-selector">
-                        <button class="degree-btn active" onclick="selectFunctionDegree(1)">ðŸ“ˆ FunÃ§Ã£o 1Â° Grau</button>
-                        <button class="degree-btn" onclick="selectFunctionDegree(2)">ðŸ“Š FunÃ§Ã£o 2Â° Grau</button>
+                        <button class="degree-btn active" onclick="selectFunctionDegree(1)">ðŸ“ˆ FunÃ§Ã£o 1º Grau</button>
+                        <button class="degree-btn" onclick="selectFunctionDegree(2)">ðŸ“Š FunÃ§Ã£o 2º Grau</button>
                     </div>
 
                     <div id="functionDisplay" class="equation">f(x) = 2x + 1</div>
@@ -1610,7 +1610,7 @@
             
             <div class="input-group">
                 <label for="newTeacherPassword">Nova Senha:</label>
-                <input type="password" id="newTeacherPassword" placeholder="Crie uma senha (mÃ­nimo 6 caracteres)">
+                <input type="password" id="newTeacherPassword" placeholder="Crie uma senha (mínimo 6 caracteres)">
             </div>
             
             <div class="input-group">
@@ -1659,7 +1659,7 @@
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 15px;">
                         <button class="btn" onclick="showDatabaseInfo()">ðŸ“‹ Info do Banco</button>
                         <button class="btn secondary" onclick="backupData()">ðŸ’¾ Backup JSON</button>
-                        <button class="btn" onclick="showDetailedStats()">ðŸ“ˆ EstatÃ­sticas</button>
+                        <button class="btn" onclick="showDetailedStats()">ðŸ“ˆ Estatísticas</button>
                         <button class="btn secondary" onclick="filterByClass()">ðŸ” Filtrar Turma</button>
                         <button class="btn" onclick="showLoginHistory()">ðŸ• HistÃ³rico de Acessos</button>
                     </div>
@@ -1686,8 +1686,8 @@
                     <div class="concept-card" style="margin-top: 15px;">
                         <h4>ðŸ’¡ Dicas para inserir Equações:</h4>
                         <ul style="font-size: 14px;">
-                            <li><strong>1Â° Grau:</strong> 3x + 5 = 14, 2x - 7 = 9, x + 1 = 10</li>
-                            <li><strong>2Â° Grau:</strong> xÂ² - 5x + 6 = 0, 2xÂ² + 3x - 2 = 0</li>
+                            <li><strong>1º Grau:</strong> 3x + 5 = 14, 2x - 7 = 9, x + 1 = 10</li>
+                            <li><strong>2º Grau:</strong> xÂ² - 5x + 6 = 0, 2xÂ² + 3x - 2 = 0</li>
                             <li><strong>Use parÃªnteses:</strong> (x + 2)(x - 3) = 0</li>
                             <li><strong>EspaÃ§os sÃ£o opcionais:</strong> xÂ²+2x+1=0 ou xÂ² + 2x + 1 = 0</li>
                         </ul>
@@ -1728,7 +1728,7 @@
         let currentDegree = 1;
         let currentDifficulty = 'facil'; // Nova variÃ¡vel para dificuldade
         let showHints = false; // Sistema de dicas
-        let currentHintLevel = 0; // NÃ­vel atual das dicas
+        let currentHintLevel = 0; // Nível atual das dicas
         let equacaoAtual = {};
         let respostaCorreta = [];
         let multipleChoiceMode = false;
@@ -2071,7 +2071,7 @@
             const users = UserManager.getUsers();
             const userList = Object.values(users);
             
-            // EstatÃ­sticas gerais
+            // Estatísticas gerais
             const totalStudents = userList.length;
             const totalCorrect = userList.reduce((sum, user) => sum + user.correct, 0);
             const totalWrong = userList.reduce((sum, user) => sum + user.wrong, 0);
@@ -2123,7 +2123,7 @@
                 
                 return {
                     'Nome': user.name,
-                    'SÃ©rie': user.series,
+                    'Série': user.series,
                     'Acertos': user.correct,
                     'Erros': user.wrong,
                     'Total de Tentativas': totalAttempts,
@@ -2214,7 +2214,7 @@
                 return;
             }
             
-            // EstatÃ­sticas por sÃ©rie
+            // Estatísticas por Série
             const seriesStats = {};
             userList.forEach(user => {
                 const series = user.series.split(' - ')[0]; // Remove a letra da turma
@@ -2238,9 +2238,9 @@
             
             let statsHtml = `
                 <div class="solution-steps">
-                    <h4>ðŸ“ˆ EstatÃ­sticas Detalhadas</h4>
+                    <h4>ðŸ“ˆ Estatísticas Detalhadas</h4>
                     
-                    <strong>ðŸ“š Por SÃ©rie:</strong><br>
+                    <strong>ðŸ“š Por Série:</strong><br>
             `;
             
             Object.keys(seriesStats).forEach(series => {
@@ -2255,7 +2255,7 @@
             topStudents.forEach((user, index) => {
                 const total = user.correct + user.wrong;
                 const percent = Math.round((user.correct / total) * 100);
-                statsHtml += `${index + 1}Âº ${user.name}: ${percent}% (${user.correct}/${total})<br>`;
+                statsHtml += `${index + 1}º ${user.name}: ${percent}% (${user.correct}/${total})<br>`;
             });
             
             statsHtml += `</div>`;
@@ -2464,7 +2464,7 @@
             const alternatives = [];
             
             if (currentDegree === 1) {
-                // Para Equações de 1Âº grau
+                // Para Equações de 1º grau
                 const base = correctAnswer[0];
                 alternatives.push(`x = ${base.toFixed(2)}`);
                 
@@ -2490,7 +2490,7 @@
                     }
                 }
             } else {
-                // Para Equações de 2Âº grau
+                // Para Equações de 2º grau
                 if (correctAnswer.length === 0) {
                     alternatives.push("NÃ£o hÃ¡ soluÃ§Ãµes reais (Î” < 0)");
                     alternatives.push("x = 0 (raiz dupla)");
@@ -2536,7 +2536,7 @@
             window.selectedAlternative = index;
         }
 
-        // FunÃ§Ã£o para atualizar estatÃ­sticas em tempo real
+        // FunÃ§Ã£o para atualizar Estatísticas em tempo real
         function atualizarEstatisticasUsuario() {
             if (!currentUser) return;
             
@@ -2567,10 +2567,10 @@
             // Mostrar notificaÃ§Ã£o visual
             mostrarNotificacaoEstatisticas(acertos, erros, aproveitamento);
             
-            console.log('EstatÃ­sticas atualizadas:', { acertos, erros, aproveitamento: aproveitamento + '%' });
+            console.log('Estatísticas atualizadas:', { acertos, erros, aproveitamento: aproveitamento + '%' });
         }
 
-        // FunÃ§Ã£o para mostrar notificaÃ§Ã£o das estatÃ­sticas
+        // FunÃ§Ã£o para mostrar notificaÃ§Ã£o das Estatísticas
         function mostrarNotificacaoEstatisticas(acertos, erros, aproveitamento) {
             const notificacao = document.createElement('div');
             notificacao.style.cssText = `
@@ -2596,7 +2596,7 @@
             
             notificacao.innerHTML = `
                 <div style="font-size: 16px; margin-bottom: 5px;">
-                    ${emoji} EstatÃ­sticas Atualizadas
+                    ${emoji} Estatísticas Atualizadas
                 </div>
                 <div style="font-size: 14px; opacity: 0.9;">
                     âœ… ${acertos} acertos | âŒ ${erros} erros<br>
@@ -2638,7 +2638,7 @@
                 userManager.salvarUsuario(currentUser);
             }
             
-            // Atualizar estatÃ­sticas na tela
+            // Atualizar Estatísticas na tela
             atualizarEstatisticasUsuario();
         }
 
@@ -2770,7 +2770,7 @@
                 hints.push("Identifique os termos: aqueles com 'x' e os nÃºmeros sozinhos");
                 hints.push("Mova todos os termos com 'x' para um lado da equaÃ§Ã£o");
                 hints.push("Mova todos os nÃºmeros para o outro lado");
-                hints.push(`VocÃª terÃ¡ algo como: ${eq.a}x = ${eq.c - eq.b}`);
+                hints.push(`você terÃ¡ algo como: ${eq.a}x = ${eq.c - eq.b}`);
                 hints.push(`Divida ambos os lados por ${eq.a} para encontrar x`);
             } else if (currentDifficulty === 'medio') {
                 hints.push("Esta equaÃ§Ã£o tem fraÃ§Ãµes. Encontre o MMC dos denominadores");
@@ -2918,7 +2918,7 @@
             
             if (currentFunction.degree === 1) {
                 analysis += `
-                    <p><strong>Tipo:</strong> FunÃ§Ã£o Linear (1Â° grau)</p>
+                    <p><strong>Tipo:</strong> FunÃ§Ã£o Linear (1º grau)</p>
                     <p><strong>Coeficiente angular (a):</strong> ${currentFunction.a}</p>
                     <p><strong>Coeficiente linear (b):</strong> ${currentFunction.b}</p>
                     <p><strong>Crescimento:</strong> ${currentFunction.a > 0 ? 'Crescente' : 'Decrescente'}</p>
@@ -2931,7 +2931,7 @@
                 const vertex_y = currentFunction.a * vertex_x * vertex_x + currentFunction.b * vertex_x + currentFunction.c;
                 
                 analysis += `
-                    <p><strong>Tipo:</strong> FunÃ§Ã£o QuadrÃ¡tica (2Â° grau)</p>
+                    <p><strong>Tipo:</strong> FunÃ§Ã£o QuadrÃ¡tica (2º grau)</p>
                     <p><strong>Coeficientes:</strong> a = ${currentFunction.a}, b = ${currentFunction.b}, c = ${currentFunction.c}</p>
                     <p><strong>Concavidade:</strong> ${currentFunction.a > 0 ? 'Para cima' : 'Para baixo'}</p>
                     <p><strong>Discriminante (Î”):</strong> ${delta}</p>
@@ -3254,7 +3254,7 @@
             
             if (currentFunction.degree === 1) {
                 info += `
-                    <p><strong>FunÃ§Ã£o:</strong> Linear (1Â° grau)</p>
+                    <p><strong>FunÃ§Ã£o:</strong> Linear (1º grau)</p>
                     <p><strong>Formato:</strong> f(x) = ${currentFunction.a}x + ${currentFunction.b}</p>
                     <p><strong>InclinaÃ§Ã£o:</strong> ${currentFunction.a > 0 ? 'Positiva (crescente)' : 'Negativa (decrescente)'}</p>
                     <p><strong>Raiz:</strong> x = ${(-currentFunction.b / currentFunction.a).toFixed(2)}</p>
@@ -3265,7 +3265,7 @@
                 const vertexY = currentFunction.a * vertexX * vertexX + currentFunction.b * vertexX + currentFunction.c;
                 
                 info += `
-                    <p><strong>FunÃ§Ã£o:</strong> QuadrÃ¡tica (2Â° grau)</p>
+                    <p><strong>FunÃ§Ã£o:</strong> QuadrÃ¡tica (2º grau)</p>
                     <p><strong>Formato:</strong> f(x) = ${currentFunction.a}xÂ² + ${currentFunction.b}x + ${currentFunction.c}</p>
                     <p><strong>Concavidade:</strong> ${currentFunction.a > 0 ? 'Para cima (U)' : 'Para baixo (âˆ©)'}</p>
                     <p><strong>VÃ©rtice:</strong> (${vertexX.toFixed(2)}, ${vertexY.toFixed(2)})</p>
@@ -3717,7 +3717,7 @@
                     resultHTML = `
                         <div style="background: #d4edda; padding: 15px; border-radius: 8px; color: #155724;">
                             <h4>ðŸŽ‰ Correto!</h4>
-                            <p>VocÃª selecionou a alternativa correta!</p>
+                            <p>você selecionou a alternativa correta!</p>
                         </div>
                     `;
                     selectedButton.style.backgroundColor = '#d4edda';
@@ -4259,7 +4259,7 @@
             document.getElementById('solucaoDetalhada').innerHTML = '';
             createAnswerInputsReal();
             
-            // Atualizar estatÃ­sticas ao gerar nova equaÃ§Ã£o
+            // Atualizar Estatísticas ao gerar nova equaÃ§Ã£o
             atualizarEstatisticasUsuario();
         }
 
@@ -4620,7 +4620,7 @@
                 
                 texto = `
                     <div class="concept-card">
-                        <h3>ðŸŽ² Novo Exemplo: EquaÃ§Ã£o do 1Âº Grau</h3>
+                        <h3>ðŸŽ² Novo Exemplo: EquaÃ§Ã£o do 1º Grau</h3>
                         <div class="equation">${equacaoFormatada}</div>
                         <div class="solution-steps">
                             <strong>ðŸ“‹ ResoluÃ§Ã£o Passo a Passo:</strong><br><br>
@@ -4642,7 +4642,7 @@
                 if (respostaCorreta.length === 0) {
                     texto = `
                         <div class="concept-card">
-                            <h3>ðŸŽ² Novo Exemplo: EquaÃ§Ã£o do 2Âº Grau</h3>
+                            <h3>ðŸŽ² Novo Exemplo: EquaÃ§Ã£o do 2º Grau</h3>
                             <div class="equation">${equacaoFormatada}</div>
                             <div class="solution-steps">
                                 <strong>ðŸ“‹ ResoluÃ§Ã£o Passo a Passo:</strong><br><br>
@@ -4659,7 +4659,7 @@
                     const x = respostaCorreta[0];
                     texto = `
                         <div class="concept-card">
-                            <h3>ðŸŽ² Novo Exemplo: EquaÃ§Ã£o do 2Âº Grau</h3>
+                            <h3>ðŸŽ² Novo Exemplo: EquaÃ§Ã£o do 2º Grau</h3>
                             <div class="equation">${equacaoFormatada}</div>
                             <div class="solution-steps">
                                 <strong>ðŸ“‹ ResoluÃ§Ã£o Passo a Passo:</strong><br><br>
@@ -4678,7 +4678,7 @@
                     const x2 = respostaCorreta[1];
                     texto = `
                         <div class="concept-card">
-                            <h3>ðŸŽ² Novo Exemplo: EquaÃ§Ã£o do 2Âº Grau</h3>
+                            <h3>ðŸŽ² Novo Exemplo: EquaÃ§Ã£o do 2º Grau</h3>
                             <div class="equation">${equacaoFormatada}</div>
                             <div class="solution-steps">
                                 <strong>ðŸ“‹ ResoluÃ§Ã£o Passo a Passo:</strong><br><br>
@@ -4856,7 +4856,7 @@
             const alternatives = [];
             
             if (currentDegree === 1) {
-                // Para Equações de 1Âº grau
+                // Para Equações de 1º grau
                 const base = correctAnswer[0];
                 alternatives.push(`x = ${base.toFixed(2)}`);
                 
@@ -4882,7 +4882,7 @@
                     }
                 }
             } else {
-                // Para Equações de 2Âº grau
+                // Para Equações de 2º grau
                 if (correctAnswer.length === 0) {
                     alternatives.push("NÃ£o hÃ¡ soluÃ§Ãµes reais (Î” < 0)");
                     alternatives.push("x = 0 (raiz dupla)");
@@ -5008,3 +5008,6 @@
     </script>
 </body>
 </html>
+
+
+
