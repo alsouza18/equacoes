@@ -1402,11 +1402,21 @@
                         <button class="btn mode-btn" onclick="selectPracticeMode('propriedades')" id="propModeBtn">📊 Propriedades</button>
                     </div>
 
+                    <!-- Seletor de Tipo de Resposta -->
+                    <div class="answer-type-selector" style="margin: 20px 0;">
+                        <label style="font-weight: bold; margin-right: 15px;">📝 Modo de Resposta:</label>
+                        <button class="answer-type-btn active" onclick="selectFunctionAnswerType('input')" id="functionInputBtn">✏️ Digitar</button>
+                        <button class="answer-type-btn" onclick="selectFunctionAnswerType('alternatives')" id="functionAlternativesBtn">🔤 Alternativas</button>
+                    </div>
+
                     <div id="functionPracticeDisplay" class="equation">Clique em "Nova Questão" para começar</div>
                     
                     <div id="practiceQuestion" class="function-analysis"></div>
                     
                     <div id="practiceInputs" class="practice-inputs"></div>
+                    <div id="functionAlternatives" class="alternatives-section" style="display: none;">
+                        <div class="alternatives-container" id="functionAlternativesContainer"></div>
+                    </div>
                     
                     <div class="practice-controls" style="margin-top: 20px;">
                         <button class="btn" onclick="generateFunctionPractice()">🔄 Nova Questão</button>
@@ -3465,6 +3475,32 @@
             document.getElementById('practiceInputs').innerHTML = '';
         }
 
+        // Variável para controlar o tipo de resposta nas funções
+        let functionAnswerType = 'input';
+
+        function selectFunctionAnswerType(type) {
+            functionAnswerType = type;
+            
+            // Atualizar botões
+            document.querySelectorAll('.answer-type-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            if (type === 'input') {
+                document.getElementById('functionInputBtn').classList.add('active');
+                document.getElementById('practiceInputs').style.display = 'block';
+                document.getElementById('functionAlternatives').style.display = 'none';
+            } else {
+                document.getElementById('functionAlternativesBtn').classList.add('active');
+                document.getElementById('practiceInputs').style.display = 'none';
+                document.getElementById('functionAlternatives').style.display = 'block';
+            }
+            
+            // Limpar respostas anteriores
+            document.getElementById('practiceResult').innerHTML = '';
+            document.getElementById('practiceSolution').innerHTML = '';
+        }
+
         function generateFunctionPractice() {
             // Gerar função aleatória
             if (currentFunctionDegree === 1) {
@@ -3727,6 +3763,110 @@
             
             document.getElementById('practiceQuestion').innerHTML = questionHTML;
             document.getElementById('practiceInputs').innerHTML = inputsHTML;
+            
+            // Gerar alternativas se estiver no modo alternativas
+            if (functionAnswerType === 'alternatives') {
+                generateFunctionAlternatives();
+            }
+        }
+
+        function generateFunctionAlternatives() {
+            if (!practiceFunction || !practiceQuestion || !practiceAnswer) return;
+            
+            let alternatives = [];
+            let correctAnswer = '';
+            
+            switch (practiceMode) {
+                case 'calcular':
+                    correctAnswer = practiceAnswer.toString();
+                    
+                    // Gerar alternativas incorretas
+                    const baseValue = practiceAnswer;
+                    alternatives = [
+                        correctAnswer,
+                        (baseValue + Math.floor(Math.random() * 10) + 1).toString(),
+                        (baseValue - Math.floor(Math.random() * 10) - 1).toString(),
+                        (baseValue * 2).toString(),
+                        (Math.floor(baseValue / 2)).toString()
+                    ];
+                    break;
+                    
+                case 'raizes':
+                    if (practiceAnswer.length === 0) {
+                        correctAnswer = 'Não possui raízes reais';
+                        alternatives = [
+                            correctAnswer,
+                            'x = 0',
+                            'x = 1',
+                            'x = -1',
+                            'x = 2'
+                        ];
+                    } else if (practiceAnswer.length === 1) {
+                        correctAnswer = `x = ${practiceAnswer[0].toFixed(2)}`;
+                        const root = practiceAnswer[0];
+                        alternatives = [
+                            correctAnswer,
+                            `x = ${(root + 1).toFixed(2)}`,
+                            `x = ${(root - 1).toFixed(2)}`,
+                            `x = ${(-root).toFixed(2)}`,
+                            'Não possui raízes reais'
+                        ];
+                    } else {
+                        const [x1, x2] = practiceAnswer.sort((a, b) => a - b);
+                        correctAnswer = `x₁ = ${x1.toFixed(2)}, x₂ = ${x2.toFixed(2)}`;
+                        alternatives = [
+                            correctAnswer,
+                            `x₁ = ${(-x1).toFixed(2)}, x₂ = ${x2.toFixed(2)}`,
+                            `x₁ = ${x1.toFixed(2)}, x₂ = ${(-x2).toFixed(2)}`,
+                            `x = ${((x1 + x2) / 2).toFixed(2)} (raiz dupla)`,
+                            'Não possui raízes reais'
+                        ];
+                    }
+                    break;
+                    
+                case 'propriedades':
+                    // Para propriedades, manter apenas o modo input por ser mais complexo
+                    return;
+            }
+            
+            // Embaralhar alternativas
+            for (let i = alternatives.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [alternatives[i], alternatives[j]] = [alternatives[j], alternatives[i]];
+            }
+            
+            // Encontrar posição da resposta correta
+            window.functionCorrectIndex = alternatives.indexOf(correctAnswer);
+            window.functionSelectedAlternative = null;
+            
+            // Gerar HTML das alternativas
+            let alternativesHTML = '';
+            alternatives.forEach((alt, index) => {
+                const letter = String.fromCharCode(65 + index);
+                alternativesHTML += `
+                    <button class="alternative" onclick="selectFunctionAlternative(${index})">
+                        ${letter}) ${alt}
+                    </button>
+                `;
+            });
+            
+            document.getElementById('functionAlternativesContainer').innerHTML = alternativesHTML;
+        }
+
+        function selectFunctionAlternative(index) {
+            // Remover seleção anterior
+            document.querySelectorAll('#functionAlternativesContainer .alternative').forEach(alt => {
+                alt.style.borderColor = '#dee2e6';
+                alt.style.backgroundColor = 'white';
+            });
+            
+            // Adicionar seleção atual
+            const buttons = document.querySelectorAll('#functionAlternativesContainer .alternative');
+            buttons[index].style.borderColor = '#007bff';
+            buttons[index].style.backgroundColor = '#e3f2fd';
+            
+            // Salvar seleção
+            window.functionSelectedAlternative = index;
         }
 
         function checkFunctionAnswer() {
@@ -3739,6 +3879,47 @@
             let userAnswer = '';
             let resultHTML = '';
             
+            // Verificar se está no modo alternativas
+            if (functionAnswerType === 'alternatives') {
+                if (window.functionSelectedAlternative === null) {
+                    alert('⚠️ Por favor, selecione uma alternativa!');
+                    return;
+                }
+                
+                isCorrect = window.functionSelectedAlternative === window.functionCorrectIndex;
+                const selectedButton = document.querySelectorAll('#functionAlternativesContainer .alternative')[window.functionSelectedAlternative];
+                userAnswer = selectedButton.textContent.substring(3); // Remove "A) ", "B) ", etc.
+                
+                if (isCorrect) {
+                    resultHTML = `
+                        <div style="background: #d4edda; padding: 15px; border-radius: 8px; color: #155724;">
+                            <h4>🎉 Correto!</h4>
+                            <p>Você selecionou a alternativa correta!</p>
+                        </div>
+                    `;
+                    selectedButton.style.backgroundColor = '#d4edda';
+                    selectedButton.style.borderColor = '#c3e6cb';
+                } else {
+                    resultHTML = `
+                        <div style="background: #f8d7da; padding: 15px; border-radius: 8px; color: #721c24;">
+                            <h4>❌ Incorreto</h4>
+                            <p>Sua resposta: ${userAnswer}</p>
+                        </div>
+                    `;
+                    selectedButton.style.backgroundColor = '#f8d7da';
+                    selectedButton.style.borderColor = '#f5c6cb';
+                    
+                    // Destacar a resposta correta
+                    const correctButton = document.querySelectorAll('#functionAlternativesContainer .alternative')[window.functionCorrectIndex];
+                    correctButton.style.backgroundColor = '#d4edda';
+                    correctButton.style.borderColor = '#c3e6cb';
+                }
+                
+                document.getElementById('practiceResult').innerHTML = resultHTML;
+                return;
+            }
+            
+            // Modo input (código original)
             switch (practiceMode) {
                 case 'calcular':
                     const result = parseFloat(document.getElementById('resultInput').value);
