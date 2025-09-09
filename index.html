@@ -197,6 +197,67 @@
             box-shadow: 0 0 15px rgba(0,0,0,0.3);
         }
 
+        /* Alternativas de Múltipla Escolha */
+        .alternatives-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 20px 0;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .alternative {
+            background: white;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .alternative:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+            transform: translateX(5px);
+        }
+
+        .alternative.selected {
+            border-color: #667eea;
+            background: #e9ecff;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+
+        .alternative.correct {
+            border-color: #28a745;
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .alternative.incorrect {
+            border-color: #dc3545;
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .alternative input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            margin: 0;
+        }
+
+        .alternative label {
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            margin: 0;
+            flex: 1;
+        }
+
         /* Área de Exercícios */
         .exercise-area {
             background: #f8f9fa;
@@ -505,8 +566,33 @@
                         Clique em "Nova Equação" para começar!
                     </div>
                     
+                    <!-- Alternativas de Múltipla Escolha -->
+                    <div id="alternatives-container" class="alternatives-container hidden">
+                        <div class="alternative" onclick="selectAlternative(0)">
+                            <input type="radio" name="answer" id="alt-0">
+                            <label for="alt-0" id="label-0">Alternativa A</label>
+                        </div>
+                        <div class="alternative" onclick="selectAlternative(1)">
+                            <input type="radio" name="answer" id="alt-1">
+                            <label for="alt-1" id="label-1">Alternativa B</label>
+                        </div>
+                        <div class="alternative" onclick="selectAlternative(2)">
+                            <input type="radio" name="answer" id="alt-2">
+                            <label for="alt-2" id="label-2">Alternativa C</label>
+                        </div>
+                        <div class="alternative" onclick="selectAlternative(3)">
+                            <input type="radio" name="answer" id="alt-3">
+                            <label for="alt-3" id="label-3">Alternativa D</label>
+                        </div>
+                        <div class="alternative" onclick="selectAlternative(4)">
+                            <input type="radio" name="answer" id="alt-4">
+                            <label for="alt-4" id="label-4">Alternativa E</label>
+                        </div>
+                    </div>
+                    
+                    <!-- Campo de resposta aberta (como opção) -->
                     <div class="exercise-input">
-                        <input type="text" class="input-field" id="answer-input" placeholder="Digite sua resposta" onkeypress="checkEnter(event)">
+                        <input type="text" class="input-field hidden" id="answer-input" placeholder="Digite sua resposta" onkeypress="checkEnter(event)">
                     </div>
                     
                     <div class="action-buttons">
@@ -514,6 +600,7 @@
                         <button class="btn btn-success" onclick="checkAnswer()">✔️ Verificar</button>
                         <button class="btn btn-warning" onclick="showHint()">💡 Dica</button>
                         <button class="btn btn-secondary" onclick="showSolution()">📖 Ver Solução</button>
+                        <button class="btn btn-secondary" onclick="toggleAnswerMode()">🔤 Modo Resposta</button>
                     </div>
                 </div>
 
@@ -590,6 +677,9 @@
         let currentDifficulty = 'easy'; // 'easy', 'medium', 'hard'
         let currentProblem = null;
         let hintCount = 0;
+        let answerMode = 'alternatives'; // 'alternatives' ou 'open'
+        let selectedAlternative = -1;
+        let correctAlternative = -1;
 
         // Navegação entre módulos
         function showModule(module) {
@@ -862,10 +952,18 @@
         // Gerar novo problema
         function generateProblem() {
             hintCount = 0;
+            selectedAlternative = -1;
+            correctAlternative = -1;
             document.getElementById('hints').classList.add('hidden');
             document.getElementById('feedback').classList.add('hidden');
             document.getElementById('answer-input').value = '';
             document.getElementById('hints-list').innerHTML = '';
+            
+            // Limpar seleções anteriores
+            document.querySelectorAll('.alternative').forEach(alt => {
+                alt.classList.remove('selected', 'correct', 'incorrect');
+                alt.querySelector('input').checked = false;
+            });
             
             if (currentModule === 'equations') {
                 if (currentDegree === 1) {
@@ -882,6 +980,127 @@
             }
             
             document.getElementById('current-problem').textContent = currentProblem.display;
+            
+            // Gerar alternativas se estiver no modo alternativas
+            if (answerMode === 'alternatives') {
+                generateAlternatives();
+            }
+        }
+
+        // Gerar alternativas múltipla escolha
+        function generateAlternatives() {
+            const alternatives = [];
+            let correctAnswer;
+            
+            // Definir resposta correta baseada no tipo de problema
+            if (currentProblem.type === 'equation1') {
+                correctAnswer = currentProblem.solution;
+            } else if (currentProblem.type === 'equation2') {
+                if (currentProblem.solutions.length === 0) {
+                    correctAnswer = "Não há soluções reais";
+                } else if (currentProblem.solutions.length === 1) {
+                    correctAnswer = currentProblem.solutions[0];
+                } else {
+                    correctAnswer = `x = ${currentProblem.solutions[0]} ou x = ${currentProblem.solutions[1]}`;
+                }
+            } else if (currentProblem.type === 'function1') {
+                correctAnswer = currentProblem.zero;
+            } else if (currentProblem.type === 'function2') {
+                correctAnswer = `V(${currentProblem.vertex.x}, ${currentProblem.vertex.y})`;
+            }
+            
+            alternatives.push(correctAnswer);
+            
+            // Gerar alternativas incorretas
+            while (alternatives.length < 5) {
+                let wrongAnswer;
+                
+                if (currentProblem.type === 'equation1' || currentProblem.type === 'function1') {
+                    const variation = (Math.random() - 0.5) * 10;
+                    wrongAnswer = Math.round((correctAnswer + variation) * 100) / 100;
+                    if (wrongAnswer !== correctAnswer && !alternatives.includes(wrongAnswer)) {
+                        alternatives.push(wrongAnswer);
+                    }
+                } else if (currentProblem.type === 'equation2') {
+                    if (currentProblem.solutions.length === 0) {
+                        const wrongOptions = ["x = 0", "x = 1", "x = -1", "x = 2"];
+                        const wrongAnswer = wrongOptions[Math.floor(Math.random() * wrongOptions.length)];
+                        if (!alternatives.includes(wrongAnswer)) {
+                            alternatives.push(wrongAnswer);
+                        }
+                    } else {
+                        const variation = (Math.random() - 0.5) * 6;
+                        const wrongX1 = Math.round((currentProblem.solutions[0] + variation) * 100) / 100;
+                        const wrongX2 = Math.round((currentProblem.solutions[1] + variation) * 100) / 100;
+                        const wrongAnswer = currentProblem.solutions.length === 1 ? wrongX1 : `x = ${wrongX1} ou x = ${wrongX2}`;
+                        if (!alternatives.includes(wrongAnswer)) {
+                            alternatives.push(wrongAnswer);
+                        }
+                    }
+                } else if (currentProblem.type === 'function2') {
+                    const wrongX = Math.round((currentProblem.vertex.x + (Math.random() - 0.5) * 4) * 100) / 100;
+                    const wrongY = Math.round((currentProblem.vertex.y + (Math.random() - 0.5) * 4) * 100) / 100;
+                    const wrongAnswer = `V(${wrongX}, ${wrongY})`;
+                    if (!alternatives.includes(wrongAnswer)) {
+                        alternatives.push(wrongAnswer);
+                    }
+                }
+            }
+            
+            // Embaralhar alternativas
+            for (let i = alternatives.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [alternatives[i], alternatives[j]] = [alternatives[j], alternatives[i]];
+            }
+            
+            // Encontrar posição da resposta correta
+            correctAlternative = alternatives.indexOf(correctAnswer);
+            
+            // Preencher alternativas na interface
+            const letters = ['A', 'B', 'C', 'D', 'E'];
+            for (let i = 0; i < 5; i++) {
+                document.getElementById(`label-${i}`).textContent = `${letters[i]}) ${alternatives[i]}`;
+            }
+            
+            document.getElementById('alternatives-container').classList.remove('hidden');
+        }
+
+        // Selecionar alternativa
+        function selectAlternative(index) {
+            selectedAlternative = index;
+            
+            // Remover seleção anterior
+            document.querySelectorAll('.alternative').forEach(alt => {
+                alt.classList.remove('selected');
+                alt.querySelector('input').checked = false;
+            });
+            
+            // Marcar nova seleção
+            const selectedElement = document.querySelectorAll('.alternative')[index];
+            selectedElement.classList.add('selected');
+            selectedElement.querySelector('input').checked = true;
+        }
+
+        // Alternar modo de resposta
+        function toggleAnswerMode() {
+            answerMode = answerMode === 'alternatives' ? 'open' : 'alternatives';
+            
+            const alternativesContainer = document.getElementById('alternatives-container');
+            const answerInput = document.getElementById('answer-input');
+            const toggleBtn = event.target;
+            
+            if (answerMode === 'alternatives') {
+                alternativesContainer.classList.remove('hidden');
+                answerInput.classList.add('hidden');
+                toggleBtn.textContent = '🔤 Modo Digitação';
+                if (currentProblem) {
+                    generateAlternatives();
+                }
+            } else {
+                alternativesContainer.classList.add('hidden');
+                answerInput.classList.remove('hidden');
+                toggleBtn.textContent = '📝 Modo Alternativas';
+            }
         }
 
         // Gerador de equações do 1° grau
@@ -1065,37 +1284,58 @@
 
         // Verificar resposta
         function checkAnswer() {
-            const userAnswer = document.getElementById('answer-input').value.trim();
-            
             if (!currentProblem) {
                 showFeedback('Gere um problema primeiro!', 'info');
                 return;
             }
             
-            if (userAnswer === '') {
-                showFeedback('Digite uma resposta!', 'error');
-                return;
-            }
-            
             let correct = false;
             
-            if (currentProblem.type === 'equation1' || currentProblem.type === 'function1') {
-                const numericAnswer = parseFloat(userAnswer);
-                const expectedAnswer = currentProblem.type === 'equation1' ? currentProblem.solution : currentProblem.zero;
-                correct = Math.abs(numericAnswer - expectedAnswer) < 0.01;
-            } else if (currentProblem.type === 'equation2') {
-                if (currentProblem.solutions.length === 0) {
-                    correct = userAnswer.toLowerCase().includes('não') || userAnswer.toLowerCase().includes('sem') || userAnswer.toLowerCase().includes('impossível');
-                } else {
-                    const numericAnswer = parseFloat(userAnswer);
-                    correct = currentProblem.solutions.some(sol => Math.abs(numericAnswer - sol) < 0.01);
+            if (answerMode === 'alternatives') {
+                // Modo alternativas
+                if (selectedAlternative === -1) {
+                    showFeedback('Selecione uma alternativa!', 'error');
+                    return;
                 }
-            } else if (currentProblem.type === 'function2') {
-                const userVertex = userAnswer.match(/\(([^,]+),([^)]+)\)/);
-                if (userVertex) {
-                    const userX = parseFloat(userVertex[1]);
-                    const userY = parseFloat(userVertex[2]);
-                    correct = Math.abs(userX - currentProblem.vertex.x) < 0.01 && Math.abs(userY - currentProblem.vertex.y) < 0.01;
+                
+                correct = selectedAlternative === correctAlternative;
+                
+                // Mostrar feedback visual nas alternativas
+                document.querySelectorAll('.alternative').forEach((alt, index) => {
+                    if (index === correctAlternative) {
+                        alt.classList.add('correct');
+                    } else if (index === selectedAlternative && !correct) {
+                        alt.classList.add('incorrect');
+                    }
+                });
+                
+            } else {
+                // Modo digitação
+                const userAnswer = document.getElementById('answer-input').value.trim();
+                
+                if (userAnswer === '') {
+                    showFeedback('Digite uma resposta!', 'error');
+                    return;
+                }
+                
+                if (currentProblem.type === 'equation1' || currentProblem.type === 'function1') {
+                    const numericAnswer = parseFloat(userAnswer);
+                    const expectedAnswer = currentProblem.type === 'equation1' ? currentProblem.solution : currentProblem.zero;
+                    correct = Math.abs(numericAnswer - expectedAnswer) < 0.01;
+                } else if (currentProblem.type === 'equation2') {
+                    if (currentProblem.solutions.length === 0) {
+                        correct = userAnswer.toLowerCase().includes('não') || userAnswer.toLowerCase().includes('sem') || userAnswer.toLowerCase().includes('impossível');
+                    } else {
+                        const numericAnswer = parseFloat(userAnswer);
+                        correct = currentProblem.solutions.some(sol => Math.abs(numericAnswer - sol) < 0.01);
+                    }
+                } else if (currentProblem.type === 'function2') {
+                    const userVertex = userAnswer.match(/\(([^,]+),([^)]+)\)/);
+                    if (userVertex) {
+                        const userX = parseFloat(userVertex[1]);
+                        const userY = parseFloat(userVertex[2]);
+                        correct = Math.abs(userX - currentProblem.vertex.x) < 0.01 && Math.abs(userY - currentProblem.vertex.y) < 0.01;
+                    }
                 }
             }
             
