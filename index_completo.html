@@ -1011,7 +1011,7 @@
 </head>
 <body>
     <!-- Tela de Login -->
-    <div id="loginScreen" class="login-container hidden">
+    <div id="loginScreen" class="login-container">
         <div class="login-header">
             <h2>🧮 Sistema de Equações</h2>
             <p>Faça login para continuar</p>
@@ -4985,10 +4985,10 @@
             }
         }
 
-        // InicializaÃ§Ã£o
+        // Inicialização
         window.onload = function() {
-            // Mostrar tela de login ao carregar
-            document.getElementById('loginScreen').classList.remove('hidden');
+            // Login screen já aparece por padrão
+            console.log('Sistema carregado - Tela de login ativa');
         };
     </script>
 </body>
