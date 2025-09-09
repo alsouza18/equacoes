@@ -28,6 +28,16 @@
             z-index: 9999 !important;
         }
 
+        /* Garantir que mainScreen esteja oculto inicialmente */
+        #mainScreen {
+            display: none !important;
+        }
+
+        /* Todas as páginas de assunto devem estar ocultas inicialmente */
+        .subject-page {
+            display: none !important;
+        }
+
         .container {
             max-width: 1000px;
             margin: 0 auto;
@@ -1154,15 +1164,15 @@
                     <h3>ðŸŽ¯ Nível de Dificuldade</h3>
                     <div class="difficulty-buttons">
                         <button class="difficulty-btn active" onclick="selectDifficulty('facil')">
-                            ðŸ˜Š FÃ¡cil
-                            <span class="difficulty-desc">NÃºmeros simples</span>
+                            ðŸ˜Š Fácil
+                            <span class="difficulty-desc">Números simples</span>
                         </button>
                         <button class="difficulty-btn" onclick="selectDifficulty('medio')">
                             ðŸ¤” Médio
                             <span class="difficulty-desc">Com fraÃ§Ãµes</span>
                         </button>
                         <button class="difficulty-btn" onclick="selectDifficulty('dificil')">
-                            ðŸ”¥ DifÃ­cil
+                            ðŸ”¥ Difícil
                             <span class="difficulty-desc">Complexo + fraÃ§Ãµes</span>
                         </button>
                     </div>
@@ -1208,8 +1218,8 @@
                             <div class="step">
                                 <div class="step-number">2</div>
                                 <div>
-                                    <strong>Isolar os nÃºmeros</strong><br>
-                                    Mova todos os nÃºmeros sem x para o outro lado da equaÃ§Ã£o
+                                    <strong>Isolar os Números</strong><br>
+                                    Mova todos os Números sem x para o outro lado da equaÃ§Ã£o
                                 </div>
                             </div>
                             <div class="step">
@@ -2767,9 +2777,9 @@
             const hints = [];
             
             if (currentDifficulty === 'facil') {
-                hints.push("Identifique os termos: aqueles com 'x' e os nÃºmeros sozinhos");
+                hints.push("Identifique os termos: aqueles com 'x' e os Números sozinhos");
                 hints.push("Mova todos os termos com 'x' para um lado da equaÃ§Ã£o");
-                hints.push("Mova todos os nÃºmeros para o outro lado");
+                hints.push("Mova todos os Números para o outro lado");
                 hints.push(`você terÃ¡ algo como: ${eq.a}x = ${eq.c - eq.b}`);
                 hints.push(`Divida ambos os lados por ${eq.a} para encontrar x`);
             } else if (currentDifficulty === 'medio') {
@@ -4978,7 +4988,7 @@
             });
         }
 
-        // FunÃ§Ã£o para inserir nÃºmeros/sÃ­mbolos nos inputs das Funções (mobile-friendly)
+        // FunÃ§Ã£o para inserir Números/sÃ­mbolos nos inputs das Funções (mobile-friendly)
         function insertFunctionNumber(inputId, value) {
             const input = document.getElementById(inputId);
             if (input) {
@@ -5003,9 +5013,24 @@
         // Inicialização
         window.onload = function() {
             // Forçar sempre mostrar apenas o login ao carregar
-            document.getElementById('loginScreen').style.display = 'block';
-            document.getElementById('mainScreen').classList.add('hidden');
-            document.getElementById('mainMenu').style.display = 'none';
+            const loginScreen = document.getElementById('loginScreen');
+            const mainScreen = document.getElementById('mainScreen');
+            const mainMenu = document.getElementById('mainMenu');
+            
+            if (loginScreen) {
+                loginScreen.style.display = 'block';
+                loginScreen.style.visibility = 'visible';
+                loginScreen.style.opacity = '1';
+            }
+            
+            if (mainScreen) {
+                mainScreen.style.display = 'none';
+                mainScreen.classList.add('hidden');
+            }
+            
+            if (mainMenu) {
+                mainMenu.style.display = 'none';
+            }
             
             // Esconder todas as páginas de assunto
             document.querySelectorAll('.subject-page').forEach(page => {
@@ -5016,11 +5041,12 @@
             // Resetar usuário atual
             currentUser = null;
             
-            console.log('Sistema carregado - Tela de login forçada');
+            console.log('Sistema carregado - Apenas login visível');
         };
     </script>
 </body>
 </html>
+
 
 
 
