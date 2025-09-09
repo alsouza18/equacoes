@@ -156,6 +156,155 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* Quadro de Desempenho */
+        .performance-board {
+            background: linear-gradient(135deg, #f8f9ff 0%, #e9ecff 100%);
+            border: 2px solid #667eea;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.1);
+        }
+
+        .performance-board h3 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .performance-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .stat-item {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-2px);
+        }
+
+        .stat-icon {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .stat-correct .stat-number {
+            color: #28a745;
+        }
+
+        .stat-wrong .stat-number {
+            color: #dc3545;
+        }
+
+        .stat-total .stat-number {
+            color: #667eea;
+        }
+
+        .stat-percentage .stat-number {
+            color: #ffc107;
+        }
+
+        /* Seletor de Tipo de Exercício */
+        .exercise-type-selector {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .exercise-type-selector h3 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .exercise-types {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .exercise-type-btn {
+            background: white;
+            border: 2px solid #dee2e6;
+            padding: 15px 20px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #333;
+        }
+
+        .exercise-type-btn:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+            transform: scale(1.02);
+        }
+
+        .exercise-type-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Enunciados Explicativos */
+        .exercise-explanation {
+            background: #e8f4fd;
+            border: 1px solid #bee5eb;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .explanation-content h4 {
+            color: #0c5460;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .explanation-content p {
+            color: #0c5460;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .explanation-content ul {
+            margin: 10px 0 0 20px;
+            color: #0c5460;
+        }
+
+        .explanation-content li {
+            margin: 5px 0;
+        }
+
         /* Níveis de Dificuldade */
         .difficulty-selector {
             display: flex;
@@ -950,6 +1099,65 @@
             <div id="practice" class="tab-content">
                 <h2>🎯 Prática - Exercícios Interativos</h2>
                 
+                <!-- Quadro de Desempenho -->
+                <div class="performance-board">
+                    <h3>📊 Quadro de Desempenho</h3>
+                    <div class="performance-stats">
+                        <div class="stat-item stat-correct">
+                            <span class="stat-icon">✅</span>
+                            <div class="stat-details">
+                                <span class="stat-number" id="correct-count">0</span>
+                                <span class="stat-label">Acertos</span>
+                            </div>
+                        </div>
+                        <div class="stat-item stat-wrong">
+                            <span class="stat-icon">❌</span>
+                            <div class="stat-details">
+                                <span class="stat-number" id="wrong-count">0</span>
+                                <span class="stat-label">Erros</span>
+                            </div>
+                        </div>
+                        <div class="stat-item stat-total">
+                            <span class="stat-icon">📝</span>
+                            <div class="stat-details">
+                                <span class="stat-number" id="total-exercises">0</span>
+                                <span class="stat-label">Total</span>
+                            </div>
+                        </div>
+                        <div class="stat-item stat-percentage">
+                            <span class="stat-icon">🎯</span>
+                            <div class="stat-details">
+                                <span class="stat-number" id="success-percentage">0%</span>
+                                <span class="stat-label">Aproveitamento</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seletor de Tipo de Exercício -->
+                <div class="exercise-type-selector">
+                    <h3>📚 Escolha o Tipo de Exercício</h3>
+                    <div class="exercise-types">
+                        <button class="exercise-type-btn active" onclick="setExerciseType('resolution')" data-type="resolution">
+                            🔧 Resolução Completa
+                        </button>
+                        <button class="exercise-type-btn" onclick="setExerciseType('zero')" data-type="zero">
+                            🎯 Zeros da Função
+                        </button>
+                        <button class="exercise-type-btn" onclick="setExerciseType('image')" data-type="image">
+                            📊 Cálculo de Imagem
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Enunciados Explicativos -->
+                <div class="exercise-explanation" id="exercise-explanation">
+                    <div class="explanation-content" id="explanation-content">
+                        <h4>🔧 Resolução Completa</h4>
+                        <p>Neste tipo de exercício, você deverá resolver completamente a equação ou encontrar características importantes da função apresentada.</p>
+                    </div>
+                </div>
+                
                 <!-- Seletor de Dificuldade -->
                 <div class="difficulty-selector">
                     <button class="difficulty-btn difficulty-easy active" onclick="setDifficulty('easy')">
@@ -1078,11 +1286,20 @@
         let currentModule = 'equations'; // 'equations' ou 'functions'
         let currentDegree = 1; // 1 ou 2
         let currentDifficulty = 'easy'; // 'easy', 'medium', 'hard'
+        let currentExerciseType = 'resolution'; // 'resolution', 'zero', 'image'
         let currentProblem = null;
         let hintCount = 0;
         let answerMode = 'alternatives'; // 'alternatives' ou 'open'
         let selectedAlternative = -1;
         let correctAlternative = -1;
+
+        // Sistema de Desempenho
+        let performanceStats = {
+            correct: 0,
+            wrong: 0,
+            total: 0,
+            percentage: 0
+        };
 
         // Sistema de Usuários
         let currentUser = null;
@@ -1399,6 +1616,95 @@
             updateContent();
         }
 
+        // Selecionar tipo de exercício
+        function setExerciseType(type) {
+            currentExerciseType = type;
+            
+            // Atualizar botões
+            document.querySelectorAll('.exercise-type-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`[data-type="${type}"]`).classList.add('active');
+            
+            // Atualizar enunciado explicativo
+            updateExerciseExplanation();
+        }
+
+        // Atualizar enunciado explicativo
+        function updateExerciseExplanation() {
+            const explanationContent = document.getElementById('explanation-content');
+            let title, description;
+            
+            if (currentModule === 'equations') {
+                switch(currentExerciseType) {
+                    case 'resolution':
+                        title = currentDegree === 1 ? '🔧 Resolução de Equações do 1° Grau' : '🔧 Resolução de Equações do 2° Grau';
+                        description = currentDegree === 1 ? 
+                            'Neste exercício, você deve encontrar o valor de x que torna a equação verdadeira. Use as operações inversas para isolar a variável.' :
+                            'Resolva a equação do 2° grau usando a fórmula de Bhaskara ou fatoração. Encontre os valores de x que satisfazem a equação.';
+                        break;
+                    case 'zero':
+                        title = '🎯 Zeros da Função';
+                        description = 'Encontre os valores de x onde a função intercepta o eixo x (onde f(x) = 0). Estes são chamados de zeros ou raízes da função.';
+                        break;
+                    case 'image':
+                        title = '📊 Cálculo de Imagem';
+                        description = 'Calcule o valor da função f(x) para valores específicos de x. Por exemplo, se pedido f(5), substitua x por 5 na função.';
+                        break;
+                }
+            } else { // functions
+                switch(currentExerciseType) {
+                    case 'resolution':
+                        title = currentDegree === 1 ? '📈 Análise de Funções do 1° Grau' : '📈 Análise de Funções do 2° Grau';
+                        description = currentDegree === 1 ? 
+                            'Analise as características da função linear: coeficientes, crescimento/decrescimento, ponto onde cruza os eixos.' :
+                            'Estude as propriedades da função quadrática: vértice, eixo de simetria, concavidade e pontos importantes.';
+                        break;
+                    case 'zero':
+                        title = '🎯 Zeros da Função';
+                        description = 'Encontre onde a função intercepta o eixo x. Para funções do 1° grau há um zero, para do 2° grau pode haver 0, 1 ou 2 zeros.';
+                        break;
+                    case 'image':
+                        title = '📊 Cálculo de Imagem';
+                        description = 'Calcule f(x) para valores dados. Exemplo: se f(x) = 2x + 3 e queremos f(5), calculamos f(5) = 2(5) + 3 = 13.';
+                        break;
+                }
+            }
+            
+            explanationContent.innerHTML = `
+                <h4>${title}</h4>
+                <p>${description}</p>
+            `;
+        }
+
+        // Atualizar quadro de desempenho
+        function updatePerformanceBoard() {
+            document.getElementById('correct-count').textContent = performanceStats.correct;
+            document.getElementById('wrong-count').textContent = performanceStats.wrong;
+            document.getElementById('total-exercises').textContent = performanceStats.total;
+            
+            if (performanceStats.total > 0) {
+                performanceStats.percentage = Math.round((performanceStats.correct / performanceStats.total) * 100);
+            } else {
+                performanceStats.percentage = 0;
+            }
+            
+            document.getElementById('success-percentage').textContent = performanceStats.percentage + '%';
+        }
+
+        // Registrar resposta no desempenho
+        function recordAnswer(isCorrect) {
+            if (isCorrect) {
+                performanceStats.correct++;
+                sessionStats.correctAnswers++;
+            } else {
+                performanceStats.wrong++;
+            }
+            performanceStats.total++;
+            sessionStats.exercisesSolved++;
+            
+            updatePerformanceBoard();
+            updateStats();
+        }
+
         // Navegação entre abas
         function showTab(tab) {
             // Esconder todas as abas
@@ -1659,21 +1965,52 @@
                 alt.querySelector('input').checked = false;
             });
             
+            // Gerar problema baseado no módulo, grau e tipo de exercício
             if (currentModule === 'equations') {
-                if (currentDegree === 1) {
-                    currentProblem = generateEquation1();
-                } else {
-                    currentProblem = generateEquation2();
+                if (currentExerciseType === 'resolution') {
+                    if (currentDegree === 1) {
+                        currentProblem = generateEquation1();
+                    } else {
+                        currentProblem = generateEquation2();
+                    }
+                } else if (currentExerciseType === 'zero') {
+                    // Para zeros, gerar função e pedir o zero
+                    if (currentDegree === 1) {
+                        currentProblem = generateFunctionZero1();
+                    } else {
+                        currentProblem = generateFunctionZero2();
+                    }
+                } else if (currentExerciseType === 'image') {
+                    // Para imagem, gerar função e pedir f(valor)
+                    if (currentDegree === 1) {
+                        currentProblem = generateFunctionImage1();
+                    } else {
+                        currentProblem = generateFunctionImage2();
+                    }
                 }
-            } else {
-                if (currentDegree === 1) {
-                    currentProblem = generateFunction1();
-                } else {
-                    currentProblem = generateFunction2();
+            } else { // functions
+                if (currentExerciseType === 'resolution') {
+                    if (currentDegree === 1) {
+                        currentProblem = generateFunction1();
+                    } else {
+                        currentProblem = generateFunction2();
+                    }
+                } else if (currentExerciseType === 'zero') {
+                    if (currentDegree === 1) {
+                        currentProblem = generateFunctionZero1();
+                    } else {
+                        currentProblem = generateFunctionZero2();
+                    }
+                } else if (currentExerciseType === 'image') {
+                    if (currentDegree === 1) {
+                        currentProblem = generateFunctionImage1();
+                    } else {
+                        currentProblem = generateFunctionImage2();
+                    }
                 }
             }
             
-            document.getElementById('current-problem').textContent = currentProblem.display;
+            document.getElementById('current-problem').innerHTML = currentProblem.display;
             
             // Gerar alternativas se estiver no modo alternativas
             if (answerMode === 'alternatives') {
@@ -1701,6 +2038,18 @@
                 correctAnswer = currentProblem.zero;
             } else if (currentProblem.type === 'function2') {
                 correctAnswer = `V(${currentProblem.vertex.x}, ${currentProblem.vertex.y})`;
+            } else if (currentProblem.type === 'functionZero1') {
+                correctAnswer = currentProblem.solution;
+            } else if (currentProblem.type === 'functionZero2') {
+                if (currentProblem.solutions.length === 0) {
+                    correctAnswer = "Não há zeros reais";
+                } else if (currentProblem.solutions.length === 1) {
+                    correctAnswer = `x = ${currentProblem.solutions[0]}`;
+                } else {
+                    correctAnswer = `x = ${currentProblem.solutions[0]} e x = ${currentProblem.solutions[1]}`;
+                }
+            } else if (currentProblem.type === 'functionImage1' || currentProblem.type === 'functionImage2') {
+                correctAnswer = currentProblem.solution;
             }
             
             alternatives.push(correctAnswer);
@@ -1709,7 +2058,9 @@
             while (alternatives.length < 5) {
                 let wrongAnswer;
                 
-                if (currentProblem.type === 'equation1' || currentProblem.type === 'function1') {
+                if (currentProblem.type === 'equation1' || currentProblem.type === 'function1' || 
+                    currentProblem.type === 'functionZero1' || currentProblem.type === 'functionImage1' || 
+                    currentProblem.type === 'functionImage2') {
                     const variation = (Math.random() - 0.5) * 10;
                     wrongAnswer = Math.round((correctAnswer + variation) * 100) / 100;
                     if (wrongAnswer !== correctAnswer && !alternatives.includes(wrongAnswer)) {
@@ -1727,6 +2078,24 @@
                         const wrongX1 = Math.round((currentProblem.solutions[0] + variation) * 100) / 100;
                         const wrongX2 = Math.round((currentProblem.solutions[1] + variation) * 100) / 100;
                         const wrongAnswer = currentProblem.solutions.length === 1 ? wrongX1 : `x = ${wrongX1} ou x = ${wrongX2}`;
+                        if (!alternatives.includes(wrongAnswer)) {
+                            alternatives.push(wrongAnswer);
+                        }
+                    }
+                } else if (currentProblem.type === 'functionZero2') {
+                    if (currentProblem.solutions.length === 0) {
+                        const wrongOptions = ["x = 0", "x = 1 e x = -1", "x = 2 e x = -2", "x = 0.5"];
+                        const wrongAnswer = wrongOptions[Math.floor(Math.random() * wrongOptions.length)];
+                        if (!alternatives.includes(wrongAnswer)) {
+                            alternatives.push(wrongAnswer);
+                        }
+                    } else {
+                        const variation = (Math.random() - 0.5) * 4;
+                        const wrongX1 = Math.round((currentProblem.solutions[0] + variation) * 100) / 100;
+                        const wrongX2 = currentProblem.solutions.length > 1 ? 
+                            Math.round((currentProblem.solutions[1] + variation) * 100) / 100 : wrongX1;
+                        const wrongAnswer = currentProblem.solutions.length === 1 ? 
+                            `x = ${wrongX1}` : `x = ${wrongX1} e x = ${wrongX2}`;
                         if (!alternatives.includes(wrongAnswer)) {
                             alternatives.push(wrongAnswer);
                         }
@@ -1976,6 +2345,163 @@
             };
         }
 
+        // Gerador de exercícios sobre zeros de função do 1° grau
+        function generateFunctionZero1() {
+            const a = Math.floor(Math.random() * 9) + 1;
+            const b = Math.floor(Math.random() * 20) - 10;
+            const zero = Math.round((-b/a) * 100) / 100;
+            
+            let functionDisplay = `f(x) = ${a}x`;
+            if (b !== 0) {
+                functionDisplay += ` ${b >= 0 ? '+' : ''} ${b}`;
+            }
+            
+            const display = `
+                <strong>📚 Encontre o zero da função:</strong><br>
+                ${functionDisplay}<br>
+                <small>💡 O zero da função é o valor de x onde f(x) = 0</small>
+            `;
+            
+            return {
+                type: 'functionZero1',
+                a: a,
+                b: b,
+                display: display,
+                solution: zero,
+                hints: [
+                    `Para encontrar o zero, faça f(x) = 0`,
+                    `Substitua: ${a}x + ${b} = 0`,
+                    `Isole x: ${a}x = ${-b}`,
+                    `Divida por ${a}: x = ${zero}`
+                ]
+            };
+        }
+
+        // Gerador de exercícios sobre zeros de função do 2° grau
+        function generateFunctionZero2() {
+            const a = Math.floor(Math.random() * 3) + 1;
+            const b = Math.floor(Math.random() * 11) - 5;
+            const c = Math.floor(Math.random() * 11) - 5;
+            const delta = b * b - 4 * a * c;
+            
+            let functionDisplay = `f(x) = ${a}x²`;
+            if (b !== 0) {
+                functionDisplay += ` ${b >= 0 ? '+' : ''} ${b}x`;
+            }
+            if (c !== 0) {
+                functionDisplay += ` ${c >= 0 ? '+' : ''} ${c}`;
+            }
+            
+            const display = `
+                <strong>📚 Encontre os zeros da função:</strong><br>
+                ${functionDisplay}<br>
+                <small>💡 Os zeros são os valores de x onde f(x) = 0</small>
+            `;
+            
+            let solutions = [];
+            if (delta > 0) {
+                const x1 = Math.round(((-b + Math.sqrt(delta)) / (2 * a)) * 100) / 100;
+                const x2 = Math.round(((-b - Math.sqrt(delta)) / (2 * a)) * 100) / 100;
+                solutions = [x1, x2].sort((a, b) => a - b);
+            } else if (delta === 0) {
+                solutions = [Math.round((-b / (2 * a)) * 100) / 100];
+            }
+            
+            return {
+                type: 'functionZero2',
+                a: a,
+                b: b,
+                c: c,
+                delta: delta,
+                display: display,
+                solutions: solutions,
+                hints: [
+                    `Para encontrar os zeros, faça f(x) = 0`,
+                    `Temos: ${a}x² + ${b}x + ${c} = 0`,
+                    `Calcule o discriminante: Δ = ${b}² - 4(${a})(${c}) = ${delta}`,
+                    delta > 0 ? `Como Δ > 0, há dois zeros: x₁ = ${solutions[0]} e x₂ = ${solutions[1]}` :
+                    delta === 0 ? `Como Δ = 0, há um zero: x = ${solutions[0]}` :
+                    'Como Δ < 0, não há zeros reais'
+                ]
+            };
+        }
+
+        // Gerador de exercícios de imagem de função do 1° grau
+        function generateFunctionImage1() {
+            const a = Math.floor(Math.random() * 9) + 1;
+            const b = Math.floor(Math.random() * 20) - 10;
+            const inputValue = Math.floor(Math.random() * 11) - 5; // -5 a 5
+            const outputValue = a * inputValue + b;
+            
+            let functionDisplay = `f(x) = ${a}x`;
+            if (b !== 0) {
+                functionDisplay += ` ${b >= 0 ? '+' : ''} ${b}`;
+            }
+            
+            const display = `
+                <strong>📚 Calcule o valor da função:</strong><br>
+                ${functionDisplay}<br>
+                <strong>Calcule: f(${inputValue})</strong><br>
+                <small>💡 Substitua x = ${inputValue} na função</small>
+            `;
+            
+            return {
+                type: 'functionImage1',
+                a: a,
+                b: b,
+                inputValue: inputValue,
+                display: display,
+                solution: outputValue,
+                hints: [
+                    `Substitua x = ${inputValue} na função`,
+                    `f(${inputValue}) = ${a}(${inputValue}) + ${b}`,
+                    `f(${inputValue}) = ${a * inputValue} + ${b}`,
+                    `f(${inputValue}) = ${outputValue}`
+                ]
+            };
+        }
+
+        // Gerador de exercícios de imagem de função do 2° grau
+        function generateFunctionImage2() {
+            const a = Math.floor(Math.random() * 3) + 1;
+            const b = Math.floor(Math.random() * 11) - 5;
+            const c = Math.floor(Math.random() * 11) - 5;
+            const inputValue = Math.floor(Math.random() * 7) - 3; // -3 a 3
+            const outputValue = a * inputValue * inputValue + b * inputValue + c;
+            
+            let functionDisplay = `f(x) = ${a}x²`;
+            if (b !== 0) {
+                functionDisplay += ` ${b >= 0 ? '+' : ''} ${b}x`;
+            }
+            if (c !== 0) {
+                functionDisplay += ` ${c >= 0 ? '+' : ''} ${c}`;
+            }
+            
+            const display = `
+                <strong>📚 Calcule o valor da função:</strong><br>
+                ${functionDisplay}<br>
+                <strong>Calcule: f(${inputValue})</strong><br>
+                <small>💡 Substitua x = ${inputValue} na função</small>
+            `;
+            
+            return {
+                type: 'functionImage2',
+                a: a,
+                b: b,
+                c: c,
+                inputValue: inputValue,
+                display: display,
+                solution: outputValue,
+                hints: [
+                    `Substitua x = ${inputValue} na função`,
+                    `f(${inputValue}) = ${a}(${inputValue})² + ${b}(${inputValue}) + ${c}`,
+                    `f(${inputValue}) = ${a}(${inputValue * inputValue}) + ${b * inputValue} + ${c}`,
+                    `f(${inputValue}) = ${a * inputValue * inputValue} + ${b * inputValue} + ${c}`,
+                    `f(${inputValue}) = ${outputValue}`
+                ]
+            };
+        }
+
         // Verificar resposta
         function checkAnswer() {
             if (!currentProblem) {
@@ -2012,13 +2538,29 @@
                     return;
                 }
                 
-                if (currentProblem.type === 'equation1' || currentProblem.type === 'function1') {
+                if (currentProblem.type === 'equation1' || currentProblem.type === 'function1' || 
+                    currentProblem.type === 'functionZero1' || currentProblem.type === 'functionImage1' || 
+                    currentProblem.type === 'functionImage2') {
                     const numericAnswer = parseFloat(userAnswer);
-                    const expectedAnswer = currentProblem.type === 'equation1' ? currentProblem.solution : currentProblem.zero;
+                    let expectedAnswer;
+                    
+                    if (currentProblem.type === 'equation1') {
+                        expectedAnswer = currentProblem.solution;
+                    } else if (currentProblem.type === 'function1') {
+                        expectedAnswer = currentProblem.zero;
+                    } else if (currentProblem.type === 'functionZero1' || 
+                               currentProblem.type === 'functionImage1' || 
+                               currentProblem.type === 'functionImage2') {
+                        expectedAnswer = currentProblem.solution;
+                    }
+                    
                     correct = Math.abs(numericAnswer - expectedAnswer) < 0.01;
-                } else if (currentProblem.type === 'equation2') {
+                } else if (currentProblem.type === 'equation2' || currentProblem.type === 'functionZero2') {
                     if (currentProblem.solutions.length === 0) {
-                        correct = userAnswer.toLowerCase().includes('não') || userAnswer.toLowerCase().includes('sem') || userAnswer.toLowerCase().includes('impossível');
+                        correct = userAnswer.toLowerCase().includes('não') || 
+                                userAnswer.toLowerCase().includes('sem') || 
+                                userAnswer.toLowerCase().includes('impossível') ||
+                                userAnswer.toLowerCase().includes('zero');
                     } else {
                         const numericAnswer = parseFloat(userAnswer);
                         correct = currentProblem.solutions.some(sol => Math.abs(numericAnswer - sol) < 0.01);
@@ -2033,10 +2575,11 @@
                 }
             }
             
-            // Atualizar estatísticas
-            sessionStats.exercisesSolved++;
+            // Registrar desempenho
+            recordAnswer(correct);
+            
+            // Mostrar feedback
             if (correct) {
-                sessionStats.correctAnswers++;
                 showFeedback('🎉 Parabéns! Resposta correta!', 'success');
             } else {
                 showFeedback('❌ Resposta incorreta. Tente novamente ou use uma dica.', 'error');
@@ -2046,7 +2589,6 @@
             if (userType === 'professor') {
                 updateAdminPanel();
             }
-            updateStats();
         }
 
         // Mostrar dica
@@ -2155,6 +2697,8 @@
         document.addEventListener('DOMContentLoaded', function() {
             initDatabase();
             updateContent();
+            updateExerciseExplanation();
+            updatePerformanceBoard();
             
             // Verificar se há sessão ativa (opcional, para futuras implementações)
             // Por enquanto, sempre mostrar login
