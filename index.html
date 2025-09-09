@@ -1141,10 +1141,10 @@
                         <button class="exercise-type-btn active" onclick="setExerciseType('resolution')" data-type="resolution">
                             🔧 Resolução Completa
                         </button>
-                        <button class="exercise-type-btn" onclick="setExerciseType('zero')" data-type="zero">
+                        <button class="exercise-type-btn" id="zero-btn" onclick="setExerciseType('zero')" data-type="zero">
                             🎯 Zeros da Função
                         </button>
-                        <button class="exercise-type-btn" onclick="setExerciseType('image')" data-type="image">
+                        <button class="exercise-type-btn" id="image-btn" onclick="setExerciseType('image')" data-type="image">
                             📊 Cálculo de Imagem
                         </button>
                     </div>
@@ -1600,8 +1600,32 @@
             document.querySelectorAll('.nav-button').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
             
+            // Controlar visibilidade dos tipos de exercício
+            updateExerciseTypeVisibility();
+            
             // Atualizar conteúdo baseado no módulo
             updateContent();
+        }
+
+        // Controlar visibilidade dos tipos de exercício
+        function updateExerciseTypeVisibility() {
+            const zeroBtn = document.getElementById('zero-btn');
+            const imageBtn = document.getElementById('image-btn');
+            
+            if (currentModule === 'functions') {
+                // Mostrar todos os tipos quando for módulo Funções
+                zeroBtn.style.display = 'block';
+                imageBtn.style.display = 'block';
+            } else {
+                // Esconder zeros e imagem quando for módulo Equações
+                zeroBtn.style.display = 'none';
+                imageBtn.style.display = 'none';
+                
+                // Se estava selecionado zero ou image, voltar para resolution
+                if (currentExerciseType === 'zero' || currentExerciseType === 'image') {
+                    setExerciseType('resolution');
+                }
+            }
         }
 
         // Seleção de grau
@@ -1634,22 +1658,11 @@
             let title, description;
             
             if (currentModule === 'equations') {
-                switch(currentExerciseType) {
-                    case 'resolution':
-                        title = currentDegree === 1 ? '🔧 Resolução de Equações do 1° Grau' : '🔧 Resolução de Equações do 2° Grau';
-                        description = currentDegree === 1 ? 
-                            'Neste exercício, você deve encontrar o valor de x que torna a equação verdadeira. Use as operações inversas para isolar a variável.' :
-                            'Resolva a equação do 2° grau usando a fórmula de Bhaskara ou fatoração. Encontre os valores de x que satisfazem a equação.';
-                        break;
-                    case 'zero':
-                        title = '🎯 Zeros da Função';
-                        description = 'Encontre os valores de x onde a função intercepta o eixo x (onde f(x) = 0). Estes são chamados de zeros ou raízes da função.';
-                        break;
-                    case 'image':
-                        title = '📊 Cálculo de Imagem';
-                        description = 'Calcule o valor da função f(x) para valores específicos de x. Por exemplo, se pedido f(5), substitua x por 5 na função.';
-                        break;
-                }
+                // Para equações, sempre usar resolution (já que zero e image só aparecem em funções)
+                title = currentDegree === 1 ? '🔧 Resolução de Equações do 1° Grau' : '🔧 Resolução de Equações do 2° Grau';
+                description = currentDegree === 1 ? 
+                    'Neste exercício, você deve encontrar o valor de x que torna a equação verdadeira. Use as operações inversas para isolar a variável.' :
+                    'Resolva a equação do 2° grau usando a fórmula de Bhaskara ou fatoração. Encontre os valores de x que satisfazem a equação.';
             } else { // functions
                 switch(currentExerciseType) {
                     case 'resolution':
@@ -2699,6 +2712,7 @@
             updateContent();
             updateExerciseExplanation();
             updatePerformanceBoard();
+            updateExerciseTypeVisibility(); // Controlar visibilidade inicial dos botões
             
             // Verificar se há sessão ativa (opcional, para futuras implementações)
             // Por enquanto, sempre mostrar login
