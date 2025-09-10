@@ -11,6 +11,13 @@
             box-sizing: border-box;
         }
 
+        html {
+            overflow-y: auto !important;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            height: auto !important;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -19,11 +26,7 @@
             overflow-y: auto !important;
             overflow-x: hidden;
             position: relative !important;
-        }
-
-        html {
-            overflow-y: auto !important;
-            overflow-x: hidden;
+            height: auto !important;
         }
 
         .container {
@@ -1944,10 +1947,19 @@
 
         // Forçar reset do scroll (função auxiliar)
         function resetBodyScroll() {
-            document.body.style.overflow = 'auto';
-            document.body.style.position = 'static';
-            document.documentElement.style.overflow = 'auto';
-            document.documentElement.style.position = 'static';
+            // Remover qualquer style inline que possa estar interferindo
+            document.body.removeAttribute('style');
+            document.documentElement.removeAttribute('style');
+            
+            // Aplicar estilos corretos
+            document.body.style.setProperty('overflow-y', 'auto', 'important');
+            document.body.style.setProperty('overflow-x', 'hidden', 'important');
+            document.body.style.setProperty('position', 'relative', 'important');
+            document.body.style.setProperty('height', 'auto', 'important');
+            
+            document.documentElement.style.setProperty('overflow-y', 'auto', 'important');
+            document.documentElement.style.setProperty('overflow-x', 'hidden', 'important');
+            document.documentElement.style.setProperty('height', 'auto', 'important');
             
             // Verificar se o login overlay está interferindo
             const loginOverlay = document.getElementById('login-overlay');
@@ -1959,8 +1971,8 @@
             // Debug: verificar altura do documento
             console.log('Document height:', document.documentElement.scrollHeight);
             console.log('Window height:', window.innerHeight);
-            console.log('Body overflow:', getComputedStyle(document.body).overflow);
-            console.log('Html overflow:', getComputedStyle(document.documentElement).overflow);
+            console.log('Body overflow:', getComputedStyle(document.body).overflowY);
+            console.log('Html overflow:', getComputedStyle(document.documentElement).overflowY);
         }
 
         // Fechar modal
@@ -3830,6 +3842,17 @@
             resetBodyScroll();
             // Forçar scroll para o topo
             window.scrollTo(0, 0);
+            
+            // Monitor contínuo para garantir que o scroll funcione
+            setInterval(function() {
+                const bodyOverflow = getComputedStyle(document.body).overflowY;
+                const htmlOverflow = getComputedStyle(document.documentElement).overflowY;
+                
+                if (bodyOverflow === 'hidden' || htmlOverflow === 'hidden') {
+                    console.log('Detectada interferência no scroll - corrigindo...');
+                    resetBodyScroll();
+                }
+            }, 2000);
             
             // Teste de scroll após 1 segundo
             setTimeout(function() {
