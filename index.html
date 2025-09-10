@@ -614,6 +614,10 @@
         /* Estados ocultos */
         .hidden {
             display: none !important;
+            position: static !important;
+            z-index: -1 !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
         }
 
         /* Sistema de Login */
@@ -1961,18 +1965,41 @@
             document.documentElement.style.setProperty('overflow-x', 'hidden', 'important');
             document.documentElement.style.setProperty('height', 'auto', 'important');
             
+            // Verificar elementos fixed que podem estar interferindo
+            const fixedElements = document.querySelectorAll('[style*="position: fixed"], .modal:not(.hidden), .login-overlay:not(.hidden)');
+            fixedElements.forEach(element => {
+                if (element.classList.contains('hidden')) {
+                    element.style.display = 'none';
+                    element.style.position = 'static';
+                    element.style.zIndex = '-1';
+                    console.log('Elemento fixed problemático removido:', element);
+                }
+            });
+            
             // Verificar se o login overlay está interferindo
             const loginOverlay = document.getElementById('login-overlay');
             if (loginOverlay && loginOverlay.classList.contains('hidden')) {
                 loginOverlay.style.display = 'none';
                 loginOverlay.style.position = 'static';
+                loginOverlay.style.zIndex = '-1';
+                console.log('Login overlay interferente removido');
             }
+
+            // Verificar todos os modais
+            const modals = document.querySelectorAll('.modal.hidden');
+            modals.forEach(modal => {
+                modal.style.display = 'none';
+                modal.style.position = 'static';
+                modal.style.zIndex = '-1';
+                console.log('Modal interferente removido:', modal.id);
+            });
 
             // Debug: verificar altura do documento
             console.log('Document height:', document.documentElement.scrollHeight);
             console.log('Window height:', window.innerHeight);
             console.log('Body overflow:', getComputedStyle(document.body).overflowY);
             console.log('Html overflow:', getComputedStyle(document.documentElement).overflowY);
+            console.log('Fixed elements check completed');
         }
 
         // Fechar modal
@@ -3848,35 +3875,91 @@
                 const bodyOverflow = getComputedStyle(document.body).overflowY;
                 const htmlOverflow = getComputedStyle(document.documentElement).overflowY;
                 
-                if (bodyOverflow === 'hidden' || htmlOverflow === 'hidden') {
+                // Verificar elementos fixed interferentes
+                const problematicElements = document.querySelectorAll('.login-overlay.hidden, .modal.hidden');
+                let hasInterference = false;
+                
+                problematicElements.forEach(element => {
+                    const computedStyle = getComputedStyle(element);
+                    if (computedStyle.position === 'fixed' && computedStyle.display !== 'none') {
+                        console.log('Elemento fixed interferente detectado:', element);
+                        element.style.display = 'none';
+                        element.style.position = 'static';
+                        hasInterference = true;
+                    }
+                });
+                
+                if (bodyOverflow === 'hidden' || htmlOverflow === 'hidden' || hasInterference) {
                     console.log('Detectada interferência no scroll - corrigindo...');
                     resetBodyScroll();
                 }
-            }, 2000);
+            }, 1000); // Verificar a cada 1 segundo (mais frequente)
             
             // Teste de scroll após 1 segundo
             setTimeout(function() {
-                console.log('Testando scroll...');
+                console.log('🧪 Iniciando teste completo de scroll...');
                 const testScroll = window.pageYOffset || document.documentElement.scrollTop;
-                console.log('Current scroll position:', testScroll);
+                console.log('📍 Posição inicial do scroll:', testScroll);
+                
+                // Verificar se há elementos fixed interferentes
+                const fixedElements = document.querySelectorAll('*');
+                let interferingElements = [];
+                fixedElements.forEach(el => {
+                    const style = getComputedStyle(el);
+                    if (style.position === 'fixed' && !el.classList.contains('hidden') && style.display !== 'none') {
+                        interferingElements.push(el);
+                    }
+                });
+                
+                if (interferingElements.length > 0) {
+                    console.log('⚠️ Elementos fixed detectados (podem estar interferindo):', interferingElements);
+                }
                 
                 // Tentar rolar para baixo um pouco para testar
-                window.scrollTo(0, 50);
+                console.log('📜 Tentando rolar para baixo...');
+                window.scrollTo(0, 100);
+                
                 setTimeout(function() {
                     const newScroll = window.pageYOffset || document.documentElement.scrollTop;
-                    console.log('New scroll position:', newScroll);
+                    console.log('📍 Nova posição do scroll:', newScroll);
+                    
                     if (newScroll === testScroll) {
-                        console.log('SCROLL NÃO ESTÁ FUNCIONANDO!');
+                        console.log('❌ SCROLL NÃO ESTÁ FUNCIONANDO! O conteúdo não se move.');
+                        console.log('🔧 Aplicando correções drásticas...');
+                        
+                        // Remover todos os elementos fixed problemáticos
+                        interferingElements.forEach(el => {
+                            if (el.classList.contains('hidden')) {
+                                el.style.display = 'none';
+                                el.style.position = 'static';
+                                console.log('🗑️ Removido elemento interferente:', el);
+                            }
+                        });
+                        
                         // Tentar soluções drásticas
                         document.body.style.setProperty('overflow-y', 'auto', 'important');
                         document.documentElement.style.setProperty('overflow-y', 'auto', 'important');
+                        
+                        // Teste final
+                        setTimeout(() => {
+                            window.scrollTo(0, 50);
+                            setTimeout(() => {
+                                const finalScroll = window.pageYOffset || document.documentElement.scrollTop;
+                                if (finalScroll > 0) {
+                                    console.log('✅ Correção bem-sucedida! Scroll funcionando.');
+                                } else {
+                                    console.log('❌ Problema persistente. Verificar manualmente.');
+                                }
+                                window.scrollTo(0, 0);
+                            }, 100);
+                        }, 100);
                     } else {
-                        console.log('Scroll está funcionando corretamente');
+                        console.log('✅ Scroll está funcionando corretamente! Conteúdo se move.');
                     }
                     // Voltar ao topo
-                    window.scrollTo(0, 0);
-                }, 100);
-            }, 1000);
+                    setTimeout(() => window.scrollTo(0, 0), 500);
+                }, 200);
+            }, 1500);
         });
     </script>
 </body>
