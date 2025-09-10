@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de Scroll</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            overflow-y: auto !important;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow-y: auto !important;
+            overflow-x: hidden;
+            position: relative !important;
+            min-height: 200vh; /* Forçar conteúdo que precise de scroll */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            color: white;
+        }
+
+        .section {
+            margin: 50px 0;
+            padding: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            min-height: 300px;
+        }
+
+        .test-button {
+            background: #4CAF50;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+        }
+
+        .test-button:hover {
+            background: #45a049;
+        }
+
+        .debug-info {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+    <div class="debug-info" id="debug-info">
+        Debug Info: <span id="debug-text">Carregando...</span>
+    </div>
+
+    <div class="container">
+        <h1>🧪 Teste de Scroll</h1>
+        
+        <div class="section">
+            <h2>Seção 1</h2>
+            <p>Este é um teste para verificar se o scroll está funcionando corretamente.</p>
+            <button class="test-button" onclick="testScroll()">Testar Scroll</button>
+            <button class="test-button" onclick="scrollToBottom()">Ir para o Final</button>
+            <button class="test-button" onclick="scrollToTop()">Ir para o Topo</button>
+        </div>
+
+        <div class="section">
+            <h2>Seção 2</h2>
+            <p>Se você conseguir ver esta seção usando a barra de rolagem ou scroll do mouse, então o scroll está funcionando.</p>
+        </div>
+
+        <div class="section">
+            <h2>Seção 3</h2>
+            <p>Esta é uma seção intermediária para testar o scroll.</p>
+        </div>
+
+        <div class="section">
+            <h2>Seção 4</h2>
+            <p>Se você conseguir chegar até aqui, o scroll está definitivamente funcionando!</p>
+        </div>
+
+        <div class="section">
+            <h2>Seção 5 - Final</h2>
+            <p>Esta é a última seção do teste. Se você pode ver isso, o scroll funciona perfeitamente!</p>
+            <button class="test-button" onclick="scrollToTop()">Voltar ao Topo</button>
+        </div>
+    </div>
+
+    <script>
+        function updateDebug() {
+            const debugText = document.getElementById('debug-text');
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const docHeight = document.documentElement.scrollHeight;
+            const windowHeight = window.innerHeight;
+            
+            debugText.innerHTML = `
+                Scroll: ${scrollTop}px<br>
+                Doc Height: ${docHeight}px<br>
+                Window Height: ${windowHeight}px<br>
+                Body Overflow: ${getComputedStyle(document.body).overflowY}<br>
+                Html Overflow: ${getComputedStyle(document.documentElement).overflowY}
+            `;
+        }
+
+        function testScroll() {
+            console.log('Testando scroll...');
+            const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+            console.log('Posição atual:', currentScroll);
+            
+            // Tentar rolar 100px para baixo
+            window.scrollTo(0, currentScroll + 100);
+            
+            setTimeout(() => {
+                const newScroll = window.pageYOffset || document.documentElement.scrollTop;
+                console.log('Nova posição:', newScroll);
+                
+                if (newScroll === currentScroll) {
+                    alert('❌ SCROLL NÃO ESTÁ FUNCIONANDO!');
+                } else {
+                    alert('✅ Scroll está funcionando corretamente!');
+                }
+                updateDebug();
+            }, 100);
+        }
+
+        function scrollToBottom() {
+            window.scrollTo(0, document.documentElement.scrollHeight);
+            setTimeout(updateDebug, 100);
+        }
+
+        function scrollToTop() {
+            window.scrollTo(0, 0);
+            setTimeout(updateDebug, 100);
+        }
+
+        // Atualizar debug info a cada segundo
+        setInterval(updateDebug, 1000);
+
+        // Inicializar
+        window.addEventListener('load', function() {
+            updateDebug();
+            console.log('Página de teste carregada');
+        });
+
+        // Listener para scroll
+        window.addEventListener('scroll', updateDebug);
+    </script>
+</body>
+</html>
