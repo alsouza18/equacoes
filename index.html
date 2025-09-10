@@ -862,8 +862,10 @@
             background: rgba(0,0,0,0.8);
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             z-index: 1000;
+            overflow-y: auto;
+            padding: 20px 0;
         }
 
         .modal.hidden {
@@ -874,11 +876,12 @@
             background: white;
             border-radius: 15px;
             padding: 0;
-            max-width: 90%;
-            max-height: 90%;
-            overflow-y: auto;
+            width: 95%;
+            max-width: 800px;
+            margin: auto;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             animation: modalSlide 0.3s ease;
+            position: relative;
         }
 
         @keyframes modalSlide {
@@ -987,6 +990,86 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 0.8rem;
+        }
+
+        /* ==================== RESPONSIVIDADE ==================== */
+        @media (max-width: 768px) {
+            .modal {
+                padding: 10px 0;
+            }
+
+            .modal-content {
+                width: 98%;
+                margin: 10px auto;
+            }
+
+            .modal-header {
+                padding: 15px 20px;
+            }
+
+            .modal-body {
+                padding: 15px;
+                max-height: calc(100vh - 120px);
+                overflow-y: auto;
+            }
+
+            .login-container {
+                padding: 25px;
+                margin: 20px;
+            }
+
+            .grade-year-row {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .professor-card, .student-card {
+                padding: 15px;
+                margin-bottom: 10px;
+            }
+
+            .admin-buttons {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            .admin-buttons .btn {
+                min-width: 120px;
+                font-size: 0.9rem;
+            }
+
+            .form-group input,
+            .form-group select {
+                padding: 10px 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 20px;
+                margin: 10px;
+            }
+
+            .modal-content {
+                width: 99%;
+            }
+
+            .modal-body {
+                padding: 10px;
+            }
+
+            .admin-buttons .btn {
+                width: 100%;
+                margin-bottom: 8px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .login-header h2 {
+                font-size: 1.5rem;
+            }
         }
     </style>
 </head>
@@ -1720,6 +1803,15 @@
         // Fechar modal
         function closeModal(modalId) {
             document.getElementById(modalId).classList.add('hidden');
+            // Restaurar scroll do body
+            document.body.style.overflow = 'auto';
+        }
+
+        // Abrir modal (função auxiliar)
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.remove('hidden');
+            // Prevenir scroll do body quando modal estiver aberto
+            document.body.style.overflow = 'hidden';
         }
 
         // Mostrar lista de alunos
@@ -1756,7 +1848,7 @@
                 }).join('');
             }
 
-            document.getElementById('students-modal').classList.remove('hidden');
+            openModal('students-modal');
         }
 
         // Função auxiliar para nome da série
@@ -1782,7 +1874,7 @@
 
             // Preencher com dados atuais
             document.getElementById('new-admin-name').value = currentUser.name;
-            document.getElementById('admin-settings-modal').classList.remove('hidden');
+            openModal('admin-settings-modal');
         }
 
         // Atualizar credenciais do admin
@@ -1848,7 +1940,7 @@
             }
 
             updateProfessorsListDisplay();
-            document.getElementById('professors-modal').classList.remove('hidden');
+            openModal('professors-modal');
         }
 
         // Atualizar lista de professores no modal
@@ -3360,7 +3452,17 @@
             document.addEventListener('click', function(e) {
                 // Fechar modal ao clicar no fundo
                 if (e.target.classList.contains('modal')) {
-                    e.target.classList.add('hidden');
+                    closeModal(e.target.id);
+                }
+            });
+
+            // Event listener para tecla ESC fechar modais
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    const openModals = document.querySelectorAll('.modal:not(.hidden)');
+                    openModals.forEach(modal => {
+                        closeModal(modal.id);
+                    });
                 }
             });
 
