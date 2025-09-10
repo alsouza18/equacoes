@@ -851,6 +851,143 @@
             transform: translateY(-1px);
             box-shadow: 0 3px 10px rgba(0,0,0,0.2);
         }
+
+        /* Modais */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal.hidden {
+            display: none;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 0;
+            max-width: 90%;
+            max-height: 90%;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: modalSlide 0.3s ease;
+        }
+
+        @keyframes modalSlide {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            background: #667eea;
+            color: white;
+            padding: 20px;
+            border-radius: 15px 15px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.3rem;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .modal-body {
+            padding: 25px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        /* Lista de Alunos */
+        .student-card {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .student-info h4 {
+            margin: 0 0 5px 0;
+            color: #333;
+        }
+
+        .student-details {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Seção de Professores */
+        .professors-section {
+            background: #f0f7ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .professors-list-section {
+            background: #fff8f0;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .professor-card {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .professor-info h5 {
+            margin: 0 0 3px 0;
+            color: #333;
+        }
+
+        .professor-details {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .delete-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
     </style>
 </head>
 <body>
@@ -971,6 +1108,14 @@
                             </select>
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <label for="reg-professor">Professor de Matemática:</label>
+                        <select id="reg-professor" required>
+                            <option value="">Selecione seu professor</option>
+                            <!-- Opções serão preenchidas dinamicamente -->
+                        </select>
+                    </div>
                     
                     <div class="login-buttons">
                         <button type="submit" class="btn-login btn-success-login">✅ Criar Conta</button>
@@ -1046,9 +1191,95 @@
             <div class="admin-tools">
                 <h4>🔧 Ferramentas Administrativas</h4>
                 <div class="admin-buttons">
+                    <button class="btn btn-primary" onclick="showStudentsList()">👥 Ver Alunos Cadastrados</button>
+                    <button class="btn btn-info" onclick="showAdminSettings()">⚙️ Configurações Admin</button>
+                    <button class="btn btn-success" onclick="showProfessorsManagement()">👨‍🏫 Gerenciar Professores</button>
                     <button class="btn btn-warning" onclick="clearAllStudents()">🗑️ Limpar Todos os Alunos</button>
                     <button class="btn btn-secondary" onclick="exportStudentData()">📊 Exportar Dados</button>
                     <button class="btn btn-secondary" onclick="resetStatistics()">🔄 Resetar Estatísticas</button>
+                </div>
+            </div>
+
+            <!-- Modal para Lista de Alunos -->
+            <div id="students-modal" class="modal hidden">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>👥 Alunos Cadastrados</h3>
+                        <button class="close-btn" onclick="closeModal('students-modal')">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="students-list-container">
+                            <!-- Lista será preenchida dinamicamente -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal para Configurações Admin -->
+            <div id="admin-settings-modal" class="modal hidden">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>⚙️ Configurações de Administrador</h3>
+                        <button class="close-btn" onclick="closeModal('admin-settings-modal')">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form onsubmit="return updateAdminCredentials(event)">
+                            <div class="form-group">
+                                <label for="new-admin-name">Nome do Administrador:</label>
+                                <input type="text" id="new-admin-name" placeholder="Digite o novo nome" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="new-admin-password">Nova Senha:</label>
+                                <input type="password" id="new-admin-password" placeholder="Digite a nova senha" required minlength="4">
+                            </div>
+                            <div class="form-group">
+                                <label for="new-admin-code">Novo Código de Acesso:</label>
+                                <input type="text" id="new-admin-code" placeholder="Digite o novo código" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="confirm-admin-password">Senha Atual (para confirmar):</label>
+                                <input type="password" id="confirm-admin-password" placeholder="Digite sua senha atual" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">🔄 Atualizar Credenciais</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal para Gerenciamento de Professores -->
+            <div id="professors-modal" class="modal hidden">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>👨‍🏫 Gerenciar Professores</h3>
+                        <button class="close-btn" onclick="closeModal('professors-modal')">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="professors-section">
+                            <h4>➕ Cadastrar Novo Professor</h4>
+                            <form onsubmit="return addNewProfessor(event)">
+                                <div class="form-group">
+                                    <label for="prof-reg-name">Nome do Professor:</label>
+                                    <input type="text" id="prof-reg-name" placeholder="Nome completo" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="prof-reg-subject">Matéria:</label>
+                                    <input type="text" id="prof-reg-subject" placeholder="Ex: Matemática" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="prof-reg-email">Email:</label>
+                                    <input type="email" id="prof-reg-email" placeholder="email@exemplo.com">
+                                </div>
+                                <button type="submit" class="btn btn-success">➕ Adicionar Professor</button>
+                            </form>
+                        </div>
+                        
+                        <div class="professors-list-section">
+                            <h4>📋 Professores Cadastrados</h4>
+                            <div id="professors-list-container">
+                                <!-- Lista será preenchida dinamicamente -->
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1357,6 +1588,7 @@
         const DB = {
             students: 'math_students_db',
             professors: 'math_professors_db',
+            teachers: 'math_teachers_db', // Professores cadastrados pelos alunos
             sessions: 'math_sessions_db',
             stats: 'math_stats_db'
         };
@@ -1371,33 +1603,56 @@
                         name: 'Professor Demo',
                         password: 'prof123',
                         code: 'ADMIN2024',
-                        email: 'professor@escola.com',
+                        isAdmin: true,
                         createdAt: new Date().toISOString()
                     }
                 ];
                 localStorage.setItem(DB.professors, JSON.stringify(defaultProfessors));
             }
 
-            // Inicializar outras coleções se não existirem
-            if (!localStorage.getItem(DB.students)) {
-                localStorage.setItem(DB.students, JSON.stringify([]));
+            // Criar lista de professores de matemática se não existir
+            if (!localStorage.getItem(DB.teachers)) {
+                const defaultTeachers = [
+                    {
+                        id: 1,
+                        name: 'Prof. João Silva',
+                        subject: 'Matemática',
+                        email: 'joao.silva@escola.com',
+                        createdAt: new Date().toISOString()
+                    },
+                    {
+                        id: 2,
+                        name: 'Profa. Maria Santos',
+                        subject: 'Matemática',
+                        email: 'maria.santos@escola.com',
+                        createdAt: new Date().toISOString()
+                    },
+                    {
+                        id: 3,
+                        name: 'Prof. Carlos Oliveira',
+                        subject: 'Matemática',
+                        email: 'carlos.oliveira@escola.com',
+                        createdAt: new Date().toISOString()
+                    }
+                ];
+                localStorage.setItem(DB.teachers, JSON.stringify(defaultTeachers));
             }
-            if (!localStorage.getItem(DB.sessions)) {
-                localStorage.setItem(DB.sessions, JSON.stringify([]));
-            }
-            if (!localStorage.getItem(DB.stats)) {
-                localStorage.setItem(DB.stats, JSON.stringify({
-                    totalExercises: 0,
-                    totalCorrect: 0,
-                    totalStudents: 0,
-                    activeSessions: 0
-                }));
-            }
+
+            // Atualizar dropdown de professores
+            updateProfessorsDropdown();
         }
 
         // Funções de manipulação do banco
         function getStudents() {
             return JSON.parse(localStorage.getItem(DB.students) || '[]');
+        }
+
+        function getTeachers() {
+            return JSON.parse(localStorage.getItem(DB.teachers) || '[]');
+        }
+
+        function getProfessors() {
+            return JSON.parse(localStorage.getItem(DB.professors) || '[]');
         }
 
         function saveStudent(student) {
@@ -1438,6 +1693,238 @@
             // Atualizar painel administrativo
             if (userType === 'professor') {
                 updateAdminPanel();
+            }
+        }
+
+        // Atualizar dropdown de professores no formulário de cadastro
+        function updateProfessorsDropdown() {
+            const teachers = getTeachers();
+            const dropdown = document.getElementById('reg-professor');
+            
+            if (dropdown) {
+                // Limpar opções existentes (exceto a primeira)
+                dropdown.innerHTML = '<option value="">Selecione seu professor</option>';
+                
+                // Adicionar professores
+                teachers.forEach(teacher => {
+                    const option = document.createElement('option');
+                    option.value = teacher.id;
+                    option.textContent = teacher.name;
+                    dropdown.appendChild(option);
+                });
+            }
+        }
+
+        // ==================== FUNÇÕES DOS MODAIS ====================
+
+        // Fechar modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
+
+        // Mostrar lista de alunos
+        function showStudentsList() {
+            if (userType !== 'professor') {
+                alert('Acesso negado! Apenas professores podem ver esta lista.');
+                return;
+            }
+
+            const students = getStudents();
+            const teachers = getTeachers();
+            const container = document.getElementById('students-list-container');
+
+            if (students.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #666;">Nenhum aluno cadastrado ainda.</p>';
+            } else {
+                container.innerHTML = students.map(student => {
+                    const teacher = teachers.find(t => t.id == student.professor);
+                    const teacherName = teacher ? teacher.name : 'Não informado';
+                    
+                    return `
+                        <div class="student-card">
+                            <div class="student-info">
+                                <h4>${student.name}</h4>
+                                <div class="student-details">
+                                    📧 Email: ${student.email || 'Não informado'}<br>
+                                    📚 Série: ${getGradeName(student.grade)} - Turma ${student.class}<br>
+                                    👨‍🏫 Professor: ${teacherName}<br>
+                                    📅 Cadastrado em: ${new Date(student.createdAt).toLocaleDateString()}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            document.getElementById('students-modal').classList.remove('hidden');
+        }
+
+        // Função auxiliar para nome da série
+        function getGradeName(grade) {
+            const gradeNames = {
+                '6ano': '6º Ano',
+                '7ano': '7º Ano', 
+                '8ano': '8º Ano',
+                '9ano': '9º Ano',
+                '1medio': '1º Médio',
+                '2medio': '2º Médio',
+                '3medio': '3º Médio'
+            };
+            return gradeNames[grade] || grade;
+        }
+
+        // Mostrar configurações do admin
+        function showAdminSettings() {
+            if (userType !== 'professor') {
+                alert('Acesso negado! Apenas professores podem acessar as configurações.');
+                return;
+            }
+
+            // Preencher com dados atuais
+            document.getElementById('new-admin-name').value = currentUser.name;
+            document.getElementById('admin-settings-modal').classList.remove('hidden');
+        }
+
+        // Atualizar credenciais do admin
+        function updateAdminCredentials(event) {
+            event.preventDefault();
+
+            const newName = document.getElementById('new-admin-name').value.trim();
+            const newPassword = document.getElementById('new-admin-password').value;
+            const newCode = document.getElementById('new-admin-code').value.trim();
+            const currentPassword = document.getElementById('confirm-admin-password').value;
+
+            // Verificar senha atual
+            if (currentPassword !== currentUser.password) {
+                alert('❌ Senha atual incorreta!');
+                return false;
+            }
+
+            if (!newName || !newPassword || !newCode) {
+                alert('❌ Todos os campos são obrigatórios!');
+                return false;
+            }
+
+            if (newPassword.length < 4) {
+                alert('❌ A nova senha deve ter pelo menos 4 caracteres!');
+                return false;
+            }
+
+            // Atualizar no banco de dados
+            const professors = getProfessors();
+            const adminIndex = professors.findIndex(p => p.id === currentUser.id);
+            
+            if (adminIndex !== -1) {
+                professors[adminIndex].name = newName;
+                professors[adminIndex].password = newPassword;
+                professors[adminIndex].code = newCode;
+                localStorage.setItem(DB.professors, JSON.stringify(professors));
+
+                // Atualizar usuário atual
+                currentUser.name = newName;
+                currentUser.password = newPassword;
+                currentUser.code = newCode;
+
+                // Atualizar interface
+                updateUserInfo();
+
+                alert('✅ Credenciais atualizadas com sucesso!');
+                closeModal('admin-settings-modal');
+                
+                // Limpar formulário
+                document.getElementById('new-admin-password').value = '';
+                document.getElementById('new-admin-code').value = '';
+                document.getElementById('confirm-admin-password').value = '';
+            }
+
+            return false;
+        }
+
+        // Mostrar gerenciamento de professores
+        function showProfessorsManagement() {
+            if (userType !== 'professor') {
+                alert('Acesso negado! Apenas professores podem gerenciar outros professores.');
+                return;
+            }
+
+            updateProfessorsListDisplay();
+            document.getElementById('professors-modal').classList.remove('hidden');
+        }
+
+        // Atualizar lista de professores no modal
+        function updateProfessorsListDisplay() {
+            const teachers = getTeachers();
+            const container = document.getElementById('professors-list-container');
+
+            if (teachers.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #666;">Nenhum professor cadastrado ainda.</p>';
+            } else {
+                container.innerHTML = teachers.map(teacher => `
+                    <div class="professor-card">
+                        <div class="professor-info">
+                            <h5>${teacher.name}</h5>
+                            <div class="professor-details">
+                                📚 ${teacher.subject} | 📧 ${teacher.email || 'Não informado'}
+                            </div>
+                        </div>
+                        <button class="delete-btn" onclick="removeProfessor(${teacher.id})">🗑️ Remover</button>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Adicionar novo professor
+        function addNewProfessor(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('prof-reg-name').value.trim();
+            const subject = document.getElementById('prof-reg-subject').value.trim();
+            const email = document.getElementById('prof-reg-email').value.trim();
+
+            if (!name || !subject) {
+                alert('❌ Nome e matéria são obrigatórios!');
+                return false;
+            }
+
+            const teachers = getTeachers();
+            const newTeacher = {
+                id: Date.now(),
+                name: name,
+                subject: subject,
+                email: email,
+                createdAt: new Date().toISOString()
+            };
+
+            teachers.push(newTeacher);
+            localStorage.setItem(DB.teachers, JSON.stringify(teachers));
+
+            // Atualizar displays
+            updateProfessorsListDisplay();
+            updateProfessorsDropdown();
+
+            // Limpar formulário
+            document.getElementById('prof-reg-name').value = '';
+            document.getElementById('prof-reg-subject').value = '';
+            document.getElementById('prof-reg-email').value = '';
+
+            alert('✅ Professor adicionado com sucesso!');
+            return false;
+        }
+
+        // Remover professor
+        function removeProfessor(teacherId) {
+            const confirmation = confirm('⚠️ Tem certeza que deseja remover este professor?\n\nEsta ação não pode ser desfeita.');
+            
+            if (confirmation) {
+                let teachers = getTeachers();
+                teachers = teachers.filter(t => t.id !== teacherId);
+                localStorage.setItem(DB.teachers, JSON.stringify(teachers));
+
+                // Atualizar displays
+                updateProfessorsListDisplay();
+                updateProfessorsDropdown();
+
+                alert('✅ Professor removido com sucesso!');
             }
         }
 
@@ -2868,6 +3355,17 @@
             updateExerciseExplanation();
             updatePerformanceBoard();
             updateExerciseTypeVisibility(); // Controlar visibilidade inicial dos botões
+            
+            // Event listeners para modais
+            document.addEventListener('click', function(e) {
+                // Fechar modal ao clicar no fundo
+                if (e.target.classList.contains('modal')) {
+                    e.target.classList.add('hidden');
+                }
+            });
+
+            // Atualizar dropdown de professores na inicialização
+            updateProfessorsDropdown();
             
             // Verificar se há sessão ativa (opcional, para futuras implementações)
             // Por enquanto, sempre mostrar login
