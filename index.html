@@ -87,6 +87,99 @@
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
+
+        /* Sistema de Login - SEM position fixed */
+        .login-overlay {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .login-overlay.show {
+            display: flex !important;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .login-header h2 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+        }
+
+        .form-group {
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        /* Modais que não interferem com scroll */
+        .modal {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            justify-content: center;
+            align-items: flex-start;
+            z-index: 1000;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .modal.show {
+            display: flex !important;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            width: 95%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -94,9 +187,66 @@
     <!-- Indicador Visual de Scroll -->
     <div class="scroll-indicator" id="scrollIndicator">Scroll: 0px</div>
     
+    <!-- Sistema de Login -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-container">
+            <div class="login-header">
+                <h2>🔐 Acesso ao Sistema</h2>
+                <p>Entre com suas credenciais</p>
+            </div>
+            
+            <div class="form-group">
+                <label for="userType">Tipo de Usuário:</label>
+                <select id="userType">
+                    <option value="student">👨‍🎓 Estudante</option>
+                    <option value="professor">👨‍🏫 Professor</option>
+                    <option value="admin">👨‍💼 Administrador</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="username">Nome de Usuário:</label>
+                <input type="text" id="username" placeholder="Digite seu nome de usuário">
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Senha:</label>
+                <input type="password" id="password" placeholder="Digite sua senha">
+            </div>
+            
+            <button class="btn" onclick="handleLogin()">🚀 Entrar</button>
+            <button class="btn" onclick="showRegisterModal()" style="background: #28a745;">📝 Cadastrar Professor</button>
+        </div>
+    </div>
+    
     <div class="header">
         <h1>🧮 Sistema de Equações</h1>
         <p>Portal Educacional Completo</p>
+    </div>
+
+    <!-- Interface Principal (oculta inicialmente) -->
+    <div id="mainInterface" style="display: none;">
+        <div class="container">
+            <div class="user-info" id="userInfo"></div>
+            
+            <div class="admin-buttons" id="adminButtons" style="display: none;">
+                <button class="btn" onclick="showStudentModal()">👥 Gerenciar Estudantes</button>
+                <button class="btn" onclick="showProfessorModal()">👨‍🏫 Gerenciar Professores</button>
+                <button class="btn" onclick="showStatsModal()">📊 Estatísticas</button>
+            </div>
+            
+            <div class="professor-buttons" id="professorButtons" style="display: none;">
+                <button class="btn" onclick="showStudentModal()">👥 Ver Estudantes</button>
+                <button class="btn" onclick="showStatsModal()">📊 Estatísticas</button>
+            </div>
+            
+            <div class="exercise-area">
+                <h2>🧮 Exercícios de Equações</h2>
+                <div id="exerciseContainer">
+                    <button class="btn" onclick="generateExercise()">🎲 Gerar Novo Exercício</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="container">
@@ -139,6 +289,326 @@
             <button class="btn" style="background: green;">✅ Scroll Funcionando!</button>
         </div>
     </div>
+
+    <!-- Modal de Cadastro de Professor -->
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <h3>📝 Cadastro de Professor</h3>
+            <div class="form-group">
+                <label>Nome Completo:</label>
+                <input type="text" id="regName" placeholder="Nome completo do professor">
+            </div>
+            <div class="form-group">
+                <label>Nome de Usuário:</label>
+                <input type="text" id="regUsername" placeholder="Nome de usuário único">
+            </div>
+            <div class="form-group">
+                <label>Senha:</label>
+                <input type="password" id="regPassword" placeholder="Senha do professor">
+            </div>
+            <div class="form-group">
+                <label>Área de Ensino:</label>
+                <input type="text" id="regArea" placeholder="Ex: Matemática, Física">
+            </div>
+            <button class="btn" onclick="registerProfessor()">✅ Cadastrar</button>
+            <button class="btn" onclick="closeModal('registerModal')" style="background: #6c757d;">❌ Cancelar</button>
+        </div>
+    </div>
+
+    <!-- Modal de Estudantes -->
+    <div class="modal" id="studentModal">
+        <div class="modal-content">
+            <h3>👥 Gerenciar Estudantes</h3>
+            <div id="studentList"></div>
+            <button class="btn" onclick="closeModal('studentModal')" style="background: #6c757d;">❌ Fechar</button>
+        </div>
+    </div>
+
+    <!-- Modal de Professores -->
+    <div class="modal" id="professorModal">
+        <div class="modal-content">
+            <h3>👨‍🏫 Gerenciar Professores</h3>
+            <div id="professorList"></div>
+            <button class="btn" onclick="closeModal('professorModal')" style="background: #6c757d;">❌ Fechar</button>
+        </div>
+    </div>
+
+    <!-- Modal de Estatísticas -->
+    <div class="modal" id="statsModal">
+        <div class="modal-content">
+            <h3>📊 Estatísticas do Sistema</h3>
+            <div id="statsContent"></div>
+            <button class="btn" onclick="closeModal('statsModal')" style="background: #6c757d;">❌ Fechar</button>
+        </div>
+    </div>
+
+    <!-- Sistema JavaScript Educacional -->
+    <script>
+        // Dados salvos no localStorage
+        let currentUser = null;
+        
+        // Inicializar dados padrão
+        function initializeData() {
+            if (!localStorage.getItem('equacoes_admins')) {
+                localStorage.setItem('equacoes_admins', JSON.stringify([
+                    { username: 'admin', password: 'admin123', name: 'Administrador' }
+                ]));
+            }
+            if (!localStorage.getItem('equacoes_professors')) {
+                localStorage.setItem('equacoes_professors', JSON.stringify([]));
+            }
+            if (!localStorage.getItem('equacoes_students')) {
+                localStorage.setItem('equacoes_students', JSON.stringify([]));
+            }
+            if (!localStorage.getItem('equacoes_stats')) {
+                localStorage.setItem('equacoes_stats', JSON.stringify({
+                    totalExercises: 0,
+                    correctAnswers: 0,
+                    totalStudents: 0,
+                    totalProfessors: 0
+                }));
+            }
+        }
+        
+        // Função de login
+        function handleLogin() {
+            const userType = document.getElementById('userType').value;
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (!username || !password) {
+                alert('Por favor, preencha todos os campos!');
+                return;
+            }
+            
+            let users = [];
+            let userTypeName = '';
+            
+            switch(userType) {
+                case 'admin':
+                    users = JSON.parse(localStorage.getItem('equacoes_admins') || '[]');
+                    userTypeName = 'Administrador';
+                    break;
+                case 'professor':
+                    users = JSON.parse(localStorage.getItem('equacoes_professors') || '[]');
+                    userTypeName = 'Professor';
+                    break;
+                case 'student':
+                    // Para estudantes, criar automaticamente se não existir
+                    users = JSON.parse(localStorage.getItem('equacoes_students') || '[]');
+                    let student = users.find(u => u.username === username);
+                    if (!student) {
+                        student = {
+                            username: username,
+                            password: password,
+                            name: username,
+                            exercises: [],
+                            score: 0
+                        };
+                        users.push(student);
+                        localStorage.setItem('equacoes_students', JSON.stringify(users));
+                    }
+                    userTypeName = 'Estudante';
+                    break;
+            }
+            
+            const user = users.find(u => u.username === username && u.password === password);
+            
+            if (user) {
+                currentUser = { ...user, type: userType };
+                showMainInterface();
+            } else {
+                alert('Credenciais inválidas!');
+            }
+        }
+        
+        // Mostrar interface principal
+        function showMainInterface() {
+            document.getElementById('loginOverlay').style.display = 'none';
+            document.getElementById('mainInterface').style.display = 'block';
+            
+            const userInfo = document.getElementById('userInfo');
+            userInfo.innerHTML = `
+                <h3>Bem-vindo, ${currentUser.name}!</h3>
+                <p>Tipo: ${currentUser.type === 'admin' ? 'Administrador' : 
+                          currentUser.type === 'professor' ? 'Professor' : 'Estudante'}</p>
+                <button class="btn" onclick="logout()" style="background: #dc3545;">🚪 Sair</button>
+            `;
+            
+            // Mostrar botões específicos do tipo de usuário
+            if (currentUser.type === 'admin') {
+                document.getElementById('adminButtons').style.display = 'block';
+            } else if (currentUser.type === 'professor') {
+                document.getElementById('professorButtons').style.display = 'block';
+            }
+        }
+        
+        // Logout
+        function logout() {
+            currentUser = null;
+            document.getElementById('loginOverlay').style.display = 'flex';
+            document.getElementById('mainInterface').style.display = 'none';
+            document.getElementById('adminButtons').style.display = 'none';
+            document.getElementById('professorButtons').style.display = 'none';
+        }
+        
+        // Funções de modal
+        function showRegisterModal() {
+            document.getElementById('registerModal').classList.add('show');
+        }
+        
+        function showStudentModal() {
+            const students = JSON.parse(localStorage.getItem('equacoes_students') || '[]');
+            const list = document.getElementById('studentList');
+            list.innerHTML = students.map(s => `
+                <div style="border: 1px solid #ddd; padding: 10px; margin: 10px 0; border-radius: 5px;">
+                    <strong>${s.name}</strong> (@${s.username})<br>
+                    Exercícios: ${s.exercises ? s.exercises.length : 0} | Pontuação: ${s.score || 0}
+                </div>
+            `).join('') || '<p>Nenhum estudante cadastrado.</p>';
+            
+            document.getElementById('studentModal').classList.add('show');
+        }
+        
+        function showProfessorModal() {
+            const professors = JSON.parse(localStorage.getItem('equacoes_professors') || '[]');
+            const list = document.getElementById('professorList');
+            list.innerHTML = professors.map(p => `
+                <div style="border: 1px solid #ddd; padding: 10px; margin: 10px 0; border-radius: 5px;">
+                    <strong>${p.name}</strong> (@${p.username})<br>
+                    Área: ${p.area || 'Não especificada'}
+                </div>
+            `).join('') || '<p>Nenhum professor cadastrado.</p>';
+            
+            document.getElementById('professorModal').classList.add('show');
+        }
+        
+        function showStatsModal() {
+            const stats = JSON.parse(localStorage.getItem('equacoes_stats') || '{}');
+            const students = JSON.parse(localStorage.getItem('equacoes_students') || '[]');
+            const professors = JSON.parse(localStorage.getItem('equacoes_professors') || '[]');
+            
+            const content = document.getElementById('statsContent');
+            content.innerHTML = `
+                <div style="text-align: center;">
+                    <h4>📊 Estatísticas Gerais</h4>
+                    <p>👥 Total de Estudantes: ${students.length}</p>
+                    <p>👨‍🏫 Total de Professores: ${professors.length}</p>
+                    <p>🧮 Exercícios Resolvidos: ${stats.totalExercises || 0}</p>
+                    <p>✅ Respostas Corretas: ${stats.correctAnswers || 0}</p>
+                    <p>📈 Taxa de Acerto: ${stats.totalExercises > 0 ? 
+                        Math.round((stats.correctAnswers / stats.totalExercises) * 100) : 0}%</p>
+                </div>
+            `;
+            
+            document.getElementById('statsModal').classList.add('show');
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('show');
+        }
+        
+        // Cadastrar professor
+        function registerProfessor() {
+            const name = document.getElementById('regName').value;
+            const username = document.getElementById('regUsername').value;
+            const password = document.getElementById('regPassword').value;
+            const area = document.getElementById('regArea').value;
+            
+            if (!name || !username || !password) {
+                alert('Preencha todos os campos obrigatórios!');
+                return;
+            }
+            
+            const professors = JSON.parse(localStorage.getItem('equacoes_professors') || '[]');
+            
+            if (professors.find(p => p.username === username)) {
+                alert('Nome de usuário já existe!');
+                return;
+            }
+            
+            professors.push({ name, username, password, area });
+            localStorage.setItem('equacoes_professors', JSON.stringify(professors));
+            
+            alert('Professor cadastrado com sucesso!');
+            closeModal('registerModal');
+            
+            // Limpar campos
+            document.getElementById('regName').value = '';
+            document.getElementById('regUsername').value = '';
+            document.getElementById('regPassword').value = '';
+            document.getElementById('regArea').value = '';
+        }
+        
+        // Gerar exercício
+        function generateExercise() {
+            const a = Math.floor(Math.random() * 10) + 1;
+            const b = Math.floor(Math.random() * 20) + 1;
+            const x = Math.floor(Math.random() * 10) + 1;
+            const result = a * x + b;
+            
+            const container = document.getElementById('exerciseContainer');
+            container.innerHTML = `
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                    <h3>Resolva a equação:</h3>
+                    <p style="font-size: 1.5rem; text-align: center; margin: 20px 0;">
+                        ${a}x + ${b} = ${result}
+                    </p>
+                    <div>
+                        <input type="number" id="answer" placeholder="Valor de x" style="padding: 10px; margin: 10px;">
+                        <button class="btn" onclick="checkAnswer(${x})">✅ Verificar</button>
+                        <button class="btn" onclick="generateExercise()">🎲 Nova Equação</button>
+                    </div>
+                    <div id="result"></div>
+                </div>
+            `;
+        }
+        
+        // Verificar resposta
+        function checkAnswer(correctAnswer) {
+            const userAnswer = parseInt(document.getElementById('answer').value);
+            const resultDiv = document.getElementById('result');
+            
+            if (userAnswer === correctAnswer) {
+                resultDiv.innerHTML = '<p style="color: green; font-weight: bold;">🎉 Correto! Parabéns!</p>';
+                updateStats(true);
+            } else {
+                resultDiv.innerHTML = `<p style="color: red; font-weight: bold;">❌ Incorreto. A resposta é x = ${correctAnswer}</p>`;
+                updateStats(false);
+            }
+        }
+        
+        // Atualizar estatísticas
+        function updateStats(isCorrect) {
+            const stats = JSON.parse(localStorage.getItem('equacoes_stats') || '{}');
+            stats.totalExercises = (stats.totalExercises || 0) + 1;
+            if (isCorrect) {
+                stats.correctAnswers = (stats.correctAnswers || 0) + 1;
+            }
+            localStorage.setItem('equacoes_stats', JSON.stringify(stats));
+            
+            // Atualizar pontuação do usuário
+            if (currentUser && currentUser.type === 'student') {
+                const students = JSON.parse(localStorage.getItem('equacoes_students') || '[]');
+                const student = students.find(s => s.username === currentUser.username);
+                if (student) {
+                    student.score = (student.score || 0) + (isCorrect ? 10 : 0);
+                    if (!student.exercises) student.exercises = [];
+                    student.exercises.push({
+                        date: new Date().toISOString(),
+                        correct: isCorrect
+                    });
+                    localStorage.setItem('equacoes_students', JSON.stringify(students));
+                }
+            }
+        }
+        
+        // Inicializar ao carregar
+        window.addEventListener('load', function() {
+            initializeData();
+            document.getElementById('loginOverlay').style.display = 'flex';
+        });
+    </script>
 
     <!-- Script de Teste de Scroll Funcional -->
     <script>
