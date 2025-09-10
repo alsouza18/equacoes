@@ -819,6 +819,38 @@
             font-size: 0.8rem;
             opacity: 0.8;
         }
+
+        /* Ferramentas Administrativas */
+        .admin-tools {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .admin-tools h4 {
+            color: white;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .admin-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .admin-buttons .btn {
+            padding: 10px 15px;
+            font-size: 0.9rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .admin-buttons .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
     </style>
 </head>
 <body>
@@ -1007,6 +1039,16 @@
                 <div class="stat-card">
                     <span class="stat-number" id="success-rate">0%</span>
                     <span class="stat-label">Taxa de Acerto</span>
+                </div>
+            </div>
+            
+            <!-- Ferramentas Administrativas -->
+            <div class="admin-tools">
+                <h4>🔧 Ferramentas Administrativas</h4>
+                <div class="admin-buttons">
+                    <button class="btn btn-warning" onclick="clearAllStudents()">🗑️ Limpar Todos os Alunos</button>
+                    <button class="btn btn-secondary" onclick="exportStudentData()">📊 Exportar Dados</button>
+                    <button class="btn btn-secondary" onclick="resetStatistics()">🔄 Resetar Estatísticas</button>
                 </div>
             </div>
         </div>
@@ -2703,6 +2745,119 @@
         function checkEnter(event) {
             if (event.key === 'Enter') {
                 checkAnswer();
+            }
+        }
+
+        // ==================== FERRAMENTAS ADMINISTRATIVAS ====================
+        
+        // Limpar todos os alunos cadastrados (apenas para professores)
+        function clearAllStudents() {
+            if (userType !== 'professor') {
+                alert('Acesso negado! Apenas professores podem executar esta ação.');
+                return;
+            }
+            
+            const currentStudents = getStudents();
+            const confirmation = confirm(`⚠️ ATENÇÃO! ⚠️\n\nVocê está prestes a REMOVER PERMANENTEMENTE todos os ${currentStudents.length} alunos cadastrados!\n\n• Esta ação NÃO pode ser desfeita\n• Todos os dados de login serão perdidos\n• Os alunos precisarão se cadastrar novamente\n\nTem certeza que deseja continuar?`);
+            
+            if (confirmation) {
+                const secondConfirmation = confirm('🚨 CONFIRMAÇÃO FINAL 🚨\n\nClique OK para prosseguir com a exclusão de todos os alunos.');
+                
+                if (secondConfirmation) {
+                    // Limpar localStorage dos estudantes
+                    localStorage.removeItem(DB.students);
+                    
+                    // Resetar estatísticas relacionadas
+                    resetStatistics();
+                    
+                    // Atualizar interface
+                    updateAdminPanel();
+                    
+                    alert(`✅ Sucesso!\n\n${currentStudents.length} alunos foram removidos do sistema.\n\nO banco de dados foi limpo e as estatísticas foram resetadas.`);
+                } else {
+                    alert('❌ Operação cancelada pelo usuário.');
+                }
+            } else {
+                alert('❌ Operação cancelada pelo usuário.');
+            }
+        }
+
+        // Exportar dados dos estudantes
+        function exportStudentData() {
+            if (userType !== 'professor') {
+                alert('Acesso negado! Apenas professores podem executar esta ação.');
+                return;
+            }
+            
+            const students = getStudents();
+            
+            if (students.length === 0) {
+                alert('📊 Nenhum aluno cadastrado para exportar.');
+                return;
+            }
+            
+            // Criar dados para exportação
+            const exportData = {
+                exportDate: new Date().toISOString(),
+                totalStudents: students.length,
+                students: students.map(student => ({
+                    name: student.name,
+                    email: student.email,
+                    grade: student.grade,
+                    class: student.class,
+                    createdAt: student.createdAt
+                }))
+            };
+            
+            // Converter para JSON formatado
+            const jsonData = JSON.stringify(exportData, null, 2);
+            
+            // Criar arquivo para download
+            const blob = new Blob([jsonData], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `alunos_exportados_${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            alert(`📊 Dados exportados com sucesso!\n\n• ${students.length} alunos exportados\n• Arquivo JSON baixado\n• Data: ${new Date().toLocaleDateString()}`);
+        }
+
+        // Resetar estatísticas do sistema
+        function resetStatistics() {
+            if (userType !== 'professor') {
+                alert('Acesso negado! Apenas professores podem executar esta ação.');
+                return;
+            }
+            
+            const confirmation = confirm('🔄 Resetar Estatísticas\n\nIsso irá zerar:\n• Exercícios resolvidos\n• Taxa de acerto\n• Sessões ativas\n\nDeseja continuar?');
+            
+            if (confirmation) {
+                // Resetar estatísticas locais
+                performanceStats = {
+                    correct: 0,
+                    wrong: 0,
+                    total: 0,
+                    percentage: 0
+                };
+                
+                sessionStats = {
+                    exercisesSolved: 0,
+                    correctAnswers: 0,
+                    startTime: new Date()
+                };
+                
+                // Limpar localStorage de estatísticas
+                localStorage.removeItem(DB.stats);
+                
+                // Atualizar interfaces
+                updatePerformanceBoard();
+                updateAdminPanel();
+                
+                alert('✅ Estatísticas resetadas com sucesso!');
             }
         }
 
