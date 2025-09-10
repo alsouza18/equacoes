@@ -33,6 +33,8 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+            position: relative !important;
+            z-index: 1;
         }
 
         .header {
@@ -1951,55 +1953,83 @@
 
         // Forçar reset do scroll (função auxiliar)
         function resetBodyScroll() {
-            // Remover qualquer style inline que possa estar interferindo
+            console.log('🔧 Iniciando reset agressivo do scroll...');
+            
+            // 1. Remover qualquer style inline que possa estar interferindo
             document.body.removeAttribute('style');
             document.documentElement.removeAttribute('style');
             
-            // Aplicar estilos corretos
-            document.body.style.setProperty('overflow-y', 'auto', 'important');
-            document.body.style.setProperty('overflow-x', 'hidden', 'important');
-            document.body.style.setProperty('position', 'relative', 'important');
-            document.body.style.setProperty('height', 'auto', 'important');
+            // 2. Aplicar estilos corretos com força máxima
+            const bodyStyles = {
+                'overflow-y': 'auto',
+                'overflow-x': 'hidden',
+                'position': 'relative',
+                'height': 'auto',
+                'min-height': '100vh',
+                'top': '0',
+                'left': '0',
+                'right': 'auto',
+                'bottom': 'auto'
+            };
             
-            document.documentElement.style.setProperty('overflow-y', 'auto', 'important');
-            document.documentElement.style.setProperty('overflow-x', 'hidden', 'important');
-            document.documentElement.style.setProperty('height', 'auto', 'important');
+            const htmlStyles = {
+                'overflow-y': 'auto',
+                'overflow-x': 'hidden',
+                'height': 'auto',
+                'position': 'relative'
+            };
             
-            // Verificar elementos fixed que podem estar interferindo
-            const fixedElements = document.querySelectorAll('[style*="position: fixed"], .modal:not(.hidden), .login-overlay:not(.hidden)');
-            fixedElements.forEach(element => {
-                if (element.classList.contains('hidden')) {
-                    element.style.display = 'none';
-                    element.style.position = 'static';
-                    element.style.zIndex = '-1';
-                    console.log('Elemento fixed problemático removido:', element);
+            // Aplicar estilos ao body
+            Object.keys(bodyStyles).forEach(prop => {
+                document.body.style.setProperty(prop, bodyStyles[prop], 'important');
+            });
+            
+            // Aplicar estilos ao html
+            Object.keys(htmlStyles).forEach(prop => {
+                document.documentElement.style.setProperty(prop, htmlStyles[prop], 'important');
+            });
+            
+            // 3. Forçar remoção de TODOS os elementos fixed/absolute ocultos
+            const allElements = document.querySelectorAll('*');
+            let removedCount = 0;
+            
+            allElements.forEach(element => {
+                const computedStyle = getComputedStyle(element);
+                const isHidden = element.classList.contains('hidden') || 
+                                element.style.display === 'none' ||
+                                computedStyle.display === 'none';
+                
+                if (isHidden && (computedStyle.position === 'fixed' || computedStyle.position === 'absolute')) {
+                    element.style.setProperty('display', 'none', 'important');
+                    element.style.setProperty('position', 'static', 'important');
+                    element.style.setProperty('z-index', '-9999', 'important');
+                    element.style.setProperty('visibility', 'hidden', 'important');
+                    element.style.setProperty('opacity', '0', 'important');
+                    removedCount++;
+                    console.log('🗑️ Removido elemento interferente:', element.tagName, element.className, element.id);
                 }
             });
             
-            // Verificar se o login overlay está interferindo
-            const loginOverlay = document.getElementById('login-overlay');
-            if (loginOverlay && loginOverlay.classList.contains('hidden')) {
-                loginOverlay.style.display = 'none';
-                loginOverlay.style.position = 'static';
-                loginOverlay.style.zIndex = '-1';
-                console.log('Login overlay interferente removido');
-            }
-
-            // Verificar todos os modais
-            const modals = document.querySelectorAll('.modal.hidden');
-            modals.forEach(modal => {
-                modal.style.display = 'none';
-                modal.style.position = 'static';
-                modal.style.zIndex = '-1';
-                console.log('Modal interferente removido:', modal.id);
+            // 4. Verificação específica dos principais suspeitos
+            const suspects = ['login-overlay', 'modal'];
+            suspects.forEach(className => {
+                const elements = document.querySelectorAll(`.${className}.hidden, .${className}[style*="display: none"]`);
+                elements.forEach(el => {
+                    el.style.setProperty('display', 'none', 'important');
+                    el.style.setProperty('position', 'static', 'important');
+                    el.style.setProperty('z-index', '-9999', 'important');
+                    console.log('🎯 Suspeito neutralizado:', className, el.id);
+                });
             });
 
-            // Debug: verificar altura do documento
-            console.log('Document height:', document.documentElement.scrollHeight);
-            console.log('Window height:', window.innerHeight);
-            console.log('Body overflow:', getComputedStyle(document.body).overflowY);
-            console.log('Html overflow:', getComputedStyle(document.documentElement).overflowY);
-            console.log('Fixed elements check completed');
+            console.log(`✅ Reset completo! ${removedCount} elementos interferentes removidos.`);
+            
+            // Debug final
+            console.log('📊 Status final:');
+            console.log('- Document height:', document.documentElement.scrollHeight);
+            console.log('- Window height:', window.innerHeight);
+            console.log('- Body overflow:', getComputedStyle(document.body).overflowY);
+            console.log('- Html overflow:', getComputedStyle(document.documentElement).overflowY);
         }
 
         // Fechar modal
@@ -3895,71 +3925,93 @@
                 }
             }, 1000); // Verificar a cada 1 segundo (mais frequente)
             
-            // Teste de scroll após 1 segundo
+            // Teste de scroll após 2 segundos (mais tempo para carregar)
             setTimeout(function() {
-                console.log('🧪 Iniciando teste completo de scroll...');
-                const testScroll = window.pageYOffset || document.documentElement.scrollTop;
-                console.log('📍 Posição inicial do scroll:', testScroll);
+                console.log('🧪 === TESTE DEFINITIVO DE SCROLL ===');
                 
-                // Verificar se há elementos fixed interferentes
-                const fixedElements = document.querySelectorAll('*');
-                let interferingElements = [];
-                fixedElements.forEach(el => {
-                    const style = getComputedStyle(el);
-                    if (style.position === 'fixed' && !el.classList.contains('hidden') && style.display !== 'none') {
-                        interferingElements.push(el);
-                    }
-                });
+                // Primeiro, aplicar reset agressivo
+                resetBodyScroll();
                 
-                if (interferingElements.length > 0) {
-                    console.log('⚠️ Elementos fixed detectados (podem estar interferindo):', interferingElements);
-                }
-                
-                // Tentar rolar para baixo um pouco para testar
-                console.log('📜 Tentando rolar para baixo...');
-                window.scrollTo(0, 100);
-                
-                setTimeout(function() {
-                    const newScroll = window.pageYOffset || document.documentElement.scrollTop;
-                    console.log('📍 Nova posição do scroll:', newScroll);
+                setTimeout(() => {
+                    console.log('📍 Iniciando teste visual de movimento...');
                     
-                    if (newScroll === testScroll) {
-                        console.log('❌ SCROLL NÃO ESTÁ FUNCIONANDO! O conteúdo não se move.');
-                        console.log('🔧 Aplicando correções drásticas...');
+                    const initialScroll = window.pageYOffset || document.documentElement.scrollTop;
+                    console.log('� Posição inicial:', initialScroll);
+                    
+                    // Criar um elemento visual para teste
+                    const testDiv = document.createElement('div');
+                    testDiv.id = 'scroll-test-indicator';
+                    testDiv.style.cssText = `
+                        position: fixed;
+                        top: 10px;
+                        left: 10px;
+                        background: red;
+                        color: white;
+                        padding: 10px;
+                        z-index: 99999;
+                        font-size: 14px;
+                        border-radius: 5px;
+                    `;
+                    testDiv.textContent = 'TESTE: Scroll = ' + initialScroll;
+                    document.body.appendChild(testDiv);
+                    
+                    // Tentar rolar 200px para baixo
+                    console.log('📜 Tentando rolar 200px para baixo...');
+                    window.scrollTo(0, 200);
+                    
+                    setTimeout(() => {
+                        const newScroll = window.pageYOffset || document.documentElement.scrollTop;
+                        testDiv.textContent = 'TESTE: Scroll = ' + newScroll + (newScroll > initialScroll ? ' ✅ FUNCIONANDO!' : ' ❌ TRAVADO!');
                         
-                        // Remover todos os elementos fixed problemáticos
-                        interferingElements.forEach(el => {
-                            if (el.classList.contains('hidden')) {
-                                el.style.display = 'none';
-                                el.style.position = 'static';
-                                console.log('🗑️ Removido elemento interferente:', el);
-                            }
-                        });
+                        console.log('� Nova posição:', newScroll);
+                        console.log('📊 Diferença:', newScroll - initialScroll);
                         
-                        // Tentar soluções drásticas
-                        document.body.style.setProperty('overflow-y', 'auto', 'important');
-                        document.documentElement.style.setProperty('overflow-y', 'auto', 'important');
-                        
-                        // Teste final
-                        setTimeout(() => {
-                            window.scrollTo(0, 50);
-                            setTimeout(() => {
-                                const finalScroll = window.pageYOffset || document.documentElement.scrollTop;
-                                if (finalScroll > 0) {
-                                    console.log('✅ Correção bem-sucedida! Scroll funcionando.');
-                                } else {
-                                    console.log('❌ Problema persistente. Verificar manualmente.');
+                        if (newScroll > initialScroll) {
+                            console.log('🎉 SUCCESS! O conteúdo está se movendo!');
+                            testDiv.style.background = 'green';
+                        } else {
+                            console.log('💥 FAILURE! O conteúdo está travado!');
+                            console.log('� Aplicando correções de emergência...');
+                            
+                            // Correções de emergência
+                            document.body.style.cssText = `
+                                overflow-y: auto !important;
+                                overflow-x: hidden !important;
+                                position: relative !important;
+                                height: auto !important;
+                                min-height: 100vh !important;
+                            `;
+                            
+                            document.documentElement.style.cssText = `
+                                overflow-y: auto !important;
+                                overflow-x: hidden !important;
+                                height: auto !important;
+                            `;
+                            
+                            // Remover TODOS os elementos suspeitos
+                            const allHiddenElements = document.querySelectorAll('.hidden, [style*="display: none"]');
+                            allHiddenElements.forEach(el => {
+                                if (el.id !== 'scroll-test-indicator') {
+                                    el.remove();
+                                    console.log('🗑️ REMOVIDO:', el.tagName, el.className);
                                 }
-                                window.scrollTo(0, 0);
-                            }, 100);
-                        }, 100);
-                    } else {
-                        console.log('✅ Scroll está funcionando corretamente! Conteúdo se move.');
-                    }
-                    // Voltar ao topo
-                    setTimeout(() => window.scrollTo(0, 0), 500);
-                }, 200);
-            }, 1500);
+                            });
+                            
+                            testDiv.style.background = 'orange';
+                            testDiv.textContent = 'CORREÇÕES APLICADAS - TESTE NOVAMENTE';
+                        }
+                        
+                        // Voltar ao topo após 3 segundos
+                        setTimeout(() => {
+                            window.scrollTo(0, 0);
+                            setTimeout(() => {
+                                testDiv.remove();
+                            }, 1000);
+                        }, 3000);
+                        
+                    }, 300);
+                }, 500);
+            }, 2000);
         });
     </script>
 </body>
