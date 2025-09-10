@@ -1164,7 +1164,36 @@
         }
     </style>
 </head>
-<body>
+<body style="overflow-y: auto !important; overflow-x: hidden !important; position: relative !important; height: auto !important;"">
+    <script>
+        // FORÇA BRUTA: Aplicar estilos de scroll imediatamente
+        (function() {
+            console.log('🚀 FORÇA BRUTA: Aplicando estilos de scroll...');
+            
+            const applyScrollStyles = () => {
+                document.body.style.setProperty('overflow-y', 'auto', 'important');
+                document.body.style.setProperty('overflow-x', 'hidden', 'important');
+                document.body.style.setProperty('position', 'relative', 'important');
+                document.body.style.setProperty('height', 'auto', 'important');
+                
+                document.documentElement.style.setProperty('overflow-y', 'auto', 'important');
+                document.documentElement.style.setProperty('overflow-x', 'hidden', 'important');
+                document.documentElement.style.setProperty('height', 'auto', 'important');
+                
+                console.log('✅ Estilos aplicados via força bruta');
+            };
+            
+            // Aplicar imediatamente
+            applyScrollStyles();
+            
+            // Aplicar novamente a cada 100ms nos primeiros 2 segundos
+            const interval = setInterval(applyScrollStyles, 100);
+            setTimeout(() => {
+                clearInterval(interval);
+                console.log('🔄 Monitoramento de força bruta finalizado');
+            }, 2000);
+        })();
+    </script>
     <!-- Sistema de Login -->
     <div id="login-overlay" class="login-overlay">
         <div class="login-container">

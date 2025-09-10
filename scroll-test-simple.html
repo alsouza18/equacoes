@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📚 Sistema Educativo - Equações e Funções</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 200vh; /* Força conteúdo que precisa de scroll */
+        }
+
+        .main-wrapper {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            padding: 40px 20px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .section {
+            background: rgba(255,255,255,0.9);
+            margin: 30px 0;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .section p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .test-area {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .scroll-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #333;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            z-index: 9999;
+            font-family: monospace;
+            font-size: 14px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .btn {
+            background: #667eea;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 10px 10px 0;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #48bb78;
+        }
+
+        .btn-danger {
+            background: #f56565;
+        }
+
+        .content-block {
+            height: 300px;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .content-block:nth-child(odd) {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .content-block:nth-child(even) {
+            background: linear-gradient(45deg, #f093fb, #f5576c);
+            color: white;
+        }
+
+        /* Garantir que não há interferências */
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 768px) {
+            .main-wrapper {
+                margin: 10px;
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .section {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Indicador de Scroll -->
+    <div class="scroll-indicator" id="scroll-indicator">
+        <div>Scroll: <span id="scroll-value">0</span>px</div>
+        <div>Status: <span id="scroll-status">Testando...</span></div>
+        <div>Altura: <span id="page-height">0</span>px</div>
+    </div>
+
+    <div class="main-wrapper">
+        <header class="header">
+            <h1>📚 Teste de Scroll - Sistema Educativo</h1>
+            <p>Esta é uma versão simplificada para testar o funcionamento do scroll</p>
+        </header>
+
+        <section class="section">
+            <h2>🧪 Área de Testes</h2>
+            <p>Se você conseguir rolar esta página e ver as seções abaixo, o scroll está funcionando corretamente!</p>
+            
+            <div class="test-area">
+                <h3>Controles de Teste:</h3>
+                <button class="btn" onclick="scrollToSection(2)">📍 Ir para Seção 2</button>
+                <button class="btn" onclick="scrollToSection(5)">📍 Ir para Seção 5</button>
+                <button class="btn btn-success" onclick="scrollToBottom()">⬇️ Ir para o Final</button>
+                <button class="btn btn-danger" onclick="scrollToTop()">⬆️ Voltar ao Topo</button>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>📐 Seção 2 - Equações</h2>
+            <p>Esta é a segunda seção. Se você chegou aqui usando os botões ou scroll manual, parabéns!</p>
+            <div class="content-block">
+                Equações do 1º e 2º Grau
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>📈 Seção 3 - Funções</h2>
+            <p>Esta é a terceira seção. Continue rolando para ver mais conteúdo.</p>
+            <div class="content-block">
+                Funções Matemáticas
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>📊 Seção 4 - Gráficos</h2>
+            <p>Quarta seção com conteúdo sobre gráficos e visualizações.</p>
+            <div class="content-block">
+                Gráficos e Análises
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🎯 Seção 5 - Exercícios</h2>
+            <p>Esta é a quinta seção. Se você conseguiu chegar até aqui, o scroll definitivamente está funcionando!</p>
+            <div class="content-block">
+                Exercícios Práticos
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>✅ Seção Final - Sucesso!</h2>
+            <p><strong>Parabéns!</strong> Se você conseguiu ver esta seção, o scroll está funcionando perfeitamente!</p>
+            <div class="test-area">
+                <h3>Status do Teste:</h3>
+                <p>✅ Scroll funcional</p>
+                <p>✅ Navegação suave</p>
+                <p>✅ Responsividade OK</p>
+                <button class="btn btn-success" onclick="scrollToTop()">🚀 Voltar ao Início</button>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Atualizar indicador de scroll em tempo real
+        function updateScrollIndicator() {
+            const scrollValue = window.pageYOffset || document.documentElement.scrollTop;
+            const pageHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercentage = (scrollValue / pageHeight) * 100;
+            
+            document.getElementById('scroll-value').textContent = Math.round(scrollValue);
+            document.getElementById('page-height').textContent = document.documentElement.scrollHeight;
+            
+            if (scrollValue === 0) {
+                document.getElementById('scroll-status').textContent = 'No topo';
+                document.getElementById('scroll-status').style.color = '#48bb78';
+            } else if (scrollValue >= pageHeight * 0.9) {
+                document.getElementById('scroll-status').textContent = 'No final';
+                document.getElementById('scroll-status').style.color = '#f56565';
+            } else {
+                document.getElementById('scroll-status').textContent = `Rolando (${Math.round(scrollPercentage)}%)`;
+                document.getElementById('scroll-status').style.color = '#667eea';
+            }
+        }
+
+        // Funções de navegação
+        function scrollToSection(sectionNumber) {
+            const sections = document.querySelectorAll('.section');
+            if (sections[sectionNumber - 1]) {
+                sections[sectionNumber - 1].scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function scrollToBottom() {
+            window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
+        }
+
+        // Teste automático de scroll
+        function autoScrollTest() {
+            console.log('🧪 Iniciando teste automático de scroll...');
+            
+            setTimeout(() => {
+                console.log('📍 Teste 1: Rolando para baixo...');
+                window.scrollTo({ top: 500, behavior: 'smooth' });
+                
+                setTimeout(() => {
+                    const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+                    if (currentScroll > 400) {
+                        console.log('✅ Teste 1 SUCESSO: Página rolou para baixo!');
+                        
+                        setTimeout(() => {
+                            console.log('📍 Teste 2: Voltando ao topo...');
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                            
+                            setTimeout(() => {
+                                const finalScroll = window.pageYOffset || document.documentElement.scrollTop;
+                                if (finalScroll < 50) {
+                                    console.log('✅ Teste 2 SUCESSO: Página voltou ao topo!');
+                                    console.log('🎉 TODOS OS TESTES PASSARAM! Scroll funcionando perfeitamente!');
+                                } else {
+                                    console.log('❌ Teste 2 FALHOU: Não conseguiu voltar ao topo');
+                                }
+                            }, 2000);
+                        }, 2000);
+                    } else {
+                        console.log('❌ Teste 1 FALHOU: Página não rolou');
+                    }
+                }, 2000);
+            }, 1000);
+        }
+
+        // Event listeners
+        window.addEventListener('scroll', updateScrollIndicator);
+        window.addEventListener('load', function() {
+            updateScrollIndicator();
+            autoScrollTest();
+            console.log('📄 Página de teste carregada!');
+            console.log('📊 Altura total da página:', document.documentElement.scrollHeight);
+            console.log('📊 Altura da janela:', window.innerHeight);
+        });
+
+        // Forçar scroll funcional
+        document.addEventListener('DOMContentLoaded', function() {
+            // Garantir que não há interferências
+            document.body.style.overflow = 'auto';
+            document.documentElement.style.overflow = 'auto';
+            
+            console.log('✅ Estilos de scroll aplicados');
+        });
+    </script>
+</body>
+</html>
