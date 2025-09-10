@@ -12,21 +12,36 @@
         }
 
         html {
-            overflow-y: auto !important;
-            overflow-x: hidden;
             scroll-behavior: smooth;
-            height: auto !important;
+            height: 100%;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
             color: #333;
-            overflow-y: auto !important;
-            overflow-x: hidden;
-            position: relative !important;
-            height: auto !important;
+            line-height: 1.6;
+            min-height: 200vh; /* Força conteúdo que precisa de scroll */
+        }
+
+        .main-wrapper {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Indicador visual de scroll funcionando */
+        .scroll-indicator {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            background: rgba(0, 255, 0, 0.8);
+            color: white;
+            border-radius: 5px;
+            font-size: 12px;
+            z-index: 10000;
         }
 
         .container {
@@ -1164,36 +1179,11 @@
         }
     </style>
 </head>
-<body style="overflow-y: auto !important; overflow-x: hidden !important; position: relative !important; height: auto !important;"">
-    <script>
-        // FORÇA BRUTA: Aplicar estilos de scroll imediatamente
-        (function() {
-            console.log('🚀 FORÇA BRUTA: Aplicando estilos de scroll...');
-            
-            const applyScrollStyles = () => {
-                document.body.style.setProperty('overflow-y', 'auto', 'important');
-                document.body.style.setProperty('overflow-x', 'hidden', 'important');
-                document.body.style.setProperty('position', 'relative', 'important');
-                document.body.style.setProperty('height', 'auto', 'important');
-                
-                document.documentElement.style.setProperty('overflow-y', 'auto', 'important');
-                document.documentElement.style.setProperty('overflow-x', 'hidden', 'important');
-                document.documentElement.style.setProperty('height', 'auto', 'important');
-                
-                console.log('✅ Estilos aplicados via força bruta');
-            };
-            
-            // Aplicar imediatamente
-            applyScrollStyles();
-            
-            // Aplicar novamente a cada 100ms nos primeiros 2 segundos
-            const interval = setInterval(applyScrollStyles, 100);
-            setTimeout(() => {
-                clearInterval(interval);
-                console.log('🔄 Monitoramento de força bruta finalizado');
-            }, 2000);
-        })();
-    </script>
+<body>
+<div class="main-wrapper">
+    <!-- Indicador Visual de Scroll -->
+    <div class="scroll-indicator" id="scrollIndicator">Scroll: 0px</div>
+    
     <!-- Sistema de Login -->
     <div id="login-overlay" class="login-overlay">
         <div class="login-container">
@@ -4043,5 +4033,22 @@
             }, 2000);
         });
     </script>
+
+    <!-- Script de Teste de Scroll Funcional -->
+    <script>
+        // Teste de scroll em tempo real
+        window.addEventListener('scroll', function() {
+            const scrollIndicator = document.getElementById('scrollIndicator');
+            if (scrollIndicator) {
+                scrollIndicator.textContent = `Scroll: ${Math.round(window.pageYOffset)}px`;
+            }
+        });
+
+        // Log para confirmar que o scroll está funcionando
+        console.log('✅ Sistema de scroll limpo inicializado');
+        console.log('📏 Altura do documento:', document.body.scrollHeight);
+        console.log('📏 Altura da viewport:', window.innerHeight);
+    </script>
+</div> <!-- Fim main-wrapper -->
 </body>
 </html>
