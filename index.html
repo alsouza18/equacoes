@@ -16,6 +16,8 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             color: #333;
+            overflow-y: auto;
+            overflow-x: hidden;
         }
 
         .container {
@@ -1929,11 +1931,20 @@
 
         // ==================== FUNÇÕES DOS MODAIS ====================
 
+        // Forçar reset do scroll (função auxiliar)
+        function resetBodyScroll() {
+            document.body.style.overflow = 'auto';
+            document.documentElement.style.overflow = 'auto';
+        }
+
         // Fechar modal
         function closeModal(modalId) {
             document.getElementById(modalId).classList.add('hidden');
-            // Restaurar scroll do body
-            document.body.style.overflow = 'auto';
+            // Verificar se há outros modais abertos antes de restaurar scroll
+            const openModals = document.querySelectorAll('.modal:not(.hidden)');
+            if (openModals.length === 0) {
+                resetBodyScroll();
+            }
         }
 
         // Abrir modal (função auxiliar)
@@ -2461,6 +2472,8 @@
         function showMainSystem() {
             document.getElementById('login-overlay').classList.add('hidden');
             document.getElementById('user-info-bar').classList.remove('hidden');
+            // Garantir que o scroll esteja funcionando
+            resetBodyScroll();
         }
 
         function updateUserInfo() {
@@ -2513,6 +2526,9 @@
                 document.getElementById('user-info-bar').classList.add('hidden');
                 document.getElementById('admin-panel').classList.add('hidden');
                 showStudentLogin();
+                
+                // Garantir que o scroll esteja funcionando
+                resetBodyScroll();
                 
                 // Limpar formulários
                 document.querySelectorAll('form').forEach(form => form.reset());
@@ -3753,6 +3769,9 @@
             updateExerciseExplanation();
             updatePerformanceBoard();
             updateExerciseTypeVisibility(); // Controlar visibilidade inicial dos botões
+            
+            // Garantir que o scroll esteja funcionando
+            resetBodyScroll();
             
             // Event listeners para modais
             document.addEventListener('click', function(e) {
