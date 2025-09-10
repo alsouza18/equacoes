@@ -232,6 +232,7 @@
             
             <button class="btn" onclick="handleLogin()">🚀 Entrar</button>
             <button class="btn" onclick="showRegisterModal()" style="background: #28a745;">📝 Cadastrar Professor</button>
+            <button class="btn" onclick="showRecoveryModal()" style="background: #ffc107; color: #333;">🔑 Recuperar Acesso</button>
         </div>
     </div>
     
@@ -249,6 +250,7 @@
                 <button class="btn" onclick="showStudentModal()">👥 Gerenciar Estudantes</button>
                 <button class="btn" onclick="showProfessorModal()">👨‍🏫 Gerenciar Professores</button>
                 <button class="btn" onclick="showStatsModal()">📊 Estatísticas</button>
+                <button class="btn" onclick="showAccessModal()" style="background: #fd7e14;">🔐 Gerenciar Acessos</button>
             </div>
             
             <div class="professor-buttons" id="professorButtons" style="display: none;">
@@ -314,6 +316,62 @@
             <h3>📊 Estatísticas do Sistema</h3>
             <div id="statsContent"></div>
             <button class="btn" onclick="closeModal('statsModal')" style="background: #6c757d;">❌ Fechar</button>
+        </div>
+    </div>
+
+    <!-- Modal de Recuperação de Acesso -->
+    <div class="modal" id="recoveryModal">
+        <div class="modal-content">
+            <h3>🔑 Recuperar Acesso</h3>
+            <p>Digite seu nome de usuário para resetar sua senha:</p>
+            <div class="form-group">
+                <label>Tipo de Usuário:</label>
+                <select id="recoveryUserType">
+                    <option value="student">👨‍🎓 Estudante</option>
+                    <option value="professor">👨‍🏫 Professor</option>
+                    <option value="admin">👨‍💼 Administrador</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Nome de Usuário:</label>
+                <input type="text" id="recoveryUsername" placeholder="Digite seu nome de usuário">
+            </div>
+            <div class="form-group">
+                <label>Nova Senha:</label>
+                <input type="password" id="recoveryNewPassword" placeholder="Digite a nova senha">
+            </div>
+            <button class="btn" onclick="recoverAccess()">🔓 Resetar Senha</button>
+            <button class="btn" onclick="closeModal('recoveryModal')" style="background: #6c757d;">❌ Cancelar</button>
+        </div>
+    </div>
+
+    <!-- Modal de Alteração de Senha -->
+    <div class="modal" id="changePasswordModal">
+        <div class="modal-content">
+            <h3>🔒 Alterar Senha</h3>
+            <div class="form-group">
+                <label>Senha Atual:</label>
+                <input type="password" id="currentPassword" placeholder="Digite sua senha atual">
+            </div>
+            <div class="form-group">
+                <label>Nova Senha:</label>
+                <input type="password" id="newPassword" placeholder="Digite a nova senha">
+            </div>
+            <div class="form-group">
+                <label>Confirmar Nova Senha:</label>
+                <input type="password" id="confirmPassword" placeholder="Confirme a nova senha">
+            </div>
+            <button class="btn" onclick="changePassword()">✅ Alterar Senha</button>
+            <button class="btn" onclick="closeModal('changePasswordModal')" style="background: #6c757d;">❌ Cancelar</button>
+        </div>
+    </div>
+
+    <!-- Modal de Gerenciar Acessos (Admin) -->
+    <div class="modal" id="accessModal">
+        <div class="modal-content">
+            <h3>🔐 Gerenciar Acessos do Sistema</h3>
+            <div id="accessContent"></div>
+            <button class="btn" onclick="closeModal('accessModal')" style="background: #6c757d;">❌ Fechar</button>
         </div>
     </div>
 
@@ -407,6 +465,7 @@
                 <h3>Bem-vindo, ${currentUser.name}!</h3>
                 <p>Tipo: ${currentUser.type === 'admin' ? 'Administrador' : 
                           currentUser.type === 'professor' ? 'Professor' : 'Estudante'}</p>
+                <button class="btn" onclick="showChangePasswordModal()" style="background: #17a2b8;">🔒 Alterar Senha</button>
                 <button class="btn" onclick="logout()" style="background: #dc3545;">🚪 Sair</button>
             `;
             
@@ -481,6 +540,164 @@
         
         function closeModal(modalId) {
             document.getElementById(modalId).classList.remove('show');
+        }
+        
+        // === NOVAS FUNCIONALIDADES DE ACESSO ===
+        
+        // Mostrar modal de recuperação de acesso
+        function showRecoveryModal() {
+            document.getElementById('recoveryModal').classList.add('show');
+        }
+        
+        // Mostrar modal de alteração de senha
+        function showChangePasswordModal() {
+            document.getElementById('changePasswordModal').classList.add('show');
+        }
+        
+        // Mostrar modal de gerenciar acessos (admin)
+        function showAccessModal() {
+            const students = JSON.parse(localStorage.getItem('equacoes_students') || '[]');
+            const professors = JSON.parse(localStorage.getItem('equacoes_professors') || '[]');
+            const admins = JSON.parse(localStorage.getItem('equacoes_admins') || '[]');
+            
+            const content = document.getElementById('accessContent');
+            content.innerHTML = `
+                <div style="max-height: 400px; overflow-y: auto;">
+                    <h4>👨‍💼 Administradores</h4>
+                    ${admins.map(u => `
+                        <div style="border: 1px solid #ddd; padding: 10px; margin: 10px 0; border-radius: 5px; background: #fff3cd;">
+                            <strong>${u.name || u.username}</strong> (@${u.username})
+                            <button class="btn" onclick="resetUserPassword('admin', '${u.username}')" style="background: #ffc107; color: #333; margin-left: 10px;">🔑 Resetar Senha</button>
+                        </div>
+                    `).join('')}
+                    
+                    <h4>👨‍🏫 Professores</h4>
+                    ${professors.map(u => `
+                        <div style="border: 1px solid #ddd; padding: 10px; margin: 10px 0; border-radius: 5px; background: #d1ecf1;">
+                            <strong>${u.name}</strong> (@${u.username}) - ${u.area || 'Área não especificada'}
+                            <button class="btn" onclick="resetUserPassword('professor', '${u.username}')" style="background: #ffc107; color: #333; margin-left: 10px;">🔑 Resetar Senha</button>
+                            <button class="btn" onclick="deleteUser('professor', '${u.username}')" style="background: #dc3545; margin-left: 5px;">🗑️ Excluir</button>
+                        </div>
+                    `).join('')}
+                    
+                    <h4>👨‍🎓 Estudantes</h4>
+                    ${students.map(u => `
+                        <div style="border: 1px solid #ddd; padding: 10px; margin: 10px 0; border-radius: 5px; background: #d4edda;">
+                            <strong>${u.name}</strong> (@${u.username}) - Pontos: ${u.score || 0}
+                            <button class="btn" onclick="resetUserPassword('student', '${u.username}')" style="background: #ffc107; color: #333; margin-left: 10px;">🔑 Resetar Senha</button>
+                            <button class="btn" onclick="deleteUser('student', '${u.username}')" style="background: #dc3545; margin-left: 5px;">🗑️ Excluir</button>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            document.getElementById('accessModal').classList.add('show');
+        }
+        
+        // Recuperar acesso (resetar senha)
+        function recoverAccess() {
+            const userType = document.getElementById('recoveryUserType').value;
+            const username = document.getElementById('recoveryUsername').value;
+            const newPassword = document.getElementById('recoveryNewPassword').value;
+            
+            if (!username || !newPassword) {
+                alert('Por favor, preencha todos os campos!');
+                return;
+            }
+            
+            const storageKey = `equacoes_${userType}s`;
+            const users = JSON.parse(localStorage.getItem(storageKey) || '[]');
+            const userIndex = users.findIndex(u => u.username === username);
+            
+            if (userIndex === -1) {
+                alert('Usuário não encontrado!');
+                return;
+            }
+            
+            users[userIndex].password = newPassword;
+            localStorage.setItem(storageKey, JSON.stringify(users));
+            
+            alert('Senha resetada com sucesso! Faça login com a nova senha.');
+            closeModal('recoveryModal');
+            
+            // Limpar campos
+            document.getElementById('recoveryUsername').value = '';
+            document.getElementById('recoveryNewPassword').value = '';
+        }
+        
+        // Alterar senha do usuário logado
+        function changePassword() {
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (!currentPassword || !newPassword || !confirmPassword) {
+                alert('Por favor, preencha todos os campos!');
+                return;
+            }
+            
+            if (newPassword !== confirmPassword) {
+                alert('A nova senha e a confirmação devem ser iguais!');
+                return;
+            }
+            
+            if (currentPassword !== currentUser.password) {
+                alert('Senha atual incorreta!');
+                return;
+            }
+            
+            // Atualizar senha no localStorage
+            const storageKey = `equacoes_${currentUser.type}s`;
+            const users = JSON.parse(localStorage.getItem(storageKey) || '[]');
+            const userIndex = users.findIndex(u => u.username === currentUser.username);
+            
+            if (userIndex !== -1) {
+                users[userIndex].password = newPassword;
+                localStorage.setItem(storageKey, JSON.stringify(users));
+                currentUser.password = newPassword; // Atualizar na sessão atual
+                
+                alert('Senha alterada com sucesso!');
+                closeModal('changePasswordModal');
+                
+                // Limpar campos
+                document.getElementById('currentPassword').value = '';
+                document.getElementById('newPassword').value = '';
+                document.getElementById('confirmPassword').value = '';
+            } else {
+                alert('Erro ao alterar senha!');
+            }
+        }
+        
+        // Resetar senha de usuário (função admin)
+        function resetUserPassword(userType, username) {
+            const newPassword = prompt(`Digite a nova senha para ${username}:`);
+            if (!newPassword) return;
+            
+            const storageKey = `equacoes_${userType}s`;
+            const users = JSON.parse(localStorage.getItem(storageKey) || '[]');
+            const userIndex = users.findIndex(u => u.username === username);
+            
+            if (userIndex !== -1) {
+                users[userIndex].password = newPassword;
+                localStorage.setItem(storageKey, JSON.stringify(users));
+                alert(`Senha de ${username} alterada para: ${newPassword}`);
+                showAccessModal(); // Atualizar a lista
+            } else {
+                alert('Usuário não encontrado!');
+            }
+        }
+        
+        // Excluir usuário (função admin)
+        function deleteUser(userType, username) {
+            if (!confirm(`Tem certeza que deseja excluir o usuário ${username}?`)) return;
+            
+            const storageKey = `equacoes_${userType}s`;
+            const users = JSON.parse(localStorage.getItem(storageKey) || '[]');
+            const filteredUsers = users.filter(u => u.username !== username);
+            
+            localStorage.setItem(storageKey, JSON.stringify(filteredUsers));
+            alert(`Usuário ${username} excluído com sucesso!`);
+            showAccessModal(); // Atualizar a lista
         }
         
         // Cadastrar professor
