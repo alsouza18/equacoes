@@ -1071,6 +1071,75 @@
                 font-size: 1.5rem;
             }
         }
+
+        /* ==================== ESTILOS PARA SOLICITAÇÕES ==================== */
+        .request-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .request-info h5 {
+            margin: 0 0 10px 0;
+            color: #333;
+            font-size: 1.1rem;
+        }
+
+        .request-details {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .request-actions {
+            display: flex;
+            gap: 10px;
+            flex-direction: column;
+        }
+
+        .request-actions .btn {
+            min-width: 100px;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+        }
+
+        .status-pending {
+            color: #f39c12;
+            font-weight: bold;
+        }
+
+        .status-approved {
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .status-rejected {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .professor-registration-form {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .request-card {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .request-actions {
+                flex-direction: row;
+                justify-content: center;
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1235,6 +1304,50 @@
                         <button type="button" class="btn-login btn-secondary-login" onclick="showStudentLogin()">⬅️ Voltar</button>
                     </div>
                 </form>
+                
+                <div class="login-links">
+                    <a class="login-link" onclick="showProfessorRegistration()">📝 Solicitar Cadastro de Professor</a>
+                </div>
+            </div>
+            
+            <!-- Formulário de Cadastro de Professor -->
+            <div id="professor-registration" class="professor-registration-form" style="display: none;">
+                <div class="login-header">
+                    <h2>📝 Solicitar Cadastro de Professor</h2>
+                    <p>Preencha os dados para solicitar acesso como professor</p>
+                </div>
+                
+                <form onsubmit="return requestProfessorAccess(event)">
+                    <div class="form-group">
+                        <label for="prof-reg-name">Nome Completo:</label>
+                        <input type="text" id="prof-reg-name" placeholder="Seu nome completo" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="prof-reg-email">Email:</label>
+                        <input type="email" id="prof-reg-email" placeholder="seu@email.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="prof-reg-subject">Matéria que leciona:</label>
+                        <input type="text" id="prof-reg-subject" placeholder="Ex: Matemática" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="prof-reg-school">Escola:</label>
+                        <input type="text" id="prof-reg-school" placeholder="Nome da escola" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="prof-reg-password">Criar Senha:</label>
+                        <input type="password" id="prof-reg-password" placeholder="Mínimo 4 caracteres" required minlength="4">
+                    </div>
+                    
+                    <div class="login-buttons">
+                        <button type="submit" class="btn-login btn-success-login">📧 Enviar Solicitação</button>
+                        <button type="button" class="btn-login btn-secondary-login" onclick="showProfessorLogin()">⬅️ Voltar</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -1277,6 +1390,7 @@
                     <button class="btn btn-primary" onclick="showStudentsList()">👥 Ver Alunos Cadastrados</button>
                     <button class="btn btn-info" onclick="showAdminSettings()">⚙️ Configurações Admin</button>
                     <button class="btn btn-success" onclick="showProfessorsManagement()">👨‍🏫 Gerenciar Professores</button>
+                    <button class="btn btn-danger" onclick="showProfessorRequests()">📋 Solicitações de Professores</button>
                     <button class="btn btn-warning" onclick="clearAllStudents()">🗑️ Limpar Todos os Alunos</button>
                     <button class="btn btn-secondary" onclick="exportStudentData()">📊 Exportar Dados</button>
                     <button class="btn btn-secondary" onclick="resetStatistics()">🔄 Resetar Estatísticas</button>
@@ -1361,6 +1475,21 @@
                             <div id="professors-list-container">
                                 <!-- Lista será preenchida dinamicamente -->
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal para Solicitações de Professores -->
+            <div id="professor-requests-modal" class="modal hidden">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>📋 Solicitações de Professores</h3>
+                        <button class="close-btn" onclick="closeModal('professor-requests-modal')">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="professor-requests-container">
+                            <!-- Lista será preenchida dinamicamente -->
                         </div>
                     </div>
                 </div>
@@ -2053,6 +2182,127 @@
             return false;
         }
 
+        // Mostrar solicitações de professores
+        function showProfessorRequests() {
+            if (userType !== 'professor') {
+                alert('Acesso negado! Apenas professores podem acessar esta funcionalidade.');
+                return;
+            }
+
+            const requests = JSON.parse(localStorage.getItem('professorRequests') || '[]');
+            const container = document.getElementById('professor-requests-container');
+
+            if (requests.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #666;">Nenhuma solicitação pendente.</p>';
+            } else {
+                container.innerHTML = requests.map(request => `
+                    <div class="request-card">
+                        <div class="request-info">
+                            <h5>${request.name}</h5>
+                            <div class="request-details">
+                                📧 Email: ${request.email}<br>
+                                📚 Matéria: ${request.subject}<br>
+                                🏫 Escola: ${request.school}<br>
+                                📅 Data: ${new Date(request.requestDate).toLocaleDateString()}<br>
+                                📊 Status: <span class="status-${request.status}">${getStatusText(request.status)}</span>
+                            </div>
+                        </div>
+                        <div class="request-actions">
+                            ${request.status === 'pending' ? `
+                                <button class="btn btn-success" onclick="approveRequest(${request.id})">✅ Aprovar</button>
+                                <button class="btn btn-danger" onclick="rejectRequest(${request.id})">❌ Rejeitar</button>
+                            ` : ''}
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            openModal('professor-requests-modal');
+        }
+
+        // Função auxiliar para texto do status
+        function getStatusText(status) {
+            const statusMap = {
+                'pending': 'Aguardando Análise',
+                'approved': 'Aprovado',
+                'rejected': 'Rejeitado'
+            };
+            return statusMap[status] || status;
+        }
+
+        // Aprovar solicitação de professor
+        function approveRequest(requestId) {
+            const requests = JSON.parse(localStorage.getItem('professorRequests') || '[]');
+            const request = requests.find(r => r.id === requestId);
+            
+            if (!request) {
+                alert('❌ Solicitação não encontrada!');
+                return;
+            }
+
+            // Criar professor no sistema
+            const teachers = getTeachers();
+            const newTeacher = {
+                id: Date.now(),
+                name: request.name,
+                subject: request.subject,
+                email: request.email,
+                school: request.school,
+                createdAt: new Date().toISOString()
+            };
+
+            teachers.push(newTeacher);
+            localStorage.setItem(DB.teachers, JSON.stringify(teachers));
+
+            // Criar entrada de professor com login
+            const professors = getProfessors();
+            const newProfessor = {
+                id: newTeacher.id,
+                name: request.name,
+                password: request.password,
+                code: `PROF${Date.now().toString().slice(-4)}`, // Código automático
+                email: request.email,
+                createdAt: new Date().toISOString()
+            };
+
+            professors.push(newProfessor);
+            localStorage.setItem(DB.professors, JSON.stringify(professors));
+
+            // Atualizar status da solicitação
+            request.status = 'approved';
+            request.approvedDate = new Date().toISOString();
+            request.professorCode = newProfessor.code;
+            localStorage.setItem('professorRequests', JSON.stringify(requests));
+
+            alert(`✅ Professor aprovado com sucesso!\\n\\nCódigo de acesso: ${newProfessor.code}\\n\\nO professor ${request.name} já pode fazer login no sistema.`);
+            
+            // Atualizar displays
+            showProfessorRequests();
+            updateProfessorsDropdown();
+        }
+
+        // Rejeitar solicitação de professor
+        function rejectRequest(requestId) {
+            const reason = prompt('📝 Motivo da rejeição (opcional):');
+            
+            const requests = JSON.parse(localStorage.getItem('professorRequests') || '[]');
+            const request = requests.find(r => r.id === requestId);
+            
+            if (!request) {
+                alert('❌ Solicitação não encontrada!');
+                return;
+            }
+
+            // Atualizar status da solicitação
+            request.status = 'rejected';
+            request.rejectedDate = new Date().toISOString();
+            request.rejectionReason = reason || 'Não especificado';
+            localStorage.setItem('professorRequests', JSON.stringify(requests));
+
+            alert('❌ Solicitação rejeitada.');
+            showProfessorRequests();
+        }
+
         function registerStudent(event) {
             event.preventDefault();
             
@@ -2101,6 +2351,59 @@
             return false;
         }
 
+        // Mostrar formulário de cadastro de professor
+        function showProfessorRegistration() {
+            document.getElementById('student-login').style.display = 'none';
+            document.getElementById('registration-form').style.display = 'none';
+            document.getElementById('professor-login').style.display = 'none';
+            document.getElementById('professor-registration').style.display = 'block';
+        }
+
+        // Processar solicitação de cadastro de professor
+        function requestProfessorAccess(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('prof-reg-name').value.trim();
+            const email = document.getElementById('prof-reg-email').value.trim();
+            const subject = document.getElementById('prof-reg-subject').value.trim();
+            const school = document.getElementById('prof-reg-school').value.trim();
+            const password = document.getElementById('prof-reg-password').value;
+
+            if (!name || !email || !subject || !school || !password) {
+                alert('❌ Todos os campos são obrigatórios!');
+                return false;
+            }
+
+            // Salvar solicitação para análise do admin
+            const request = {
+                id: Date.now(),
+                name: name,
+                email: email,
+                subject: subject,
+                school: school,
+                password: password,
+                requestDate: new Date().toISOString(),
+                status: 'pending'
+            };
+
+            // Salvar em localStorage para o admin revisar
+            let requests = JSON.parse(localStorage.getItem('professorRequests') || '[]');
+            requests.push(request);
+            localStorage.setItem('professorRequests', JSON.stringify(requests));
+
+            alert('✅ Solicitação enviada com sucesso!\\n\\nSua solicitação foi enviada para análise do administrador.\\nVocê receberá um retorno em breve.');
+            
+            // Limpar formulário
+            document.getElementById('prof-reg-name').value = '';
+            document.getElementById('prof-reg-email').value = '';
+            document.getElementById('prof-reg-subject').value = '';
+            document.getElementById('prof-reg-school').value = '';
+            document.getElementById('prof-reg-password').value = '';
+            
+            showProfessorLogin();
+            return false;
+        }
+
         function professorLogin(event) {
             event.preventDefault();
             
@@ -2138,18 +2441,21 @@
             document.getElementById('student-login').style.display = 'block';
             document.getElementById('registration-form').style.display = 'none';
             document.getElementById('professor-login').style.display = 'none';
+            document.getElementById('professor-registration').style.display = 'none';
         }
 
         function showRegistration() {
             document.getElementById('student-login').style.display = 'none';
             document.getElementById('registration-form').style.display = 'block';
             document.getElementById('professor-login').style.display = 'none';
+            document.getElementById('professor-registration').style.display = 'none';
         }
 
         function showProfessorLogin() {
             document.getElementById('student-login').style.display = 'none';
             document.getElementById('registration-form').style.display = 'none';
             document.getElementById('professor-login').style.display = 'block';
+            document.getElementById('professor-registration').style.display = 'none';
         }
 
         function showMainSystem() {
